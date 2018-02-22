@@ -9,7 +9,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        enforce: 'pre',
+        test: /\.jsx?$/,
+        loaders: ['eslint-loader'],
+        include: path.resolve(__dirname, 'src'),
+        exclude: /(node_modules|bower_components|build)/
+      }, {
+        test: /\.jsx?$/,
         include: path.resolve(__dirname, 'src'),
         exclude: /(node_modules|bower_components|build)/,
         use: {

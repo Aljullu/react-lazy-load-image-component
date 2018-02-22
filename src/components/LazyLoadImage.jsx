@@ -7,7 +7,7 @@ class LazyLoadImage extends React.Component {
 
     this.state = {
       visible: false
-    }
+    };
 
     this.previousBoundingBox = {
       bottom: -1,
@@ -78,6 +78,7 @@ class LazyLoadImage extends React.Component {
 
   getPlaceholder() {
     const { className, height, placeholder, width } = this.props;
+
     if (placeholder) {
       return placeholder;
     }
@@ -85,7 +86,7 @@ class LazyLoadImage extends React.Component {
     return (
       <span className={'lazy-load-image-placeholder ' + className}
         ref="placeholder"
-        style={{height, width}}>
+        style={{ height, width }}>
       </span>
     );
   }
