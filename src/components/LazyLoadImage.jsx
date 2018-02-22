@@ -23,6 +23,42 @@ class LazyLoadImage extends React.PureComponent {
     this.updateVisibility(nextProps.scrollPosition);
   }
 
+  getRelevantProps(nextProps) {
+    const keys = Object.keys(nextProps);
+
+    if (!this.state.visible) {
+      return keys;
+    }
+
+    const propsToIgnoreAfterVisible = {
+      afterLoad: true,
+      beforeLoad: true,
+      placeholder: true,
+      threshold: true,
+      scrollPosition: true
+    };
+
+    return keys.filter(key => !propsToIgnoreAfterVisible[key]);
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.visible !== nextState.visible) {
+      return true;
+    }
+
+    const keys = this.getRelevantProps(nextProps);
+
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+
+      if (this.props[key] !== nextProps[key]) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   componentDidUpdate() {
     if (this.refs.placeholder) {
       const boundingBox = {
