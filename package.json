@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": " React Component to lazy load images using a HOC to track window scroll position. ",
   "main": "build/index.js",
-  "dependencies": {
-    "react": "^16.2.0"
+  "peerDependencies": {
+    "react": "^15.x.x || ^16.x.x"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
