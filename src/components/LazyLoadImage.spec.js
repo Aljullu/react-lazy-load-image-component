@@ -10,9 +10,10 @@ const {
 } = ReactTestUtils;
 
 describe('LazyLoadImage', function() {
-  function renderLazyLoadImage(scrollPosition) {
+  function renderLazyLoadImage(scrollPosition = 0, placeholder = null) {
     return ReactTestUtils.renderIntoDocument(
       <LazyLoadImage
+        placeholder={placeholder}
         scrollPosition={scrollPosition}
         src="" />
     );
@@ -24,22 +25,29 @@ describe('LazyLoadImage', function() {
     expect(img.length).toEqual(numberOfImages);
   }
 
-  function expectPlaceholders(wrapper, numberOfPlaceholders) {
-    const placeholder = scryRenderedDOMComponentsWithClass(wrapper,
-      'lazy-load-image-placeholder');
+  function expectPlaceholders(wrapper, numberOfPlaceholders, placeholderClassName = 'lazy-load-image-placeholder') {
+    const placeholder = scryRenderedDOMComponentsWithClass(wrapper, placeholderClassName);
 
     expect(placeholder.length).toEqual(numberOfPlaceholders);
   }
 
-  it('renders the placeholder when it\'s not in the viewport', function() {
+  it('renders the default placeholder when it\'s not in the viewport', function() {
     const lazyLoadImage = renderLazyLoadImage(-1000);
 
     expectImages(lazyLoadImage, 0);
     expectPlaceholders(lazyLoadImage, 1);
   });
 
+  it('renders the prop placeholder when it\'s not in the viewport', function() {
+    const placeholder = <span className="test-placeholder"></span>;
+    const lazyLoadImage = renderLazyLoadImage(-1000, placeholder);
+
+    expectImages(lazyLoadImage, 0);
+    expectPlaceholders(lazyLoadImage, 1, 'test-placeholder');
+  });
+
   it('renders the image when it\'s in the viewport', function() {
-    const lazyLoadImage = renderLazyLoadImage(0);
+    const lazyLoadImage = renderLazyLoadImage();
 
     expectImages(lazyLoadImage, 1);
     expectPlaceholders(lazyLoadImage, 0);

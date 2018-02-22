@@ -70,17 +70,25 @@ class LazyLoadImage extends React.Component {
       viewport.bottom + threshold >= boundingBox.top);
   }
 
+  getPlaceholder() {
+    const { className, height, placeholder, width } = this.props;
+    if (placeholder) {
+      return placeholder;
+    }
+
+    return (
+      <span className={'lazy-load-image-placeholder ' + className}
+        ref="placeholder"
+        style={{height, width}}>
+      </span>
+    );
+  }
+
   render() {
-    const { scrollPosition, threshold, ...props } = this.props;
+    const { placeholder, scrollPosition, threshold, ...props } = this.props;
 
     if (!this.state.visible) {
-      const { className, height, width } = this.props;
-      return (
-        <span className={'lazy-load-image-placeholder ' + className}
-          ref="placeholder"
-          style={{height, width}}>
-        </span>
-      );
+      return this.getPlaceholder();
     }
 
     return (
@@ -95,6 +103,7 @@ LazyLoadImage.propTypes = {
   scrollPosition: PropTypes.number.isRequired,
   className: PropTypes.string,
   height: PropTypes.number,
+  placeholder: PropTypes.element,
   threshold: PropTypes.number,
   width: PropTypes.number
 };
@@ -102,6 +111,7 @@ LazyLoadImage.propTypes = {
 LazyLoadImage.defaultProps = {
   className: '',
   height: 0,
+  placeholder: null,
   threshold: 100,
   width: 0
 };
