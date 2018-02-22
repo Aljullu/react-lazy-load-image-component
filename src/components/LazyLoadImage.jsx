@@ -23,7 +23,7 @@ class LazyLoadImage extends React.Component {
     this.updateVisibility(nextProps.scrollPosition);
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate() {
     if (this.refs.placeholder) {
       const boundingBox = {
         bottom: this.refs.placeholder.offsetTop +
@@ -43,9 +43,15 @@ class LazyLoadImage extends React.Component {
       return;
     }
 
+    if (!this.isImageInViewport(scrollPosition)) {
+      return;
+    }
+
+    this.props.beforeLoad();
+
     this.setState({
-      visible: this.refs.image ? true : this.isImageInViewport(scrollPosition)
-    });
+      visible: true
+    }, this.props.afterLoad);
   }
 
   isImageInViewport(scrollPosition) {
@@ -85,7 +91,8 @@ class LazyLoadImage extends React.Component {
   }
 
   render() {
-    const { placeholder, scrollPosition, threshold, ...props } = this.props;
+    const { afterLoad, beforeLoad, placeholder, scrollPosition, threshold,
+      ...props } = this.props;
 
     if (!this.state.visible) {
       return this.getPlaceholder();
@@ -101,6 +108,8 @@ class LazyLoadImage extends React.Component {
 
 LazyLoadImage.propTypes = {
   scrollPosition: PropTypes.number.isRequired,
+  afterLoad: PropTypes.func,
+  beforeLoad: PropTypes.func,
   className: PropTypes.string,
   height: PropTypes.number,
   placeholder: PropTypes.element,
@@ -109,6 +118,8 @@ LazyLoadImage.propTypes = {
 };
 
 LazyLoadImage.defaultProps = {
+  afterLoad: () => null,
+  beforeLoad: () => null,
   className: '',
   height: 0,
   placeholder: null,

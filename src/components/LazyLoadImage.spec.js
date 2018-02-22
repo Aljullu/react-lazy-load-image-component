@@ -10,9 +10,16 @@ const {
 } = ReactTestUtils;
 
 describe('LazyLoadImage', function() {
-  function renderLazyLoadImage(scrollPosition = 0, placeholder = null) {
+  function renderLazyLoadImage({
+      afterLoad = () => null,
+      beforeLoad = () => null,
+      placeholder = null,
+      scrollPosition = 0
+    } = {}) {
     return ReactTestUtils.renderIntoDocument(
       <LazyLoadImage
+        afterLoad={afterLoad}
+        beforeLoad={beforeLoad}
         placeholder={placeholder}
         scrollPosition={scrollPosition}
         src="" />
@@ -32,7 +39,9 @@ describe('LazyLoadImage', function() {
   }
 
   it('renders the default placeholder when it\'s not in the viewport', function() {
-    const lazyLoadImage = renderLazyLoadImage(-1000);
+    const lazyLoadImage = renderLazyLoadImage({
+      scrollPosition: -1000
+    });
 
     expectImages(lazyLoadImage, 0);
     expectPlaceholders(lazyLoadImage, 1);
@@ -40,7 +49,10 @@ describe('LazyLoadImage', function() {
 
   it('renders the prop placeholder when it\'s not in the viewport', function() {
     const placeholder = <span className="test-placeholder"></span>;
-    const lazyLoadImage = renderLazyLoadImage(-1000, placeholder);
+    const lazyLoadImage = renderLazyLoadImage({
+      scrollPosition: -1000,
+      placeholder
+    });
 
     expectImages(lazyLoadImage, 0);
     expectPlaceholders(lazyLoadImage, 1, 'test-placeholder');
@@ -54,11 +66,75 @@ describe('LazyLoadImage', function() {
   });
 
   it('renders the image when it appears in the viewport', function() {
-    const lazyLoadImage = renderLazyLoadImage(-1000);
+    const lazyLoadImage = renderLazyLoadImage({
+      scrollPosition: -1000
+    });
 
     lazyLoadImage.componentWillReceiveProps({scrollPosition: 0});
 
     expectImages(lazyLoadImage, 1);
     expectPlaceholders(lazyLoadImage, 0);
+  });
+
+  it('doesn\'t trigger beforeLoad when the image is not the viewport', function() {
+    const beforeLoad = jest.fn();
+    const lazyLoadImage = renderLazyLoadImage({
+      beforeLoad,
+      scrollPosition: -1000
+    });
+
+        expect(beforeLoad).toHaveBeenCalledTimes(0);
+  });
+
+  it('triggers beforeLoad when the image is in the viewport', function() {
+    const beforeLoad = jest.fn();
+    const lazyLoadImage = renderLazyLoadImage({
+      beforeLoad
+    });
+
+    expect(beforeLoad).toHaveBeenCalledTimes(1);
+  });
+
+  it('triggers beforeLoad when the image appears in the viewport', function() {
+    const beforeLoad = jest.fn();
+    const lazyLoadImage = renderLazyLoadImage({
+      beforeLoad,
+      scrollPosition: -1000
+    });
+
+    lazyLoadImage.componentWillReceiveProps({scrollPosition: 0});
+
+    expect(beforeLoad).toHaveBeenCalledTimes(1);
+  });
+
+  it('doesn\'t trigger afterLoad when the image is not the viewport', function() {
+    const afterLoad = jest.fn();
+    const lazyLoadImage = renderLazyLoadImage({
+      afterLoad,
+      scrollPosition: -1000
+    });
+
+    expect(afterLoad).toHaveBeenCalledTimes(0);
+  });
+
+  it('triggers afterLoad when the image is in the viewport', function() {
+    const afterLoad = jest.fn();
+    const lazyLoadImage = renderLazyLoadImage({
+      afterLoad
+    });
+
+    expect(afterLoad).toHaveBeenCalledTimes(1);
+  });
+
+  it('triggers afterLoad when the image appears in the viewport', function() {
+    const afterLoad = jest.fn();
+    const lazyLoadImage = renderLazyLoadImage({
+      afterLoad,
+      scrollPosition: -1000
+    });
+
+    lazyLoadImage.componentWillReceiveProps({scrollPosition: 0});
+
+    expect(afterLoad).toHaveBeenCalledTimes(1);
   });
 });
