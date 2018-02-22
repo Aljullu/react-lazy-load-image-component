@@ -63,17 +63,24 @@ class LazyLoadImage extends React.Component {
     const boundingBox = {
       bottom: this.refs.placeholder.offsetTop +
         this.refs.placeholder.offsetHeight,
+      left: this.refs.placeholder.offsetLeft,
+      right: this.refs.placeholder.offsetLeft +
+        this.refs.placeholder.offsetWidth,
       top: this.refs.placeholder.offsetTop
     };
     const viewport = {
-      bottom: scrollPosition + window.innerHeight,
-      top: scrollPosition
+      bottom: scrollPosition.y + window.innerHeight,
+      left: scrollPosition.x,
+      right: scrollPosition.x + window.innerWidth,
+      top: scrollPosition.y
     };
 
     this.previousBoundingBox = boundingBox;
 
     return Boolean(viewport.top - threshold <= boundingBox.bottom &&
-      viewport.bottom + threshold >= boundingBox.top);
+      viewport.bottom + threshold >= boundingBox.top &&
+      viewport.left - threshold <= boundingBox.right &&
+      viewport.right + threshold >= boundingBox.left);
   }
 
   getPlaceholder() {
@@ -108,7 +115,10 @@ class LazyLoadImage extends React.Component {
 }
 
 LazyLoadImage.propTypes = {
-  scrollPosition: PropTypes.number.isRequired,
+  scrollPosition: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired
+  }).isRequired,
   afterLoad: PropTypes.func,
   beforeLoad: PropTypes.func,
   className: PropTypes.string,

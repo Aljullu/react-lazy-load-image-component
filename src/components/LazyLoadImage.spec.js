@@ -14,7 +14,7 @@ describe('LazyLoadImage', function() {
       afterLoad = () => null,
       beforeLoad = () => null,
       placeholder = null,
-      scrollPosition = 0
+      scrollPosition = {x: 0, y: 0}
     } = {}) {
     return ReactTestUtils.renderIntoDocument(
       <LazyLoadImage
@@ -40,7 +40,7 @@ describe('LazyLoadImage', function() {
 
   it('renders the default placeholder when it\'s not in the viewport', function() {
     const lazyLoadImage = renderLazyLoadImage({
-      scrollPosition: -1000
+      scrollPosition: {x: 0, y: -1000}
     });
 
     expectImages(lazyLoadImage, 0);
@@ -50,7 +50,7 @@ describe('LazyLoadImage', function() {
   it('renders the prop placeholder when it\'s not in the viewport', function() {
     const placeholder = <span className="test-placeholder"></span>;
     const lazyLoadImage = renderLazyLoadImage({
-      scrollPosition: -1000,
+      scrollPosition: {x: 0, y: -1000},
       placeholder
     });
 
@@ -67,10 +67,10 @@ describe('LazyLoadImage', function() {
 
   it('renders the image when it appears in the viewport', function() {
     const lazyLoadImage = renderLazyLoadImage({
-      scrollPosition: -1000
+      scrollPosition: {x: 0, y: -1000}
     });
 
-    lazyLoadImage.componentWillReceiveProps({scrollPosition: 0});
+    lazyLoadImage.componentWillReceiveProps({scrollPosition:  {x: 0, y: 0}});
 
     expectImages(lazyLoadImage, 1);
     expectPlaceholders(lazyLoadImage, 0);
@@ -80,7 +80,7 @@ describe('LazyLoadImage', function() {
     const beforeLoad = jest.fn();
     const lazyLoadImage = renderLazyLoadImage({
       beforeLoad,
-      scrollPosition: -1000
+      scrollPosition: {x: 0, y: -1000}
     });
 
         expect(beforeLoad).toHaveBeenCalledTimes(0);
@@ -99,10 +99,10 @@ describe('LazyLoadImage', function() {
     const beforeLoad = jest.fn();
     const lazyLoadImage = renderLazyLoadImage({
       beforeLoad,
-      scrollPosition: -1000
+      scrollPosition: {x: 0, y: -1000}
     });
 
-    lazyLoadImage.componentWillReceiveProps({scrollPosition: 0});
+    lazyLoadImage.componentWillReceiveProps({scrollPosition:  {x: 0, y: 0}});
 
     expect(beforeLoad).toHaveBeenCalledTimes(1);
   });
@@ -111,7 +111,7 @@ describe('LazyLoadImage', function() {
     const afterLoad = jest.fn();
     const lazyLoadImage = renderLazyLoadImage({
       afterLoad,
-      scrollPosition: -1000
+      scrollPosition: {x: 0, y: -1000}
     });
 
     expect(afterLoad).toHaveBeenCalledTimes(0);
@@ -130,10 +130,10 @@ describe('LazyLoadImage', function() {
     const afterLoad = jest.fn();
     const lazyLoadImage = renderLazyLoadImage({
       afterLoad,
-      scrollPosition: -1000
+      scrollPosition:  {x: 0, y: -1000}
     });
 
-    lazyLoadImage.componentWillReceiveProps({scrollPosition: 0});
+    lazyLoadImage.componentWillReceiveProps({scrollPosition: {x: 0, y: 0}});
 
     expect(afterLoad).toHaveBeenCalledTimes(1);
   });

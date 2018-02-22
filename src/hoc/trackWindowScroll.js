@@ -6,7 +6,10 @@ const trackWindowScroll = (BaseComponent) => {
       super(props);
 
       this.state = {
-        scrollPosition: window.scrollY || window.pageYOffset
+        scrollPosition: {
+          x: window.scrollX || window.pageXOffset,
+          y: window.scrollY || window.pageYOffset
+        }
       };
     }
 
@@ -22,7 +25,10 @@ const trackWindowScroll = (BaseComponent) => {
 
     onChangeScroll() {
       this.setState({
-        scrollPosition: window.scrollY || window.pageYOffset
+        scrollPosition: {
+          x: window.scrollX || window.pageXOffset,
+          y: window.scrollY || window.pageYOffset
+        }
       });
     }
 
@@ -39,4 +45,3 @@ const trackWindowScroll = (BaseComponent) => {
 };
 
 export default trackWindowScroll;
-
