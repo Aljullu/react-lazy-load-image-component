@@ -1,6 +1,6 @@
 {
-  "name": "react-lazy-load-image",
-  "version": "0.0.1",
+  "name": "react-lazy-load-image-component",
+  "version": "1.0.0",
   "description": " React Component to lazy load images using a HOC to track window scroll position. ",
   "main": "build/index.js",
   "peerDependencies": {
@@ -32,7 +32,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Aljullu/react-lazy-load-image.git"
+    "url": "git+https://github.com/Aljullu/react-lazy-load-image-component.git"
   },
   "keywords": [
     "react",
@@ -44,7 +44,7 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Aljullu/react-lazy-load-image/issues"
+    "url": "https://github.com/Aljullu/react-lazy-load-image-component/issues"
   },
-  "homepage": "https://github.com/Aljullu/react-lazy-load-image#readme"
+  "homepage": "https://github.com/Aljullu/react-lazy-load-image-component#readme"
 }

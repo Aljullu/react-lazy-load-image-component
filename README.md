@@ -17,22 +17,22 @@ React Component to lazy load images using a HOC to track window scroll position.
 
 ## Installation
 
-1. Install react-lazy-load-image as a dependency:
+1. Install react-lazy-load-image-component as a dependency:
 ```bash
 # Yarn
-$ yarn add react-lazy-load-image
+$ yarn add react-lazy-load-image-component
 
 # NPM
-$ npm i --save react-lazy-load-image
+$ npm i --save react-lazy-load-image-component
 ```
 2. Import the LazyLoadImage component:
 ```javascript
-import { LazyLoadImage } from 'react-lazy-load-image'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 ```
 
 3. Import the trackWindowScroll HOC:
 ```javascript
-import { trackWindowScroll } from 'react-lazy-load-image'
+import { trackWindowScroll } from 'react-lazy-load-image-component'
 ```
 
 
@@ -40,7 +40,8 @@ import { trackWindowScroll } from 'react-lazy-load-image'
 
 ```javascript
 import React from 'react';
-import { LazyLoadImage, trackWindowScroll } from 'react-lazy-load-image';
+import { LazyLoadImage, trackWindowScroll }
+  from 'react-lazy-load-image-component';
 
 const Gallery = ({ images, scrollPosition }) => (
   <div>
@@ -48,14 +49,14 @@ const Gallery = ({ images, scrollPosition }) => (
       <LazyLoadImage
         key={image.key}
         height={image.height}
-        scrollPosition={scrollPosition} // pass the scrollPosition to the image
+        scrollPosition={scrollPosition} // pass the scrollPosition
         src={image.src} // use normal <img> attributes as props
         width={image.width} />
     )}
   </div>
 );
-// Wrap Gallery with trackWindowScroll HOC so it receives a scrollPosition prop
-// to pass down to the images
+// Wrap Gallery with trackWindowScroll HOC so it receives
+// a scrollPosition prop to pass down to the images
 export default trackWindowScroll(Gallery);
 ```
 
@@ -73,4 +74,4 @@ export default trackWindowScroll(Gallery);
 
 ## Screenshots
 
-<a href="https://raw.githubusercontent.com/Aljullu/react-lazy-load-image/master/screenshots/example.gif"><img src="https://raw.githubusercontent.com/Aljullu/react-lazy-load-image/master/screenshots/example.gif" alt="" /></a>
+<a href="https://raw.githubusercontent.com/Aljullu/react-lazy-load-image-component/master/screenshots/example.gif"><img src="https://raw.githubusercontent.com/Aljullu/react-lazy-load-image-component/master/screenshots/example.gif" alt="" /></a>
