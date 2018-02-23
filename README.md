@@ -2,3 +2,75 @@ React Lazy Load Image
 =====================
 
 React Component to lazy load images using a HOC to track window scroll position.
+
+
+## Features
+
+* Two components: a HOC to track the scroll position and a component to render the image.
+* Handles scroll events, resize events and re-renders that might change the position of the components.
+* Placeholder by default with the same size of the image.
+* A custom placeholder and threshold can be specified.
+* `beforeLoad` and `afterLoad` events.
+* Accepts all standard `<img>` attributes.
+* No dependencies other than `react`.
+
+
+## Installation
+
+1. Install react-lazy-load-image as a dependency:
+```bash
+# Yarn
+$ yarn add react-lazy-load-image
+
+# NPM
+$ npm i --save react-lazy-load-image
+```
+2. Import the LazyLoadImage component:
+```javascript
+import { LazyLoadImage } from 'react-lazy-load-image'
+```
+
+3. Import the trackWindowScroll HOC:
+```javascript
+import { trackWindowScroll } from 'react-lazy-load-image'
+```
+
+
+## Usage
+
+```javascript
+import React from 'react';
+import { LazyLoadImage, trackWindowScroll } from 'react-lazy-load-image';
+
+const Gallery = ({ images, scrollPosition }) => (
+  <div>
+    {images.map((image) =>
+      <LazyLoadImage
+        key={image.key}
+        height={image.height}
+        scrollPosition={scrollPosition} // pass the scrollPosition to the image
+        src={image.src} // use normal <img> attributes as props
+        width={image.width} />
+    )}
+  </div>
+);
+// Wrap Gallery with trackWindowScroll HOC so it receives a scrollPosition prop
+// to pass down to the images
+export default trackWindowScroll(Gallery);
+```
+
+## Props
+
+| Prop | Type | Description |
+|:---|:---|:---|
+| scrollPosition | `Object` | Object containing `x` and `y` with the curent window scroll position. Required. |
+| afterLoad | `Function` | Function called after the image has been rendered. |
+| beforeLoad | `Function` | Function called right before the image is rendered. |
+| placeholder | `ReactClass` | A React element to use as a placeholder. |
+| threshold | `Number` | Threshold in pixels. So the image starts loading before it appears in the viewport. _Defaults to 100._ |
+| ... |  | Any other image attribute |
+
+
+## Screenshots
+
+<a href="https://raw.githubusercontent.com/Aljullu/react-lazy-load-image/master/screenshots/example.gif"><img src="https://raw.githubusercontent.com/Aljullu/react-lazy-load-image/master/screenshots/example.gif" alt="" /></a>
