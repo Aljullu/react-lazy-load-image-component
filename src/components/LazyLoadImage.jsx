@@ -123,7 +123,7 @@ class LazyLoadImage extends React.PureComponent {
     const { className, height, placeholder, width } = this.props;
 
     if (placeholder) {
-      return placeholder;
+      return React.cloneElement(placeholder, { ref: 'placeholder' });
     }
 
     return (
