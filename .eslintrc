@@ -51,7 +51,7 @@
     "no-octal-escape": 2,
     "no-param-reassign": 1,
     "no-proto": 1,
-    "no-return-assign": 1,
+    "no-return-assign": 0,
     "no-script-url": 1,
     "no-self-compare": 1,
     "no-sequences": 1,

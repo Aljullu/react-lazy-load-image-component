@@ -60,11 +60,11 @@ class LazyLoadImage extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.refs.placeholder) {
+    if (this.placeholder) {
       const boundingBox = {
-        bottom: this.refs.placeholder.offsetTop +
-          this.refs.placeholder.offsetHeight,
-        top: this.refs.placeholder.offsetTop
+        bottom: this.placeholder.offsetTop +
+          this.placeholder.offsetHeight,
+        top: this.placeholder.offsetTop
       };
 
       if (this.previousBoundingBox.bottom !== boundingBox.bottom ||
@@ -91,18 +91,18 @@ class LazyLoadImage extends React.Component {
   }
 
   isImageInViewport(scrollPosition) {
-    if (!this.refs.placeholder) {
+    if (!this.placeholder) {
       return false;
     }
 
     const { threshold } = this.props;
     const boundingBox = {
-      bottom: this.refs.placeholder.offsetTop +
-        this.refs.placeholder.offsetHeight,
-      left: this.refs.placeholder.offsetLeft,
-      right: this.refs.placeholder.offsetLeft +
-        this.refs.placeholder.offsetWidth,
-      top: this.refs.placeholder.offsetTop
+      bottom: this.placeholder.offsetTop +
+        this.placeholder.offsetHeight,
+      left: this.placeholder.offsetLeft,
+      right: this.placeholder.offsetLeft +
+        this.placeholder.offsetWidth,
+      top: this.placeholder.offsetTop
     };
     const viewport = {
       bottom: scrollPosition.y + window.innerHeight,
@@ -123,12 +123,13 @@ class LazyLoadImage extends React.Component {
     const { className, height, placeholder, width } = this.props;
 
     if (placeholder) {
-      return React.cloneElement(placeholder, { ref: 'placeholder' });
+      return React.cloneElement(placeholder,
+        { ref: el => this.placeholder = el });
     }
 
     return (
       <span className={'lazy-load-image-placeholder ' + className}
-        ref="placeholder"
+        ref={el => this.placeholder = el}
         style={{ height, width }}>
       </span>
     );
@@ -145,7 +146,7 @@ class LazyLoadImage extends React.Component {
     return (
       <img
         {...props}
-        ref="image" />
+        ref={img => this.image = img} />
     );
   }
 }
