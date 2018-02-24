@@ -76,6 +76,17 @@ describe('LazyLoadImage', function() {
     expectPlaceholders(lazyLoadImage, 0);
   });
 
+  it('renders the image when it appears in the viewport horizontally', function() {
+    const lazyLoadImage = renderLazyLoadImage({
+      scrollPosition: {x: -1000, y: 0}
+    });
+
+    lazyLoadImage.componentWillReceiveProps({scrollPosition:  {x: 0, y: 0}});
+
+    expectImages(lazyLoadImage, 1);
+    expectPlaceholders(lazyLoadImage, 0);
+  });
+
   it('doesn\'t trigger beforeLoad when the image is not the viewport', function() {
     const beforeLoad = jest.fn();
     const lazyLoadImage = renderLazyLoadImage({

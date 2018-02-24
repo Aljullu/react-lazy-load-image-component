@@ -59,15 +59,24 @@ class LazyLoadImage extends React.Component {
     return false;
   }
 
+  getPlaceholderBoundingBox() {
+    return {
+      bottom: this.placeholder.offsetTop +
+        this.placeholder.offsetHeight,
+      left: this.placeholder.offsetLeft,
+      right: this.placeholder.offsetLeft +
+        this.placeholder.offsetWidth,
+      top: this.placeholder.offsetTop
+    };
+  }
+
   componentDidUpdate() {
     if (this.placeholder) {
-      const boundingBox = {
-        bottom: this.placeholder.offsetTop +
-          this.placeholder.offsetHeight,
-        top: this.placeholder.offsetTop
-      };
+      const boundingBox = this.getPlaceholderBoundingBox();
 
       if (this.previousBoundingBox.bottom !== boundingBox.bottom ||
+          this.previousBoundingBox.left !== boundingBox.left ||
+          this.previousBoundingBox.right !== boundingBox.right ||
           this.previousBoundingBox.top !== boundingBox.top) {
         this.updateVisibility();
       }
@@ -96,14 +105,7 @@ class LazyLoadImage extends React.Component {
     }
 
     const { threshold } = this.props;
-    const boundingBox = {
-      bottom: this.placeholder.offsetTop +
-        this.placeholder.offsetHeight,
-      left: this.placeholder.offsetLeft,
-      right: this.placeholder.offsetLeft +
-        this.placeholder.offsetWidth,
-      top: this.placeholder.offsetTop
-    };
+    const boundingBox = this.getPlaceholderBoundingBox();
     const viewport = {
       bottom: scrollPosition.y + window.innerHeight,
       left: scrollPosition.x,
