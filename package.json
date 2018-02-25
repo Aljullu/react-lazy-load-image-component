@@ -1,6 +1,6 @@
 {
   "name": "react-lazy-load-image-component",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": " React Component to lazy load images using a HOC to track window scroll position. ",
   "main": "build/index.js",
   "peerDependencies": {
@@ -39,7 +39,11 @@
   },
   "keywords": [
     "react",
-    "lazyloading"
+    "react-component",
+    "lazyload",
+    "lazyloading",
+    "lazy-loading",
+    "lazyload-images"
   ],
   "author": {
     "name": "Albert Juhé Lluveras",
