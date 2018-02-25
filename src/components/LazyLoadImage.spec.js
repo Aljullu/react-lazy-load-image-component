@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
-import assert from 'assert';
+import { configure, mount } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
 
 import LazyLoadImage from './LazyLoadImage.jsx';
+
+configure({ adapter: new Adapter() });
 
 const {
   scryRenderedDOMComponentsWithClass,
@@ -17,7 +20,7 @@ describe('LazyLoadImage', function() {
       scrollPosition = {x: 0, y: 0},
       style = {}
     } = {}) {
-    return ReactTestUtils.renderIntoDocument(
+    return mount(
       <LazyLoadImage
         afterLoad={afterLoad}
         beforeLoad={beforeLoad}
@@ -40,21 +43,21 @@ describe('LazyLoadImage', function() {
       width: 0
     });
 
-    lazyLoadImage.placeholder.getBoundingClientRect = myMock;
+    lazyLoadImage.instance().placeholder.getBoundingClientRect = myMock;
 
-    lazyLoadImage.componentWillReceiveProps({
+    lazyLoadImage.setProps({
       scrollPosition: {x: offsetX, y: offsetY}
     });
   }
 
   function expectImages(wrapper, numberOfImages) {
-    const img = scryRenderedDOMComponentsWithTag(wrapper, 'img');
+    const img = scryRenderedDOMComponentsWithTag(wrapper.instance(), 'img');
 
     expect(img.length).toEqual(numberOfImages);
   }
 
   function expectPlaceholders(wrapper, numberOfPlaceholders, placeholderClassName = 'lazy-load-image-placeholder') {
-    const placeholder = scryRenderedDOMComponentsWithClass(wrapper, placeholderClassName);
+    const placeholder = scryRenderedDOMComponentsWithClass(wrapper.instance(), placeholderClassName);
 
     expect(placeholder.length).toEqual(numberOfPlaceholders);
   }

@@ -9,19 +9,10 @@ class LazyLoadImage extends React.Component {
     this.state = {
       visible: false
     };
-
-    this.previousBoundingBox = {
-      bottom: -1,
-      top: -1
-    };
   }
 
   componentDidMount() {
     this.updateVisibility();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.updateVisibility(nextProps.scrollPosition);
   }
 
   getRelevantProps(nextProps) {
@@ -81,24 +72,15 @@ class LazyLoadImage extends React.Component {
       this.props.afterLoad();
     }
 
-    if (this.placeholder) {
-      const boundingBox = this.getPlaceholderBoundingBox();
-
-      if (this.previousBoundingBox.bottom !== boundingBox.bottom ||
-          this.previousBoundingBox.left !== boundingBox.left ||
-          this.previousBoundingBox.right !== boundingBox.right ||
-          this.previousBoundingBox.top !== boundingBox.top) {
-        this.updateVisibility();
-      }
-    }
+    this.updateVisibility();
   }
 
-  updateVisibility(scrollPosition = this.props.scrollPosition) {
+  updateVisibility() {
     if (this.state.visible) {
       return;
     }
 
-    if (!this.isImageInViewport(scrollPosition)) {
+    if (!this.isImageInViewport()) {
       return;
     }
 
@@ -109,12 +91,12 @@ class LazyLoadImage extends React.Component {
     });
   }
 
-  isImageInViewport(scrollPosition) {
+  isImageInViewport() {
     if (!this.placeholder) {
       return false;
     }
 
-    const { threshold } = this.props;
+    const { scrollPosition, threshold } = this.props;
     const boundingBox = this.getPlaceholderBoundingBox(scrollPosition);
     const viewport = {
       bottom: scrollPosition.y + window.innerHeight,
@@ -122,8 +104,6 @@ class LazyLoadImage extends React.Component {
       right: scrollPosition.x + window.innerWidth,
       top: scrollPosition.y
     };
-
-    this.previousBoundingBox = boundingBox;
 
     return Boolean(viewport.top - threshold <= boundingBox.bottom &&
       viewport.bottom + threshold >= boundingBox.top &&
