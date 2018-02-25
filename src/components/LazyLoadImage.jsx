@@ -51,6 +51,14 @@ class LazyLoadImage extends React.Component {
     return false;
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevState.visible && this.state.visible) {
+      this.props.afterLoad();
+    }
+
+    this.updateVisibility();
+  }
+
   getPlaceholderBoundingBox(scrollPosition = this.props.scrollPosition) {
     const boundingRect = this.placeholder.getBoundingClientRect();
     const style = ReactDOM.findDOMNode(this.placeholder).style;
@@ -65,30 +73,6 @@ class LazyLoadImage extends React.Component {
       right: scrollPosition.x + boundingRect.right + margin.left,
       top: scrollPosition.y + boundingRect.top + margin.top
     };
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (!prevState.visible && this.state.visible) {
-      this.props.afterLoad();
-    }
-
-    this.updateVisibility();
-  }
-
-  updateVisibility() {
-    if (this.state.visible) {
-      return;
-    }
-
-    if (!this.isImageInViewport()) {
-      return;
-    }
-
-    this.props.beforeLoad();
-
-    this.setState({
-      visible: true
-    });
   }
 
   isImageInViewport() {
@@ -109,6 +93,18 @@ class LazyLoadImage extends React.Component {
       viewport.bottom + threshold >= boundingBox.top &&
       viewport.left - threshold <= boundingBox.right &&
       viewport.right + threshold >= boundingBox.left);
+  }
+
+  updateVisibility() {
+    if (this.state.visible || !this.isImageInViewport()) {
+      return;
+    }
+
+    this.props.beforeLoad();
+
+    this.setState({
+      visible: true
+    });
   }
 
   getPlaceholder() {
