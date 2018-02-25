@@ -76,7 +76,11 @@ class LazyLoadImage extends React.Component {
     };
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevState.visible && this.state.visible) {
+      this.props.afterLoad();
+    }
+
     if (this.placeholder) {
       const boundingBox = this.getPlaceholderBoundingBox();
 
@@ -102,7 +106,7 @@ class LazyLoadImage extends React.Component {
 
     this.setState({
       visible: true
-    }, this.props.afterLoad);
+    });
   }
 
   isImageInViewport(scrollPosition) {
