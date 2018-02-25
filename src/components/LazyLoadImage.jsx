@@ -151,15 +151,9 @@ class LazyLoadImage extends React.Component {
     const { afterLoad, beforeLoad, placeholder, scrollPosition, threshold,
       ...props } = this.props;
 
-    if (!this.state.visible) {
-      return this.getPlaceholder();
-    }
-
-    return (
-      <img
-        {...props}
-        ref={img => this.image = img} />
-    );
+    return this.state.visible ?
+      <img {...props} /> :
+      this.getPlaceholder();
   }
 }
 
