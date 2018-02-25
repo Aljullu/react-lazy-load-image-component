@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { PropTypes } from 'prop-types';
 
 class LazyLoadImage extends React.Component {
@@ -59,14 +60,19 @@ class LazyLoadImage extends React.Component {
     return false;
   }
 
-  getPlaceholderBoundingBox() {
+  getPlaceholderBoundingBox(scrollPosition = this.props.scrollPosition) {
+    const boundingRect = this.placeholder.getBoundingClientRect();
+    const style = ReactDOM.findDOMNode(this.placeholder).style;
+    const margin = {
+      left: parseInt(style.getPropertyValue('margin-left'), 10) || 0,
+      top: parseInt(style.getPropertyValue('margin-top'), 10) || 0
+    };
+
     return {
-      bottom: this.placeholder.offsetTop +
-        this.placeholder.offsetHeight,
-      left: this.placeholder.offsetLeft,
-      right: this.placeholder.offsetLeft +
-        this.placeholder.offsetWidth,
-      top: this.placeholder.offsetTop
+      bottom: scrollPosition.y + boundingRect.bottom + margin.top,
+      left: scrollPosition.x + boundingRect.left + margin.left,
+      right: scrollPosition.x + boundingRect.right + margin.left,
+      top: scrollPosition.y + boundingRect.top + margin.top
     };
   }
 
@@ -105,7 +111,7 @@ class LazyLoadImage extends React.Component {
     }
 
     const { threshold } = this.props;
-    const boundingBox = this.getPlaceholderBoundingBox();
+    const boundingBox = this.getPlaceholderBoundingBox(scrollPosition);
     const viewport = {
       bottom: scrollPosition.y + window.innerHeight,
       left: scrollPosition.x,
@@ -122,7 +128,7 @@ class LazyLoadImage extends React.Component {
   }
 
   getPlaceholder() {
-    const { className, height, placeholder, width } = this.props;
+    const { className, height, placeholder, style, width } = this.props;
 
     if (placeholder) {
       return React.cloneElement(placeholder,
@@ -132,7 +138,7 @@ class LazyLoadImage extends React.Component {
     return (
       <span className={'lazy-load-image-placeholder ' + className}
         ref={el => this.placeholder = el}
-        style={{ height, width }}>
+        style={{ height, width, ...style }}>
       </span>
     );
   }

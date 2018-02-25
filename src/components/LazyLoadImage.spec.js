@@ -14,7 +14,8 @@ describe('LazyLoadImage', function() {
       afterLoad = () => null,
       beforeLoad = () => null,
       placeholder = null,
-      scrollPosition = {x: 0, y: 0}
+      scrollPosition = {x: 0, y: 0},
+      style = {}
     } = {}) {
     return ReactTestUtils.renderIntoDocument(
       <LazyLoadImage
@@ -22,8 +23,28 @@ describe('LazyLoadImage', function() {
         beforeLoad={beforeLoad}
         placeholder={placeholder}
         scrollPosition={scrollPosition}
-        src="" />
+        src=""
+        style={style} />
     );
+  }
+
+  function simulateScroll(lazyLoadImage, offsetX = 0, offsetY = 0) {
+    const myMock = jest.fn();
+
+    myMock.mockReturnValue({
+      bottom: -offsetY,
+      height: 0,
+      left: -offsetX,
+      right: -offsetX,
+      top: -offsetY,
+      width: 0
+    });
+
+    lazyLoadImage.placeholder.getBoundingClientRect = myMock;
+
+    lazyLoadImage.componentWillReceiveProps({
+      scrollPosition: {x: offsetX, y: offsetY}
+    });
   }
 
   function expectImages(wrapper, numberOfImages) {
@@ -40,7 +61,7 @@ describe('LazyLoadImage', function() {
 
   it('renders the default placeholder when it\'s not in the viewport', function() {
     const lazyLoadImage = renderLazyLoadImage({
-      scrollPosition: {x: 0, y: -1000}
+      style: {marginTop: 100000}
     });
 
     expectImages(lazyLoadImage, 0);
@@ -48,10 +69,13 @@ describe('LazyLoadImage', function() {
   });
 
   it('renders the prop placeholder when it\'s not in the viewport', function() {
-    const placeholder = <span className="test-placeholder"></span>;
+    const style = {marginTop: 100000};
+    const placeholder = (
+      <span className="test-placeholder" style={style}></span>
+    );
     const lazyLoadImage = renderLazyLoadImage({
-      scrollPosition: {x: 0, y: -1000},
-      placeholder
+      placeholder,
+      style
     });
 
     expectImages(lazyLoadImage, 0);
@@ -66,22 +90,24 @@ describe('LazyLoadImage', function() {
   });
 
   it('renders the image when it appears in the viewport', function() {
+    const offset = 100000;
     const lazyLoadImage = renderLazyLoadImage({
-      scrollPosition: {x: 0, y: -1000}
+      style: {marginTop: offset}
     });
 
-    lazyLoadImage.componentWillReceiveProps({scrollPosition: {x: 0, y: 0}});
+    simulateScroll(lazyLoadImage, 0, offset);
 
     expectImages(lazyLoadImage, 1);
     expectPlaceholders(lazyLoadImage, 0);
   });
 
   it('renders the image when it appears in the viewport horizontally', function() {
+    const offset = 100000;
     const lazyLoadImage = renderLazyLoadImage({
-      scrollPosition: {x: -1000, y: 0}
+      style: {marginLeft: offset}
     });
 
-    lazyLoadImage.componentWillReceiveProps({scrollPosition: {x: 0, y: 0}});
+    simulateScroll(lazyLoadImage, offset, 0);
 
     expectImages(lazyLoadImage, 1);
     expectPlaceholders(lazyLoadImage, 0);
@@ -91,10 +117,10 @@ describe('LazyLoadImage', function() {
     const beforeLoad = jest.fn();
     const lazyLoadImage = renderLazyLoadImage({
       beforeLoad,
-      scrollPosition: {x: 0, y: -1000}
+      style: {marginTop: 100000}
     });
 
-        expect(beforeLoad).toHaveBeenCalledTimes(0);
+    expect(beforeLoad).toHaveBeenCalledTimes(0);
   });
 
   it('triggers beforeLoad when the image is in the viewport', function() {
@@ -108,12 +134,13 @@ describe('LazyLoadImage', function() {
 
   it('triggers beforeLoad when the image appears in the viewport', function() {
     const beforeLoad = jest.fn();
+    const offset = 100000;
     const lazyLoadImage = renderLazyLoadImage({
       beforeLoad,
-      scrollPosition: {x: 0, y: -1000}
+      style: {marginTop: offset}
     });
 
-    lazyLoadImage.componentWillReceiveProps({scrollPosition: {x: 0, y: 0}});
+    simulateScroll(lazyLoadImage, 0, offset);
 
     expect(beforeLoad).toHaveBeenCalledTimes(1);
   });
@@ -122,7 +149,7 @@ describe('LazyLoadImage', function() {
     const afterLoad = jest.fn();
     const lazyLoadImage = renderLazyLoadImage({
       afterLoad,
-      scrollPosition: {x: 0, y: -1000}
+      style: {marginTop: 100000}
     });
 
     expect(afterLoad).toHaveBeenCalledTimes(0);
@@ -139,12 +166,13 @@ describe('LazyLoadImage', function() {
 
   it('triggers afterLoad when the image appears in the viewport', function() {
     const afterLoad = jest.fn();
+    const offset = 100000;
     const lazyLoadImage = renderLazyLoadImage({
       afterLoad,
-      scrollPosition: {x: 0, y: -1000}
+      style: {marginTop: offset}
     });
 
-    lazyLoadImage.componentWillReceiveProps({scrollPosition: {x: 0, y: 0}});
+    simulateScroll(lazyLoadImage, 0, offset);
 
     expect(afterLoad).toHaveBeenCalledTimes(1);
   });
