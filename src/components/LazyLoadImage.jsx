@@ -148,8 +148,8 @@ LazyLoadImage.propTypes = {
 };
 
 LazyLoadImage.defaultProps = {
-  afterLoad: () => null,
-  beforeLoad: () => null,
+  afterLoad: () => ({}),
+  beforeLoad: () => ({}),
   className: '',
   height: 0,
   placeholder: null,
