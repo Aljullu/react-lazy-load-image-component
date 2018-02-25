@@ -34,7 +34,7 @@ class LazyLoadImage extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (this.state.visible !== nextState.visible) {
+    if (!this.state.visible) {
       return true;
     }
 
