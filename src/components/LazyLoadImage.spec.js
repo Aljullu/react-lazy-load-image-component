@@ -18,7 +18,8 @@ describe('LazyLoadImage', function() {
       beforeLoad = () => null,
       placeholder = null,
       scrollPosition = {x: 0, y: 0},
-      style = {}
+      style = {},
+      visibleByDefault = false
     } = {}) {
     return mount(
       <LazyLoadImage
@@ -27,7 +28,8 @@ describe('LazyLoadImage', function() {
         placeholder={placeholder}
         scrollPosition={scrollPosition}
         src=""
-        style={style} />
+        style={style}
+        visibleByDefault={visibleByDefault} />
     );
   }
 
@@ -116,6 +118,16 @@ describe('LazyLoadImage', function() {
     expectPlaceholders(lazyLoadImage, 0);
   });
 
+  it('renders the image when it\'s not in the viewport but visibleByDefault is true', function() {
+    const lazyLoadImage = renderLazyLoadImage({
+      style: {marginTop: 100000},
+      visibleByDefault: true
+    });
+
+    expectImages(lazyLoadImage, 1);
+    expectPlaceholders(lazyLoadImage, 0);
+  });
+
   it('doesn\'t trigger beforeLoad when the image is not the viewport', function() {
     const beforeLoad = jest.fn();
     const lazyLoadImage = renderLazyLoadImage({
@@ -148,6 +160,18 @@ describe('LazyLoadImage', function() {
     expect(beforeLoad).toHaveBeenCalledTimes(1);
   });
 
+  it('triggers beforeLoad when visibleByDefault is true', function() {
+    const beforeLoad = jest.fn();
+    const offset = 100000;
+    const lazyLoadImage = renderLazyLoadImage({
+      beforeLoad,
+      style: {marginTop: offset},
+      visibleByDefault: true
+    });
+
+    expect(beforeLoad).toHaveBeenCalledTimes(1);
+  });
+
   it('doesn\'t trigger afterLoad when the image is not the viewport', function() {
     const afterLoad = jest.fn();
     const lazyLoadImage = renderLazyLoadImage({
@@ -176,6 +200,18 @@ describe('LazyLoadImage', function() {
     });
 
     simulateScroll(lazyLoadImage, 0, offset);
+
+    expect(afterLoad).toHaveBeenCalledTimes(1);
+  });
+
+  it('triggers afterLoad when visibleByDefault is true', function() {
+    const afterLoad = jest.fn();
+    const offset = 100000;
+    const lazyLoadImage = renderLazyLoadImage({
+      afterLoad,
+      style: {marginTop: offset},
+      visibleByDefault: true
+    });
 
     expect(afterLoad).toHaveBeenCalledTimes(1);
   });

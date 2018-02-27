@@ -70,6 +70,7 @@ export default trackWindowScroll(Gallery);
 | beforeLoad | `Function` | Function called right before the image is rendered. |
 | placeholder | `ReactClass` | A React element to use as a placeholder. |
 | threshold | `Number` | Threshold in pixels. So the image starts loading before it appears in the viewport. _Defaults to 100._ |
+| visibleByDefault | `Boolean` | Whether the image must be visible from the beginning. |
 | ... |  | Any other image attribute |
 
 

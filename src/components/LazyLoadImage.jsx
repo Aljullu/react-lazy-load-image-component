@@ -6,9 +6,16 @@ class LazyLoadImage extends React.Component {
   constructor(props) {
     super(props);
 
+    const { afterLoad, beforeLoad, visibleByDefault } = this.props;
+
     this.state = {
-      visible: false
+      visible: visibleByDefault
     };
+
+    if (visibleByDefault) {
+      beforeLoad();
+      afterLoad();
+    }
   }
 
   componentDidMount() {
@@ -27,7 +34,8 @@ class LazyLoadImage extends React.Component {
       beforeLoad: true,
       placeholder: true,
       threshold: true,
-      scrollPosition: true
+      scrollPosition: true,
+      visibleByDefault: true
     };
 
     return keys.filter(key => !propsToIgnoreAfterVisible[key]);
@@ -125,7 +133,7 @@ class LazyLoadImage extends React.Component {
 
   render() {
     const { afterLoad, beforeLoad, placeholder, scrollPosition, threshold,
-      ...props } = this.props;
+      visibleByDefault, ...props } = this.props;
 
     return this.state.visible ?
       <img {...props} /> :
@@ -144,6 +152,7 @@ LazyLoadImage.propTypes = {
   height: PropTypes.number,
   placeholder: PropTypes.element,
   threshold: PropTypes.number,
+  visibleByDefault: PropTypes.bool,
   width: PropTypes.number
 };
 
@@ -154,6 +163,7 @@ LazyLoadImage.defaultProps = {
   height: 0,
   placeholder: null,
   threshold: 100,
+  visibleByDefault: false,
   width: 0
 };
 
