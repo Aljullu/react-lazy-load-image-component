@@ -22,31 +22,14 @@ class LazyLoadImage extends React.Component {
     this.updateVisibility();
   }
 
-  getRelevantProps(nextProps) {
-    const keys = Object.keys(nextProps);
-
-    if (!this.state.visible) {
-      return keys;
-    }
-
-    const propsToIgnoreAfterVisible = {
-      afterLoad: true,
-      beforeLoad: true,
-      placeholder: true,
-      threshold: true,
-      scrollPosition: true,
-      visibleByDefault: true
-    };
-
-    return keys.filter(key => !propsToIgnoreAfterVisible[key]);
-  }
-
   shouldComponentUpdate(nextProps, nextState) {
     if (!this.state.visible) {
       return true;
     }
 
-    const keys = this.getRelevantProps(nextProps);
+    const keys = this.state.visible ?
+      Object.keys(this.getImgProps(nextProps)) :
+      Object.keys(nextProps);
 
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
@@ -131,12 +114,16 @@ class LazyLoadImage extends React.Component {
     );
   }
 
-  render() {
+  getImgProps(props) {
     const { afterLoad, beforeLoad, placeholder, scrollPosition, threshold,
-      visibleByDefault, ...props } = this.props;
+      visibleByDefault, ...imgProps } = props;
 
+    return imgProps;
+  }
+
+  render() {
     return this.state.visible ?
-      <img {...props} /> :
+      <img {...this.getImgProps(this.props)} /> :
       this.getPlaceholder();
   }
 }
