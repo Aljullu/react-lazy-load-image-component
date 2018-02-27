@@ -1,4 +1,6 @@
-var path = require('path');
+const webpack = require('webpack');
+const path = require('path');
+
 module.exports = {
   entry: './src/index.js',
   output: {
@@ -30,5 +32,8 @@ module.exports = {
   externals: {
     'react': 'commonjs react',
     'react-dom': 'commonjs react-dom',
-  }
+  },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin()
+  ]
 };
