@@ -12,7 +12,7 @@ React Component to lazy load images using a HOC to track window scroll position.
 * A custom placeholder and threshold can be specified.
 * `beforeLoad` and `afterLoad` events.
 * Accepts all standard `<img>` attributes.
-* No dependencies other than `react`.
+* No dependencies other than `react` and `react-dom`.
 
 
 ## Installation
