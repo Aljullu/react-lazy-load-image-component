@@ -53,5 +53,9 @@
   "bugs": {
     "url": "https://github.com/Aljullu/react-lazy-load-image-component/issues"
   },
-  "homepage": "https://github.com/Aljullu/react-lazy-load-image-component#readme"
+  "homepage": "https://github.com/Aljullu/react-lazy-load-image-component#readme",
+  "dependencies": {
+    "lodash.debounce": "^4.0.8",
+    "lodash.throttle": "^4.1.1"
+  }
 }

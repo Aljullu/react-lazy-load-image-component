@@ -1,9 +1,20 @@
 import React from 'react';
+import { PropTypes } from 'prop-types';
+import debounce from 'lodash.debounce';
+import throttle from 'lodash.throttle';
 
 const trackWindowScroll = (BaseComponent) => {
   class ScrollAwareComponent extends React.Component {
     constructor(props) {
       super(props);
+
+      const onChangeScroll = this.onChangeScroll.bind(this);
+
+      if (props.delayMethod === 'debounce') {
+        this.delayedScroll = debounce(onChangeScroll, props.delayTime);
+      } else if (props.delayMethod === 'throttle') {
+        this.delayedScroll = throttle(onChangeScroll, props.delayTime);
+      }
 
       this.state = {
         scrollPosition: {
@@ -14,13 +25,13 @@ const trackWindowScroll = (BaseComponent) => {
     }
 
     componentDidMount() {
-      window.addEventListener('scroll', this.onChangeScroll.bind(this));
-      window.addEventListener('resize', this.onChangeScroll.bind(this));
+      window.addEventListener('scroll', this.delayedScroll);
+      window.addEventListener('resize', this.delayedScroll);
     }
 
     componentWillUnmount() {
-      window.removeEventListener('scroll', this.onChangeScroll.bind(this));
-      window.removeEventListener('resize', this.onChangeScroll.bind(this));
+      window.removeEventListener('scroll', this.delayedScroll);
+      window.removeEventListener('resize', this.delayedScroll);
     }
 
     onChangeScroll() {
@@ -33,13 +44,25 @@ const trackWindowScroll = (BaseComponent) => {
     }
 
     render() {
+      const { delayMethod, delayTime, ...props } = this.props;
+
       return (
         <BaseComponent
           scrollPosition={this.state.scrollPosition}
-          {...this.props} />
+          {...props} />
       );
     }
   }
+
+  ScrollAwareComponent.propTypes = {
+    delayMethod: PropTypes.oneOf(['debounce', 'throttle']),
+    delayTime: PropTypes.number
+  };
+
+  ScrollAwareComponent.defaultProps = {
+    delayMethod: 'throttle',
+    delayTime: 300
+  };
 
   return ScrollAwareComponent;
 };

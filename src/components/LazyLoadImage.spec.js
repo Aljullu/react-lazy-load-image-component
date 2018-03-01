@@ -18,6 +18,8 @@ describe('LazyLoadImage', function() {
     const props = {
       afterLoad: () => null,
       beforeLoad: () => null,
+      delayMethod: 'debounce',
+      delayTime: 600,
       placeholder: null,
       scrollPosition: {x: 0, y: 0},
       style: {},
@@ -28,6 +30,8 @@ describe('LazyLoadImage', function() {
       <LazyLoadImage
         afterLoad={props.afterLoad}
         beforeLoad={props.beforeLoad}
+        delayMethod={props.delayMethod}
+        delayTime={props.delayTime}
         placeholder={props.placeholder}
         scrollPosition={props.scrollPosition}
         src={props.src}
@@ -40,6 +44,8 @@ describe('LazyLoadImage', function() {
 
     expect(lazyLoadComponent.props.afterLoad).toEqual(props.afterLoad);
     expect(lazyLoadComponent.props.beforeLoad).toEqual(props.beforeLoad);
+    expect(lazyLoadComponent.props.delayMethod).toEqual(props.delayMethod);
+    expect(lazyLoadComponent.props.delayTime).toEqual(props.delayTime);
     expect(lazyLoadComponent.props.placeholder).toEqual(props.placeholder);
     expect(lazyLoadComponent.props.scrollPosition).toEqual(props.scrollPosition);
     expect(lazyLoadComponent.props.style).toEqual(props.style);
