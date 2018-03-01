@@ -14,20 +14,6 @@ const {
 } = ReactTestUtils;
 
 describe('LazyLoadImage', function() {
-  function renderLazyLoadImage({
-    } = {}) {
-    return mount(
-      <LazyLoadImage
-        afterLoad={afterLoad}
-        beforeLoad={beforeLoad}
-        placeholder={placeholder}
-        scrollPosition={scrollPosition}
-        src=""
-        style={style}
-        visibleByDefault={visibleByDefault} />
-    );
-  }
-
   it('renders a LazyLoadComponent with the correct props', function() {
     const props = {
       afterLoad: () => null,

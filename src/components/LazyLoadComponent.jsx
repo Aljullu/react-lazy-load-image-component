@@ -1,134 +1,30 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { PropTypes } from 'prop-types';
+
+import LazyLoadComponentWithoutTracking
+  from './LazyLoadComponentWithoutTracking.jsx';
+import LazyLoadComponentWithTracking
+  from './LazyLoadComponentWithTracking.jsx';
 
 class LazyLoadComponent extends React.Component {
   constructor(props) {
     super(props);
 
-    const { afterLoad, beforeLoad, visibleByDefault } = this.props;
+    const { scrollPosition } = props;
 
-    this.state = {
-      visible: visibleByDefault
-    };
-
-    if (visibleByDefault) {
-      beforeLoad();
-      afterLoad();
-    }
-  }
-
-  componentDidMount() {
-    this.updateVisibility();
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.visible) {
-      return;
-    }
-
-    if (this.state.visible) {
-      this.props.afterLoad();
-    }
-
-    this.updateVisibility();
-  }
-
-  getPlaceholderBoundingBox(scrollPosition = this.props.scrollPosition) {
-    const boundingRect = this.placeholder.getBoundingClientRect();
-    const style = ReactDOM.findDOMNode(this.placeholder).style;
-    const margin = {
-      left: parseInt(style.getPropertyValue('margin-left'), 10) || 0,
-      top: parseInt(style.getPropertyValue('margin-top'), 10) || 0
-    };
-
-    return {
-      bottom: scrollPosition.y + boundingRect.bottom + margin.top,
-      left: scrollPosition.x + boundingRect.left + margin.left,
-      right: scrollPosition.x + boundingRect.right + margin.left,
-      top: scrollPosition.y + boundingRect.top + margin.top
-    };
-  }
-
-  isPlaceholderInViewport() {
-    if (!this.placeholder) {
-      return false;
-    }
-
-    const { scrollPosition, threshold } = this.props;
-    const boundingBox = this.getPlaceholderBoundingBox(scrollPosition);
-    const viewport = {
-      bottom: scrollPosition.y + window.innerHeight,
-      left: scrollPosition.x,
-      right: scrollPosition.x + window.innerWidth,
-      top: scrollPosition.y
-    };
-
-    return Boolean(viewport.top - threshold <= boundingBox.bottom &&
-      viewport.bottom + threshold >= boundingBox.top &&
-      viewport.left - threshold <= boundingBox.right &&
-      viewport.right + threshold >= boundingBox.left);
-  }
-
-  updateVisibility() {
-    if (this.state.visible || !this.isPlaceholderInViewport()) {
-      return;
-    }
-
-    this.props.beforeLoad();
-
-    this.setState({
-      visible: true
-    });
-  }
-
-  getPlaceholder() {
-    const { className, height, placeholder, style, width } = this.props;
-
-    if (placeholder) {
-      return React.cloneElement(placeholder,
-        { ref: el => this.placeholder = el });
-    }
-
-    return (
-      <span className={className}
-        ref={el => this.placeholder = el}
-        style={{ height, width, ...style }}>
-      </span>
-    );
+    this.isScrollTracked = (scrollPosition &&
+      Number.isFinite(scrollPosition.x) && scrollPosition.x >= 0 &&
+      Number.isFinite(scrollPosition.y) && scrollPosition.y >= 0);
   }
 
   render() {
-    return this.state.visible ?
-      this.props.children :
-      this.getPlaceholder();
+    if (this.isScrollTracked) {
+      return <LazyLoadComponentWithoutTracking {...this.props} />;
+    }
+
+    const { scrollPosition, ...props } = this.props;
+
+    return <LazyLoadComponentWithTracking {...props} />;
   }
 }
-
-LazyLoadComponent.propTypes = {
-  scrollPosition: PropTypes.shape({
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired
-  }).isRequired,
-  afterLoad: PropTypes.func,
-  beforeLoad: PropTypes.func,
-  className: PropTypes.string,
-  height: PropTypes.number,
-  placeholder: PropTypes.element,
-  threshold: PropTypes.number,
-  visibleByDefault: PropTypes.bool,
-  width: PropTypes.number
-};
-
-LazyLoadComponent.defaultProps = {
-  afterLoad: () => ({}),
-  beforeLoad: () => ({}),
-  className: '',
-  height: 0,
-  placeholder: null,
-  threshold: 100,
-  visibleByDefault: false,
-  width: 0
-};
 
 export default LazyLoadComponent;
