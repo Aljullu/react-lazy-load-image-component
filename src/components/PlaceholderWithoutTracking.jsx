@@ -2,35 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { PropTypes } from 'prop-types';
 
-class LazyLoadComponentWithoutTracking extends React.Component {
+class PlaceholderWithoutTracking extends React.Component {
   constructor(props) {
     super(props);
-
-    const { afterLoad, beforeLoad, visibleByDefault } = this.props;
-
-    this.state = {
-      visible: visibleByDefault
-    };
-
-    if (visibleByDefault) {
-      beforeLoad();
-      afterLoad();
-    }
   }
 
   componentDidMount() {
     this.updateVisibility();
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.visible) {
-      return;
-    }
-
-    if (this.state.visible) {
-      this.props.afterLoad();
-    }
-
+  componentDidUpdate() {
     this.updateVisibility();
   }
 
@@ -71,18 +52,12 @@ class LazyLoadComponentWithoutTracking extends React.Component {
   }
 
   updateVisibility() {
-    if (this.state.visible || !this.isPlaceholderInViewport()) {
-      return;
+    if (this.isPlaceholderInViewport()) {
+      this.props.onVisible();
     }
-
-    this.props.beforeLoad();
-
-    this.setState({
-      visible: true
-    });
   }
 
-  getPlaceholder() {
+  render() {
     const { className, height, placeholder, style, width } = this.props;
 
     if (placeholder) {
@@ -97,38 +72,27 @@ class LazyLoadComponentWithoutTracking extends React.Component {
       </span>
     );
   }
-
-  render() {
-    return this.state.visible ?
-      this.props.children :
-      this.getPlaceholder();
-  }
 }
 
-LazyLoadComponentWithoutTracking.propTypes = {
+PlaceholderWithoutTracking.propTypes = {
+  onVisible: PropTypes.func.isRequired,
   scrollPosition: PropTypes.shape({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired
   }).isRequired,
-  afterLoad: PropTypes.func,
-  beforeLoad: PropTypes.func,
   className: PropTypes.string,
   height: PropTypes.number,
   placeholder: PropTypes.element,
   threshold: PropTypes.number,
-  visibleByDefault: PropTypes.bool,
   width: PropTypes.number
 };
 
-LazyLoadComponentWithoutTracking.defaultProps = {
-  afterLoad: () => ({}),
-  beforeLoad: () => ({}),
+PlaceholderWithoutTracking.defaultProps = {
   className: '',
   height: 0,
   placeholder: null,
   threshold: 100,
-  visibleByDefault: false,
   width: 0
 };
 
-export default LazyLoadComponentWithoutTracking;
+export default PlaceholderWithoutTracking;
