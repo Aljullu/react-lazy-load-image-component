@@ -1,4 +1,5 @@
 import React from 'react';
+import { PropTypes } from 'prop-types';
 
 import LazyLoadComponent from './LazyLoadComponent.jsx';
 
@@ -9,11 +10,11 @@ class LazyLoadImage extends React.Component {
 
   render() {
     const { afterLoad, beforeLoad, delayMethod, delayTime, placeholder,
-      scrollPosition, threshold, visibleByDefault, ...imgProps } = this.props;
+      placeholderSrc, scrollPosition, threshold, visibleByDefault,
+      ...imgProps } = this.props;
 
-    return (
+    const lazyLoadComponent = (
       <LazyLoadComponent
-        afterLoad={afterLoad}
         beforeLoad={beforeLoad}
         className={this.props.className}
         delayMethod={delayMethod}
@@ -25,10 +26,31 @@ class LazyLoadImage extends React.Component {
         threshold={threshold}
         visibleByDefault={visibleByDefault}
         width={this.props.width}>
-        <img {...imgProps} />
+        <img onLoad={afterLoad} {...imgProps} />
       </LazyLoadComponent>
+    );
+
+    if (!placeholderSrc || visibleByDefault) {
+      return lazyLoadComponent;
+    }
+
+    return (
+      <span style={{
+        backgroundImage: 'url( ' + placeholderSrc + ')',
+        backgroundSize: '100% 100%',
+        color: 'transparent',
+        display: 'inline-block',
+        height: this.props.height,
+        width: this.props.width
+      }}>
+        {lazyLoadComponent}
+      </span>
     );
   }
 }
+
+LazyLoadImage.propTypes = {
+  placeholderSrc: PropTypes.string
+};
 
 export default LazyLoadImage;

@@ -10,13 +10,14 @@ configure({ adapter: new Adapter() });
 
 const {
   findRenderedComponentWithType,
-  findRenderedDOMComponentWithTag
+  findRenderedDOMComponentWithTag,
+  scryRenderedDOMComponentsWithTag,
+  Simulate
 } = ReactTestUtils;
 
 describe('LazyLoadImage', function() {
   it('renders a LazyLoadComponent with the correct props', function() {
     const props = {
-      afterLoad: () => null,
       beforeLoad: () => null,
       delayMethod: 'debounce',
       delayTime: 600,
@@ -28,7 +29,6 @@ describe('LazyLoadImage', function() {
     };
     const lazyLoadImage = mount(
       <LazyLoadImage
-        afterLoad={props.afterLoad}
         beforeLoad={props.beforeLoad}
         delayMethod={props.delayMethod}
         delayTime={props.delayTime}
@@ -42,7 +42,6 @@ describe('LazyLoadImage', function() {
     const lazyLoadComponent = findRenderedComponentWithType(lazyLoadImage.instance(), LazyLoadComponent);
     const img = findRenderedDOMComponentWithTag(lazyLoadImage.instance(), 'img');
 
-    expect(lazyLoadComponent.props.afterLoad).toEqual(props.afterLoad);
     expect(lazyLoadComponent.props.beforeLoad).toEqual(props.beforeLoad);
     expect(lazyLoadComponent.props.delayMethod).toEqual(props.delayMethod);
     expect(lazyLoadComponent.props.delayTime).toEqual(props.delayTime);
@@ -51,5 +50,53 @@ describe('LazyLoadImage', function() {
     expect(lazyLoadComponent.props.style).toEqual(props.style);
     expect(lazyLoadComponent.props.visibleByDefault).toEqual(props.visibleByDefault);
     expect(img.src).toEqual(props.src);
+  });
+
+  it('calls afterLoad when img triggers onLoad', function() {
+    const afterLoad = jest.fn();
+    const lazyLoadImage = mount(
+      <LazyLoadImage
+        afterLoad={afterLoad} />
+    );
+
+    const img = findRenderedDOMComponentWithTag(lazyLoadImage.instance(), 'img');
+
+    Simulate.load(img);
+
+    expect(afterLoad).toHaveBeenCalledTimes(1);
+  });
+
+  it('doesn\'t render placeholder background when not defined', function() {
+    const lazyLoadImage = mount(
+      <LazyLoadImage />
+    );
+
+    const span = scryRenderedDOMComponentsWithTag(lazyLoadImage.instance(), 'span');
+
+    expect(span.length).toEqual(0);
+  });
+
+  it('renders placeholder background when defined', function() {
+    const lazyLoadImage = mount(
+      <LazyLoadImage
+        placeholderSrc='lorem-ipsum.jpg'
+        visibleByDefault={false} />
+    );
+
+    const span = scryRenderedDOMComponentsWithTag(lazyLoadImage.instance(), 'span');
+
+    expect(span.length).toEqual(1);
+  });
+
+  it('doesn\'t render placeholder background when visibleByDefault is true', function() {
+    const lazyLoadImage = mount(
+      <LazyLoadImage
+        placeholderSrc='lorem-ipsum.jpg'
+        visibleByDefault={true} />
+    );
+
+    const span = scryRenderedDOMComponentsWithTag(lazyLoadImage.instance(), 'span');
+
+    expect(span.length).toEqual(0);
   });
 });
