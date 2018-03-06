@@ -68,7 +68,7 @@ class PlaceholderWithoutTracking extends React.Component {
     return (
       <span className={className}
         ref={el => this.placeholder = el}
-        style={{ height, width, ...style }}>
+        style={{ display: 'inline-block', height, width, ...style }}>
       </span>
     );
   }
