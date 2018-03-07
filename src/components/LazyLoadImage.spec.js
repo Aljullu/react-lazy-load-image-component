@@ -11,6 +11,7 @@ configure({ adapter: new Adapter() });
 const {
   findRenderedComponentWithType,
   findRenderedDOMComponentWithTag,
+  scryRenderedDOMComponentsWithClass,
   scryRenderedDOMComponentsWithTag,
   Simulate
 } = ReactTestUtils;
@@ -52,18 +53,42 @@ describe('LazyLoadImage', function() {
     expect(img.src).toEqual(props.src);
   });
 
-  it('calls afterLoad when img triggers onLoad', function() {
+  it('updates state and calls afterLoad when img triggers onLoad', function() {
     const afterLoad = jest.fn();
     const lazyLoadImage = mount(
-      <LazyLoadImage
-        afterLoad={afterLoad} />
+      <LazyLoadImage afterLoad={afterLoad} />
     );
 
     const img = findRenderedDOMComponentWithTag(lazyLoadImage.instance(), 'img');
 
     Simulate.load(img);
 
+    expect(lazyLoadImage.instance().state.loaded);
     expect(afterLoad).toHaveBeenCalledTimes(1);
+  });
+
+  it('sets loaded class to wrapper when img triggers onLoad', function() {
+    const lazyLoadImage = mount(
+      <LazyLoadImage effect="blur" />
+    );
+
+    const img = findRenderedDOMComponentWithTag(lazyLoadImage.instance(), 'img');
+
+    Simulate.load(img);
+
+    const loadedWrapper = scryRenderedDOMComponentsWithClass(lazyLoadImage.instance(), 'lazy-load-image-loaded');
+
+    expect(loadedWrapper.length).toEqual(1);
+  });
+
+  it('adds the effect class', function() {
+    const lazyLoadImage = mount(
+      <LazyLoadImage effect="blur" />
+    );
+
+    const blurSpan = scryRenderedDOMComponentsWithClass(lazyLoadImage.instance(), 'blur');
+
+    expect(blurSpan.length).toEqual(1);
   });
 
   it('doesn\'t render placeholder background when not defined', function() {
