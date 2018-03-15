@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
+  mode: 'production',
   entry: './src/index.js',
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -36,8 +37,5 @@ module.exports = {
   externals: {
     'react': 'commonjs react',
     'react-dom': 'commonjs react-dom',
-  },
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin()
-  ]
+  }
 };
