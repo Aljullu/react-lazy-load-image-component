@@ -13,6 +13,10 @@ class LazyLoadImage extends React.Component {
   }
 
   onImageLoad() {
+    if (this.state.loaded) {
+      return null;
+    }
+
     return () => {
       this.props.afterLoad();
 
