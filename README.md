@@ -57,7 +57,7 @@ export default MyImage;
 | afterLoad | `Function` |  | Function called after the image has been completely loaded. |
 | beforeLoad | `Function` |  | Function called right before the placeholder is replaced with the image element. |
 | delayMethod | `String` | `throttle` | Method from lodash to use to delay the scroll/resize events. It can be `throttle` or `debounce`. |
-| delayTime | `String` | 300 | Time in ms sent to the delayMethod. |
+| delayTime | `Number` | 300 | Time in ms sent to the delayMethod. |
 | effect | `String` |  | Name of the effect to use. Please, read next section with an explanation on how to use them. |
 | placeholder | `ReactClass` | `<span>` | React element to use as a placeholder. |
 | placeholderSrc | `String` | | Image src to display while the image is not visible or loaded. |
@@ -88,9 +88,9 @@ const MyImage = ({ image }) => (
 
 The current available effects are:
 
-* blur: renders a blurred image based on `placeholderSrc` and transitions to a non-blurred one when the image specified in the src is loaded.
-* black-and-white: renders a black and white image based on `placeholderSrc` and transitions to a colorful image when the image specified in the src is loaded.
-* opacity: renders a blank space and transitions to full opacity when the image is loaded.
+* `blur`: renders a blurred image based on `placeholderSrc` and transitions to a non-blurred one when the image specified in the src is loaded.
+* `black-and-white`: renders a black and white image based on `placeholderSrc` and transitions to a colorful image when the image specified in the src is loaded.
+* `opacity`: renders a blank space and transitions to full opacity when the image is loaded.
 
 
 ## `LazyLoadComponent` usage
@@ -119,7 +119,7 @@ export default Article;
 | afterLoad | `Function` |  | Function called after the component has been rendered. |
 | beforeLoad | `Function` |  | Function called right before the component is rendered. |
 | delayMethod | `String` | `throttle` | Method from lodash to use to delay the scroll/resize events. It can be `throttle` or `debounce`. |
-| delayTime | `String` | 300 | Time in ms sent to the delayMethod from lodash. |
+| delayTime | `Number` | 300 | Time in ms sent to the delayMethod from lodash. |
 | placeholder | `ReactClass` | `<span>` | React element to use as a placeholder. |
 | threshold | `Number` | 100 | Threshold in pixels. So the component starts loading before it appears in the viewport. |
 | visibleByDefault | `Boolean` | false | Whether the component must be visible from the beginning. |
@@ -178,7 +178,7 @@ Component wrapped with `trackWindowScroll` (in the example, `Gallery`)
 | Prop | Type | Default | Description |
 |:---|:---|:---|:---|
 | delayMethod | `String` | `throttle` | Method from lodash to use to delay the scroll/resize events. It can be `throttle` or `debounce`. |
-| delayTime | `String` | 300 | Time in ms sent to the delayMethod from lodash. |
+| delayTime | `Number` | 300 | Time in ms sent to the delayMethod from lodash. |
 
 Notice you can do the same replacing `LazyLoadImage` with `LazyLoadComponent`.
 
