@@ -229,7 +229,7 @@ export default trackWindowScroll(Gallery);
 
 ## Screenshot
 
-<a href="https://raw.githubusercontent.com/Aljullu/react-lazy-load-image-component/master/screenshots/example.gif"><img src="https://raw.githubusercontent.com/Aljullu/react-lazy-load-image-component/master/screenshots/example.gif" alt="" /></a>
+![Screenshot of the react-lazy-load-image-component in use](https://user-images.githubusercontent.com/3616980/37790133-ecbe042e-2e05-11e8-940b-aee50ba8df06.gif)
 
 Get the [full code of this example](https://github.com/Aljullu/weather-app).
 
