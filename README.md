@@ -3,6 +3,8 @@ React Lazy Load Image Component
 
 React Component to lazy load images and other components/elements. Includes a HOC to track window scroll position to improve performance.
 
+"[_An easy-to-use performant solution to lazy load images in React_](https://medium.com/@aljullu/an-easy-to-use-performant-solution-to-lazy-load-images-in-react-e6752071020c)"
+
 [![Build Status](https://travis-ci.org/Aljullu/react-lazy-load-image-component.svg?branch=master)](https://travis-ci.org/Aljullu/react-lazy-load-image-component)
 [![Dependency Status](https://img.shields.io/david/Aljullu/react-lazy-load-image-component/master.svg)](http://david-dm.org/Aljullu/react-lazy-load-image-component)
 [![Download counter](https://img.shields.io/npm/dt/react-lazy-load-image-component.svg)](https://www.npmjs.com/package/react-lazy-load-image-component)
@@ -20,6 +22,7 @@ React Component to lazy load images and other components/elements. Includes a HO
 * threshold is set to 100px by default and can be modified.
 * `beforeLoad` and `afterLoad` events.
 * `debounce` and `throttle` included by default and configurable.
+
 
 ## Installation
 
@@ -71,7 +74,7 @@ export default MyImage;
 
 ### Using effects
 
-`LazyLoadImage` includes several effects ready to be used, they are useful to add visual candy to your application, but are completely optional in case you don't need them or want to implement some other effect.
+`LazyLoadImage` includes several effects ready to be used, they are useful to add visual candy to your application, but are completely optional in case you don't need them or want to implement you own effect.
 
 They rely on CSS and the corresponding CSS file must be imported:
 
@@ -155,7 +158,7 @@ const Gallery = ({ images, scrollPosition }) => (
         height={image.height}
         // Make sure to pass down the scrollPosition,
         // this will be used by the component to know
-        // if it must track the scroll position or not
+        // whether it must track the scroll position or not
         scrollPosition={scrollPosition}
         src={image.src}
         width={image.width} />
