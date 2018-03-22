@@ -8,6 +8,8 @@ React Component to lazy load images and other components/elements. Includes a HO
 [![Download counter](https://img.shields.io/npm/dt/react-lazy-load-image-component.svg)](https://www.npmjs.com/package/react-lazy-load-image-component)
 [![License](https://img.shields.io/npm/l/react-lazy-load-image-component.svg)](https://www.npmjs.com/package/react-lazy-load-image-component)
 
+## [Live demo](https://www.albertjuhe.com/react-lazy-load-image-component/)
+
 ## Features
 
 * Includes two components (`LazyLoadImage` and `LazyLoadComponent`) and a HOC (`trackWindowScroll`) which adds scroll position tracking to any component you wish.
@@ -89,8 +91,16 @@ const MyImage = ({ image }) => (
 The current available effects are:
 
 * `blur`: renders a blurred image based on `placeholderSrc` and transitions to a non-blurred one when the image specified in the src is loaded.
+
+![Screenshot of the blur effect](https://user-images.githubusercontent.com/3616980/37790728-9f95529a-2e07-11e8-8ac3-5066c065e0af.gif)
+
 * `black-and-white`: renders a black and white image based on `placeholderSrc` and transitions to a colorful image when the image specified in the src is loaded.
+
+![Screenshot of the black-and-white effect](https://user-images.githubusercontent.com/3616980/37790682-864e58d6-2e07-11e8-8984-ad5d7b056d9f.gif)
+
 * `opacity`: renders a blank space and transitions to full opacity when the image is loaded.
+
+![Screenshot of the opacity effect](https://user-images.githubusercontent.com/3616980/37790755-b48a704a-2e07-11e8-91c3-fcd43a91e7b1.gif)
 
 
 ## `LazyLoadComponent` usage
