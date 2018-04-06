@@ -68,7 +68,7 @@ export default MyImage;
 | placeholderSrc | `String` | | Image src to display while the image is not visible or loaded. |
 | threshold | `Number` | 100 | Threshold in pixels. So the image starts loading before it appears in the viewport. |
 | visibleByDefault | `Boolean` | false | Whether the image must be visible from the beginning. |
-| wrapperClassName | `string` |  | In some occasions (for example, when using a placeholderSrc) a wrapper span tag is rendered. This prop allows setting a class to that element. |
+| wrapperClassName | `String` |  | In some occasions (for example, when using a placeholderSrc) a wrapper span tag is rendered. This prop allows setting a class to that element. |
 | ... |  |  | Any other image attribute |
 
 
