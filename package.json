@@ -40,6 +40,10 @@
     "start": "webpack --watch",
     "build": "webpack"
   },
+  "jest": {
+    "verbose": true,
+    "testURL": "http://localhost/"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Aljullu/react-lazy-load-image-component.git"
