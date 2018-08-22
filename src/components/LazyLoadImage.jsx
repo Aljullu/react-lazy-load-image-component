@@ -101,8 +101,7 @@ class LazyLoadImage extends React.Component {
 
 LazyLoadImage.propTypes = {
   afterLoad: PropTypes.func,
-  effect: PropTypes.string,
-  placeholderSrc: PropTypes.string
+  effect: PropTypes.string
 };
 
 LazyLoadImage.defaultProps = {
@@ -111,3 +110,4 @@ LazyLoadImage.defaultProps = {
 };
 
 export default LazyLoadImage;
+
