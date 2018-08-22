@@ -25,7 +25,7 @@ describe('LazyLoadImage', function() {
       placeholder: null,
       scrollPosition: {x: 0, y: 0},
       style: {},
-      src: 'lorem-ipsum.jpg',
+      src: 'http://localhost/lorem-ipsum.jpg',
       visibleByDefault: false
     };
     const lazyLoadImage = mount(
