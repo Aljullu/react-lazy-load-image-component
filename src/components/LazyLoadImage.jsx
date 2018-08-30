@@ -101,26 +101,16 @@ class LazyLoadImage extends React.Component {
 
 LazyLoadImage.propTypes = {
   afterLoad: PropTypes.func,
-  beforeLoad: PropTypes.func,
-  delayMethod: PropTypes.string,
-  delayTime: PropTypes.number,
   effect: PropTypes.string,
   placeholderSrc: PropTypes.string,
-  threshold: PropTypes.number,
-  visibleByDefault: PropTypes.bool,
   wrapperClassName: PropTypes.string
 };
 
 LazyLoadImage.defaultProps = {
   afterLoad: () => ({}),
-  beforeLoad: () => ({}),
-  delayMethod: 'throttle',
-  delayTime: 300,
-  effect: '',
+  wrapperClassName: '',
   placeholderSrc: '',
-  threshold: 100,
-  visibleByDefault: false,
-  wrapperClassName: ''
+  effect: ''
 };
 
 export default LazyLoadImage;
