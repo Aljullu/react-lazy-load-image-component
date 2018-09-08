@@ -8,7 +8,7 @@ class LazyLoadImage extends React.Component {
     super(props);
 
     this.state = {
-      loaded: false
+      loaded: false,
     };
   }
 
@@ -21,7 +21,7 @@ class LazyLoadImage extends React.Component {
       this.props.afterLoad();
 
       this.setState({
-        loaded: true
+        loaded: true,
       });
     };
   }
@@ -76,7 +76,7 @@ class LazyLoadImage extends React.Component {
           color: 'transparent',
           display: 'inline-block',
           height: height,
-          width: width
+          width: width,
         }}>
         {lazyLoadImage}
       </span>
@@ -102,12 +102,12 @@ class LazyLoadImage extends React.Component {
 LazyLoadImage.propTypes = {
   afterLoad: PropTypes.func,
   effect: PropTypes.string,
-  placeholderSrc: PropTypes.string
+  placeholderSrc: PropTypes.string,
 };
 
 LazyLoadImage.defaultProps = {
   afterLoad: () => ({}),
-  effect: ''
+  effect: '',
 };
 
 export default LazyLoadImage;

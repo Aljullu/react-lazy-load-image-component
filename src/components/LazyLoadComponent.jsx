@@ -11,7 +11,7 @@ class LazyLoadComponent extends React.Component {
     const { afterLoad, beforeLoad, scrollPosition, visibleByDefault } = props;
 
     this.state = {
-      visible: visibleByDefault
+      visible: visibleByDefault,
     };
 
     if (visibleByDefault) {
@@ -35,7 +35,7 @@ class LazyLoadComponent extends React.Component {
   onVisible() {
     this.props.beforeLoad();
     this.setState({
-      visible: true
+      visible: true,
     });
   }
 
@@ -77,13 +77,13 @@ class LazyLoadComponent extends React.Component {
 LazyLoadComponent.propTypes = {
   afterLoad: PropTypes.func,
   beforeLoad: PropTypes.func,
-  visibleByDefault: PropTypes.bool
+  visibleByDefault: PropTypes.bool,
 };
 
 LazyLoadComponent.defaultProps = {
   afterLoad: () => ({}),
   beforeLoad: () => ({}),
-  visibleByDefault: false
+  visibleByDefault: false,
 };
 
 export default LazyLoadComponent;

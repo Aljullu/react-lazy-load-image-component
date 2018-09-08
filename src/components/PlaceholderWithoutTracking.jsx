@@ -20,14 +20,14 @@ class PlaceholderWithoutTracking extends React.Component {
     const style = ReactDOM.findDOMNode(this.placeholder).style;
     const margin = {
       left: parseInt(style.getPropertyValue('margin-left'), 10) || 0,
-      top: parseInt(style.getPropertyValue('margin-top'), 10) || 0
+      top: parseInt(style.getPropertyValue('margin-top'), 10) || 0,
     };
 
     return {
       bottom: scrollPosition.y + boundingRect.bottom + margin.top,
       left: scrollPosition.x + boundingRect.left + margin.left,
       right: scrollPosition.x + boundingRect.right + margin.left,
-      top: scrollPosition.y + boundingRect.top + margin.top
+      top: scrollPosition.y + boundingRect.top + margin.top,
     };
   }
 
@@ -42,7 +42,7 @@ class PlaceholderWithoutTracking extends React.Component {
       bottom: scrollPosition.y + window.innerHeight,
       left: scrollPosition.x,
       right: scrollPosition.x + window.innerWidth,
-      top: scrollPosition.y
+      top: scrollPosition.y,
     };
 
     return Boolean(viewport.top - threshold <= boundingBox.bottom &&
@@ -78,13 +78,13 @@ PlaceholderWithoutTracking.propTypes = {
   onVisible: PropTypes.func.isRequired,
   scrollPosition: PropTypes.shape({
     x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired
+    y: PropTypes.number.isRequired,
   }).isRequired,
   className: PropTypes.string,
   height: PropTypes.number,
   placeholder: PropTypes.element,
   threshold: PropTypes.number,
-  width: PropTypes.number
+  width: PropTypes.number,
 };
 
 PlaceholderWithoutTracking.defaultProps = {
@@ -92,7 +92,7 @@ PlaceholderWithoutTracking.defaultProps = {
   height: 0,
   placeholder: null,
   threshold: 100,
-  width: 0
+  width: 0,
 };
 
 export default PlaceholderWithoutTracking;

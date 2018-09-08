@@ -1,3 +1,5 @@
+/* eslint max-len: 0 */
+/* eslint max-statements: 0 */
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { configure, mount } from 'enzyme';
@@ -13,7 +15,7 @@ const {
   findRenderedDOMComponentWithTag,
   scryRenderedDOMComponentsWithClass,
   scryRenderedDOMComponentsWithTag,
-  Simulate
+  Simulate,
 } = ReactTestUtils;
 
 describe('LazyLoadImage', function() {
@@ -23,10 +25,10 @@ describe('LazyLoadImage', function() {
       delayMethod: 'debounce',
       delayTime: 600,
       placeholder: null,
-      scrollPosition: {x: 0, y: 0},
+      scrollPosition: { x: 0, y: 0 },
       style: {},
       src: 'http://localhost/lorem-ipsum.jpg',
-      visibleByDefault: false
+      visibleByDefault: false,
     };
     const lazyLoadImage = mount(
       <LazyLoadImage
@@ -104,7 +106,7 @@ describe('LazyLoadImage', function() {
   it('renders placeholder background when defined', function() {
     const lazyLoadImage = mount(
       <LazyLoadImage
-        placeholderSrc='lorem-ipsum.jpg'
+        placeholderSrc="lorem-ipsum.jpg"
         visibleByDefault={false} />
     );
 
@@ -116,7 +118,7 @@ describe('LazyLoadImage', function() {
   it('doesn\'t render placeholder background when visibleByDefault is true', function() {
     const lazyLoadImage = mount(
       <LazyLoadImage
-        placeholderSrc='lorem-ipsum.jpg'
+        placeholderSrc="lorem-ipsum.jpg"
         visibleByDefault={true} />
     );
 

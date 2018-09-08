@@ -7,7 +7,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'index.js',
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'commonjs2',
   },
   module: {
     rules: [
@@ -16,7 +16,7 @@ module.exports = {
         test: /\.jsx?$/,
         loaders: ['eslint-loader'],
         include: path.resolve(__dirname, 'src'),
-        exclude: /(node_modules|bower_components|build)/
+        exclude: /(node_modules|bower_components|build)/,
       }, {
         test: /\.jsx?$/,
         include: path.resolve(__dirname, 'src'),
@@ -24,18 +24,18 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['env']
-          }
-        }
+            presets: ['env'],
+          },
+        },
       }, {
         test: /\.css$/,
         loaders: ['style-loader', 'css-loader'],
-        exclude: /node_modules/
-      }
-    ]
+        exclude: /node_modules/,
+      },
+    ],
   },
   externals: {
-    'react': 'commonjs react',
+    react: 'commonjs react',
     'react-dom': 'commonjs react-dom',
-  }
+  },
 };

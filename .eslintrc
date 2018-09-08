@@ -5,7 +5,8 @@
     "browser": true,
     "node": true,
     "mocha": true,
-    "es6": true
+    "es6": true,
+    "jest": true
   },
   "plugins": [
     "react",
@@ -81,7 +82,7 @@
     "block-spacing": [1, "always"],
     "brace-style": 1,
     "camelcase": 1,
-    "comma-dangle": 1,
+    "comma-dangle": [1, "always-multiline"],
     "comma-spacing": 1,
     "comma-style": 1,
     "computed-property-spacing": 1,

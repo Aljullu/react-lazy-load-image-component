@@ -1,3 +1,4 @@
+/* eslint max-len: 0 */
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { configure, mount } from 'enzyme';
@@ -11,14 +12,14 @@ configure({ adapter: new Adapter() });
 
 const {
   scryRenderedComponentsWithType,
-  scryRenderedDOMComponentsWithTag
+  scryRenderedDOMComponentsWithTag,
 } = ReactTestUtils;
 
 describe('LazyLoadComponent', function() {
   it('renders a PlaceholderWithTracking when scrollPosition is undefined', function() {
     const lazyLoadComponent = mount(
       <LazyLoadComponent
-        style={{marginTop: 100000}}>>
+        style={{ marginTop: 100000 }}>
         <p>Lorem Ipsum</p>
       </LazyLoadComponent>
     );
@@ -32,8 +33,8 @@ describe('LazyLoadComponent', function() {
   it('renders a PlaceholderWithoutTracking when scrollPosition is defined', function() {
     const lazyLoadComponent = mount(
       <LazyLoadComponent
-        scrollPosition={{ x: 0, y: 0}}
-        style={{marginTop: 100000}}>>
+        scrollPosition={{ x: 0, y: 0 }}
+        style={{ marginTop: 100000 }}>
         <p>Lorem Ipsum</p>
       </LazyLoadComponent>
     );
@@ -64,7 +65,7 @@ describe('LazyLoadComponent', function() {
     const lazyLoadComponent = mount(
       <LazyLoadComponent
         beforeLoad={beforeLoad}
-        style={{marginTop: 100000}}>
+        style={{ marginTop: 100000 }}>
         <p>Lorem Ipsum</p>
       </LazyLoadComponent>
     );
@@ -79,7 +80,7 @@ describe('LazyLoadComponent', function() {
     const lazyLoadComponent = mount(
       <LazyLoadComponent
         afterLoad={afterLoad}
-        style={{marginTop: 100000}}>
+        style={{ marginTop: 100000 }}>
         <p>Lorem Ipsum</p>
       </LazyLoadComponent>
     );
@@ -96,7 +97,7 @@ describe('LazyLoadComponent', function() {
       <LazyLoadComponent
         afterLoad={afterLoad}
         beforeLoad={beforeLoad}
-        style={{marginTop: 100000}}>
+        style={{ marginTop: 100000 }}>
         <p>Lorem Ipsum</p>
       </LazyLoadComponent>
     );

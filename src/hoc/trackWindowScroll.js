@@ -19,8 +19,8 @@ const trackWindowScroll = (BaseComponent) => {
       this.state = {
         scrollPosition: {
           x: window.scrollX || window.pageXOffset,
-          y: window.scrollY || window.pageYOffset
-        }
+          y: window.scrollY || window.pageYOffset,
+        },
       };
     }
 
@@ -38,8 +38,8 @@ const trackWindowScroll = (BaseComponent) => {
       this.setState({
         scrollPosition: {
           x: window.scrollX || window.pageXOffset,
-          y: window.scrollY || window.pageYOffset
-        }
+          y: window.scrollY || window.pageYOffset,
+        },
       });
     }
 
@@ -56,12 +56,12 @@ const trackWindowScroll = (BaseComponent) => {
 
   ScrollAwareComponent.propTypes = {
     delayMethod: PropTypes.oneOf(['debounce', 'throttle']),
-    delayTime: PropTypes.number
+    delayTime: PropTypes.number,
   };
 
   ScrollAwareComponent.defaultProps = {
     delayMethod: 'throttle',
-    delayTime: 300
+    delayTime: 300,
   };
 
   return ScrollAwareComponent;
