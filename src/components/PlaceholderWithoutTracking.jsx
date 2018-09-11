@@ -1,18 +1,58 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { PropTypes } from 'prop-types';
+import isIntersectionObserverAvailable from '../utils/intersection-observer';
 
 class PlaceholderWithoutTracking extends React.Component {
   constructor(props) {
     super(props);
+
+    if (!window.LAZY_LOAD_OBSERVER) {
+      const supportsObserver = isIntersectionObserverAvailable();
+
+      window.LAZY_LOAD_OBSERVER = { supportsObserver };
+
+      if (supportsObserver) {
+        const { threshold } = props;
+
+        window.LAZY_LOAD_OBSERVER.observer = new IntersectionObserver(
+          this.checkIntersections, { rootMargin: threshold + 'px' });
+      }
+    }
+  }
+
+  checkIntersections(entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.onVisible();
+      }
+    });
   }
 
   componentDidMount() {
-    this.updateVisibility();
+    if (this.placeholder &&
+        window.LAZY_LOAD_OBSERVER && window.LAZY_LOAD_OBSERVER.observer) {
+      this.placeholder.onVisible = this.props.onVisible;
+      window.LAZY_LOAD_OBSERVER.observer.observe(this.placeholder);
+    }
+
+    if (window.LAZY_LOAD_OBSERVER &&
+        !window.LAZY_LOAD_OBSERVER.supportsObserver) {
+      this.updateVisibility();
+    }
+  }
+
+  componentWillUnMount() {
+    if (window.LAZY_LOAD_OBSERVER) {
+      window.LAZY_LOAD_OBSERVER.observer.unobserve(this.placeholder);
+    }
   }
 
   componentDidUpdate() {
-    this.updateVisibility();
+    if (window.LAZY_LOAD_OBSERVER &&
+        !window.LAZY_LOAD_OBSERVER.supportsObserver) {
+      this.updateVisibility();
+    }
   }
 
   getPlaceholderBoundingBox(scrollPosition = this.props.scrollPosition) {

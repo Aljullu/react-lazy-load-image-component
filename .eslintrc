@@ -133,7 +133,7 @@
     "padded-blocks": [1, "never"],
     "quote-props": [1, "as-needed"],
     "quotes": [1, 'single'],
-    "require-jsdoc": 1,
+    "require-jsdoc": 0,
     "semi-spacing": 1,
     "semi": 1,
     "sort-keys": 0,
