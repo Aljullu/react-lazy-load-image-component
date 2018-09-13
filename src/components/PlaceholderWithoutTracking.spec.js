@@ -1,5 +1,7 @@
 /* eslint require-jsdoc: 0 */
 /* eslint max-len: 0 */
+/* eslint max-statements: 0 */
+/* eslint newline-after-var: 0 */
 import React from 'react';
 import ReactTestUtils from 'react-dom/test-utils';
 import { configure, mount } from 'enzyme';
@@ -76,6 +78,25 @@ describe('PlaceholderWithoutTracking', function() {
     const placeholder = (
       <strong style={style}></strong>
     );
+    const component = renderPlaceholderWithoutTracking({
+      placeholder,
+      style,
+    });
+
+    expectParagraphs(component, 0);
+    expectPlaceholders(component, 1, 'strong');
+  });
+
+  it('renders the prop placeholder (React class) when it\'s not in the viewport', function() {
+    const style = { marginTop: 100000 };
+    class MyComponent extends React.Component {
+      render() {
+        return (
+          <strong style={style}></strong>
+        );
+      }
+    }
+    const placeholder = (<MyComponent />);
     const component = renderPlaceholderWithoutTracking({
       placeholder,
       style,
