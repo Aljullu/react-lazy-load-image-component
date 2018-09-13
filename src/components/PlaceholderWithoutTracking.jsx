@@ -60,7 +60,7 @@ class PlaceholderWithoutTracking extends React.Component {
   render() {
     const { className, height, placeholder, style, width } = this.props;
 
-    if (placeholder) {
+    if (placeholder && placeholder.hasOwnProperty('getBoundingClientRect')) {
       return React.cloneElement(placeholder,
         { ref: el => this.placeholder = el });
     }
@@ -69,6 +69,7 @@ class PlaceholderWithoutTracking extends React.Component {
       <span className={className}
         ref={el => this.placeholder = el}
         style={{ display: 'inline-block', height, width, ...style }}>
+        {placeholder}
       </span>
     );
   }
