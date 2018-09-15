@@ -12,6 +12,7 @@ import PlaceholderWithoutTracking from './PlaceholderWithoutTracking.jsx';
 configure({ adapter: new Adapter() });
 
 const {
+  scryRenderedDOMComponentsWithClass,
   scryRenderedDOMComponentsWithTag,
 } = ReactTestUtils;
 
@@ -21,9 +22,11 @@ describe('PlaceholderWithoutTracking', function() {
     placeholder = null,
     scrollPosition = { x: 0, y: 0 },
     style = {},
+    className = '',
   } = {}) {
     return mount(
       <PlaceholderWithoutTracking
+        className={className}
         onVisible={onVisible}
         placeholder={placeholder}
         scrollPosition={scrollPosition}
@@ -64,31 +67,44 @@ describe('PlaceholderWithoutTracking', function() {
     expect(placeholder.length).toEqual(numberOfPlaceholders);
   }
 
+  function expectPlaceholderWrappers(wrapper, numberOfPlaceholderWrappers, className) {
+    const placeholderWrapper = scryRenderedDOMComponentsWithClass(wrapper.instance(), className);
+
+    expect(placeholderWrapper.length).toEqual(numberOfPlaceholderWrappers);
+  }
+
   it('renders the default placeholder when it\'s not in the viewport', function() {
+    const className = 'placeholder-wrapper';
     const component = renderPlaceholderWithoutTracking({
       style: { marginTop: 100000 },
+      className,
     });
 
     expectParagraphs(component, 0);
     expectPlaceholders(component, 1);
+    expectPlaceholderWrappers(component, 1, className);
   });
 
   it('renders the prop placeholder when it\'s not in the viewport', function() {
     const style = { marginTop: 100000 };
+    const className = 'placeholder-wrapper';
     const placeholder = (
       <strong style={style}></strong>
     );
     const component = renderPlaceholderWithoutTracking({
       placeholder,
       style,
+      className,
     });
 
     expectParagraphs(component, 0);
     expectPlaceholders(component, 1, 'strong');
+    expectPlaceholderWrappers(component, 0, className);
   });
 
   it('renders the prop placeholder (React class) when it\'s not in the viewport', function() {
     const style = { marginTop: 100000 };
+    const className = 'placeholder-wrapper';
     class MyComponent extends React.Component {
       render() {
         return (
@@ -100,10 +116,12 @@ describe('PlaceholderWithoutTracking', function() {
     const component = renderPlaceholderWithoutTracking({
       placeholder,
       style,
+      className,
     });
 
     expectParagraphs(component, 0);
     expectPlaceholders(component, 1, 'strong');
+    expectPlaceholderWrappers(component, 1, className);
   });
 
   it('doesn\'t trigger onVisible when the image is not the viewport', function() {
