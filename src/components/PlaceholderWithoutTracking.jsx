@@ -32,7 +32,7 @@ class PlaceholderWithoutTracking extends React.Component {
   }
 
   isPlaceholderInViewport() {
-    if (!this.placeholder) {
+    if (typeof window === 'undefined' || !this.placeholder) {
       return false;
     }
 
