@@ -14,7 +14,7 @@ React Component to lazy load images and other components/elements. Includes a HO
 [![Download counter](https://img.shields.io/npm/dt/react-lazy-load-image-component.svg)](https://www.npmjs.com/package/react-lazy-load-image-component)
 [![License](https://img.shields.io/npm/l/react-lazy-load-image-component.svg)](https://www.npmjs.com/package/react-lazy-load-image-component)
 
-## [Live demo](https://www.albertjuhe.com/react-lazy-load-image-component/)
+## [Live demo](https://www.albertjuhe.com/react-lazy-load-image-component/) ([code](https://github.com/Aljullu/react-lazy-load-image-component-demo))
 
 ## Features
 
@@ -234,11 +234,13 @@ export default trackWindowScroll(Gallery);
 ```
 
 
-## Screenshot
+## Demos
 
 ![Screenshot of the react-lazy-load-image-component in use](https://user-images.githubusercontent.com/3616980/37790133-ecbe042e-2e05-11e8-940b-aee50ba8df06.gif)
 
-Get the [full code of this example](https://github.com/Aljullu/weather-app).
+* [weather-app](https://github.com/Aljullu/weather-app)
+* [react-flickr-gallery](https://github.com/Aljullu/react-flickr-gallery)
+* [react-lazy-load-image-component-demo](https://github.com/Aljullu/react-lazy-load-image-component-demo)
 
 
 ## Common errors
