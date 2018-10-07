@@ -186,7 +186,7 @@ You must set the prop `scrollPosition` to the lazy load components. This way, th
 | afterLoad | `Function` |  | Function called after the image has been rendered. |
 | beforeLoad | `Function` |  | Function called right before the image is rendered. |
 | placeholder | `ReactClass` | `<span>` | React element to use as a placeholder. |
-| threshold | `Number` | 100 | Threshold in pixels. So the image starts loading before it appears in the viewport. _Defaults to 100._ |
+| threshold | `Number` | 100 | Threshold in pixels. So the image starts loading before it appears in the viewport. |
 | visibleByDefault | `Boolean` | false | Whether the image must be visible from the beginning. |
 | ... |  |  | Any other image attribute |
 
