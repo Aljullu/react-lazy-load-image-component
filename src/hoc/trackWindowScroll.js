@@ -18,18 +18,30 @@ const trackWindowScroll = (BaseComponent) => {
 
       this.state = {
         scrollPosition: {
-          x: window.scrollX || window.pageXOffset,
-          y: window.scrollY || window.pageYOffset,
+          x: (typeof window === 'undefined' ?
+            0 :
+            (window.scrollX || window.pageXOffset)
+          ),
+          y: (typeof window === 'undefined' ?
+            0 :
+            (window.scrollY || window.pageYOffset)
+          ),
         },
       };
     }
 
     componentDidMount() {
+      if (typeof window == 'undefined') {
+        return;
+      }
       window.addEventListener('scroll', this.delayedScroll);
       window.addEventListener('resize', this.delayedScroll);
     }
 
     componentWillUnmount() {
+      if (typeof window === 'undefined') {
+        return;
+      }
       window.removeEventListener('scroll', this.delayedScroll);
       window.removeEventListener('resize', this.delayedScroll);
     }
@@ -37,8 +49,14 @@ const trackWindowScroll = (BaseComponent) => {
     onChangeScroll() {
       this.setState({
         scrollPosition: {
-          x: window.scrollX || window.pageXOffset,
-          y: window.scrollY || window.pageYOffset,
+          x: (typeof window == 'undefined' ?
+            0 :
+            (window.scrollX || window.pageXOffset)
+          ),
+          y: (typeof window === 'undefined' ?
+            0 :
+            (window.scrollY || window.pageYOffset)
+          ),
         },
       });
     }
