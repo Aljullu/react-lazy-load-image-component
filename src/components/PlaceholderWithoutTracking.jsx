@@ -7,15 +7,15 @@ class PlaceholderWithoutTracking extends React.Component {
   constructor(props) {
     super(props);
 
-    if (!window.LAZY_LOAD_OBSERVER) {
+    if (!this.LAZY_LOAD_OBSERVER) {
       const supportsObserver = isIntersectionObserverAvailable();
 
-      window.LAZY_LOAD_OBSERVER = { supportsObserver };
+      this.LAZY_LOAD_OBSERVER = { supportsObserver };
 
       if (supportsObserver) {
         const { threshold } = props;
 
-        window.LAZY_LOAD_OBSERVER.observer = new IntersectionObserver(
+        this.LAZY_LOAD_OBSERVER.observer = new IntersectionObserver(
           this.checkIntersections, { rootMargin: threshold + 'px' });
       }
     }
@@ -31,26 +31,26 @@ class PlaceholderWithoutTracking extends React.Component {
 
   componentDidMount() {
     if (this.placeholder &&
-        window.LAZY_LOAD_OBSERVER && window.LAZY_LOAD_OBSERVER.observer) {
+        this.LAZY_LOAD_OBSERVER && this.LAZY_LOAD_OBSERVER.observer) {
       this.placeholder.onVisible = this.props.onVisible;
-      window.LAZY_LOAD_OBSERVER.observer.observe(this.placeholder);
+      this.LAZY_LOAD_OBSERVER.observer.observe(this.placeholder);
     }
 
-    if (window.LAZY_LOAD_OBSERVER &&
-        !window.LAZY_LOAD_OBSERVER.supportsObserver) {
+    if (this.LAZY_LOAD_OBSERVER &&
+        !this.LAZY_LOAD_OBSERVER.supportsObserver) {
       this.updateVisibility();
     }
   }
 
   componentWillUnMount() {
-    if (window.LAZY_LOAD_OBSERVER) {
-      window.LAZY_LOAD_OBSERVER.observer.unobserve(this.placeholder);
+    if (this.LAZY_LOAD_OBSERVER) {
+      this.LAZY_LOAD_OBSERVER.observer.unobserve(this.placeholder);
     }
   }
 
   componentDidUpdate() {
-    if (window.LAZY_LOAD_OBSERVER &&
-        !window.LAZY_LOAD_OBSERVER.supportsObserver) {
+    if (this.LAZY_LOAD_OBSERVER &&
+        !this.LAZY_LOAD_OBSERVER.supportsObserver) {
       this.updateVisibility();
     }
   }
