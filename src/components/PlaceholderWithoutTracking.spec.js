@@ -8,6 +8,9 @@ import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
 import PlaceholderWithoutTracking from './PlaceholderWithoutTracking.jsx';
+import isIntersectionObserverAvailable from '../utils/intersection-observer';
+
+jest.mock('../utils/intersection-observer');
 
 configure({ adapter: new Adapter() });
 
@@ -72,6 +75,16 @@ describe('PlaceholderWithoutTracking', function() {
 
     expect(placeholderWrapper.length).toEqual(numberOfPlaceholderWrappers);
   }
+
+  const windowIntersectionObserver = window.IntersectionObserver;
+
+  beforeEach(() => {
+    isIntersectionObserverAvailable.mockImplementation(() => false);
+  });
+
+  afterEach(() => {
+    window.IntersectionObserver = windowIntersectionObserver;
+  });
 
   it('renders the default placeholder when it\'s not in the viewport', function() {
     const className = 'placeholder-wrapper';
@@ -167,5 +180,18 @@ describe('PlaceholderWithoutTracking', function() {
     simulateScroll(component, offset, 0);
 
     expect(onVisible).toHaveBeenCalledTimes(1);
+  });
+
+  it('doesn\'t track placeholder visibility if IntersectionObserver is available', function() {
+    isIntersectionObserverAvailable.mockImplementation(() => true);
+    window.IntersectionObserver = jest.fn(function() {
+      this.observe = jest.fn(); // eslint-disable-line babel/no-invalid-this
+    });
+    const onVisible = jest.fn();
+    const component = renderPlaceholderWithoutTracking({
+      onVisible,
+    });
+
+    expect(onVisible).toHaveBeenCalledTimes(0);
   });
 });

@@ -16,7 +16,8 @@ class PlaceholderWithoutTracking extends React.Component {
         const { threshold } = props;
 
         this.LAZY_LOAD_OBSERVER.observer = new IntersectionObserver(
-          this.checkIntersections, { rootMargin: threshold + 'px' });
+          this.checkIntersections, { rootMargin: threshold + 'px' }
+        );
       }
     }
   }
@@ -120,7 +121,7 @@ PlaceholderWithoutTracking.propTypes = {
   scrollPosition: PropTypes.shape({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
-  }).isRequired,
+  }),
   className: PropTypes.string,
   height: PropTypes.number,
   placeholder: PropTypes.element,

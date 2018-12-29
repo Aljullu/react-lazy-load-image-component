@@ -7,6 +7,9 @@ import Adapter from 'enzyme-adapter-react-16';
 import LazyLoadComponent from './LazyLoadComponent.jsx';
 import PlaceholderWithTracking from './PlaceholderWithTracking.jsx';
 import PlaceholderWithoutTracking from './PlaceholderWithoutTracking.jsx';
+import isIntersectionObserverAvailable from '../utils/intersection-observer';
+
+jest.mock('../utils/intersection-observer');
 
 configure({ adapter: new Adapter() });
 
@@ -16,6 +19,16 @@ const {
 } = ReactTestUtils;
 
 describe('LazyLoadComponent', function() {
+  const windowIntersectionObserver = window.IntersectionObserver;
+
+  beforeEach(() => {
+    isIntersectionObserverAvailable.mockImplementation(() => false);
+  });
+
+  afterEach(() => {
+    window.IntersectionObserver = windowIntersectionObserver;
+  });
+
   it('renders a PlaceholderWithTracking when scrollPosition is undefined', function() {
     const lazyLoadComponent = mount(
       <LazyLoadComponent
@@ -30,6 +43,28 @@ describe('LazyLoadComponent', function() {
     expect(placeholderWithTracking.length).toEqual(1);
   });
 
+  it('renders a PlaceholderWithoutTracking when scrollPosition is undefined but IntersectionObserver is available', function() {
+    isIntersectionObserverAvailable.mockImplementation(() => true);
+    window.IntersectionObserver = jest.fn(function() {
+      this.observe = jest.fn(); // eslint-disable-line babel/no-invalid-this
+    });
+
+    const lazyLoadComponent = mount(
+      <LazyLoadComponent
+        style={{ marginTop: 100000 }}>
+        <p>Lorem Ipsum</p>
+      </LazyLoadComponent>
+    );
+
+    const placeholderWithTracking = scryRenderedComponentsWithType(
+      lazyLoadComponent.instance(), PlaceholderWithTracking);
+    const placeholderWithoutTracking = scryRenderedComponentsWithType(
+      lazyLoadComponent.instance(), PlaceholderWithoutTracking);
+
+    expect(placeholderWithTracking.length).toEqual(0);
+    expect(placeholderWithoutTracking.length).toEqual(1);
+  });
+
   it('renders a PlaceholderWithoutTracking when scrollPosition is defined', function() {
     const lazyLoadComponent = mount(
       <LazyLoadComponent
@@ -39,9 +74,12 @@ describe('LazyLoadComponent', function() {
       </LazyLoadComponent>
     );
 
+    const placeholderWithTracking = scryRenderedComponentsWithType(
+      lazyLoadComponent.instance(), PlaceholderWithTracking);
     const placeholderWithoutTracking = scryRenderedComponentsWithType(
       lazyLoadComponent.instance(), PlaceholderWithoutTracking);
 
+    expect(placeholderWithTracking.length).toEqual(0);
     expect(placeholderWithoutTracking.length).toEqual(1);
   });
 
