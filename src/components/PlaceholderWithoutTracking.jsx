@@ -7,18 +7,16 @@ class PlaceholderWithoutTracking extends React.Component {
   constructor(props) {
     super(props);
 
-    if (!this.LAZY_LOAD_OBSERVER) {
-      const supportsObserver = isIntersectionObserverAvailable();
+    const supportsObserver = isIntersectionObserverAvailable();
 
-      this.LAZY_LOAD_OBSERVER = { supportsObserver };
+    this.LAZY_LOAD_OBSERVER = { supportsObserver };
 
-      if (supportsObserver) {
-        const { threshold } = props;
+    if (supportsObserver) {
+      const { threshold } = props;
 
-        this.LAZY_LOAD_OBSERVER.observer = new IntersectionObserver(
-          this.checkIntersections, { rootMargin: threshold + 'px' }
-        );
-      }
+      this.LAZY_LOAD_OBSERVER.observer = new IntersectionObserver(
+        this.checkIntersections, { rootMargin: threshold + 'px' }
+      );
     }
   }
 
