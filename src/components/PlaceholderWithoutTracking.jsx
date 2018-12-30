@@ -116,14 +116,14 @@ class PlaceholderWithoutTracking extends React.Component {
 
 PlaceholderWithoutTracking.propTypes = {
   onVisible: PropTypes.func.isRequired,
-  scrollPosition: PropTypes.shape({
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired,
-  }),
   className: PropTypes.string,
   height: PropTypes.number,
   placeholder: PropTypes.element,
   threshold: PropTypes.number,
+  scrollPosition: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+  }),
   width: PropTypes.number,
 };
 
