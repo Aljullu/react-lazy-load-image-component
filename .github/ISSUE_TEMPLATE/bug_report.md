@@ -26,6 +26,7 @@ Write a clear and concise description of what you expected to happen versus what
 If applicable, add screenshots to help explain your problem.
 
 **Technical details:**
+- Package version [e.g. 1.2.0]
 - Server Side Rendering? [Yes/No]
 - Device [Desktop/Smartphone]
 - Operating System [e.g. Windows, Mac OS, GNU/Linux]
