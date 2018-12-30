@@ -14,6 +14,9 @@ describe('isIntersectionObserverAvailable', function() {
 
   it('returns false if IntersectionObserver is not available', function() {
     delete window.IntersectionObserver;
+    window.IntersectionObserverEntry = {
+      prototype: {},
+    };
     delete window.IntersectionObserverEntry;
 
     expect(isIntersectionObserverAvailable()).toBe(false);
