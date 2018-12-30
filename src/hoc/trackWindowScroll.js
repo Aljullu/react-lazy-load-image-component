@@ -2,11 +2,16 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
+import isIntersectionObserverAvailable from '../utils/intersection-observer';
 
 const trackWindowScroll = (BaseComponent) => {
   class ScrollAwareComponent extends React.Component {
     constructor(props) {
       super(props);
+
+      if (isIntersectionObserverAvailable()) {
+        return;
+      }
 
       const onChangeScroll = this.onChangeScroll.bind(this);
 
@@ -31,7 +36,7 @@ const trackWindowScroll = (BaseComponent) => {
     }
 
     componentDidMount() {
-      if (typeof window == 'undefined') {
+      if (typeof window == 'undefined' || isIntersectionObserverAvailable()) {
         return;
       }
       window.addEventListener('scroll', this.delayedScroll);
@@ -39,7 +44,7 @@ const trackWindowScroll = (BaseComponent) => {
     }
 
     componentWillUnmount() {
-      if (typeof window === 'undefined') {
+      if (typeof window == 'undefined' || isIntersectionObserverAvailable()) {
         return;
       }
       window.removeEventListener('scroll', this.delayedScroll);
@@ -47,6 +52,9 @@ const trackWindowScroll = (BaseComponent) => {
     }
 
     onChangeScroll() {
+      if (isIntersectionObserverAvailable()) {
+        return;
+      }
       this.setState({
         scrollPosition: {
           x: (typeof window == 'undefined' ?
@@ -63,10 +71,12 @@ const trackWindowScroll = (BaseComponent) => {
 
     render() {
       const { delayMethod, delayTime, ...props } = this.props;
+      const scrollPosition = isIntersectionObserverAvailable() ?
+        null : this.state.scrollPosition;
 
       return (
         <BaseComponent
-          scrollPosition={this.state.scrollPosition}
+          scrollPosition={scrollPosition}
           {...props} />
       );
     }

@@ -3,6 +3,7 @@ import { PropTypes } from 'prop-types';
 
 import PlaceholderWithoutTracking from './PlaceholderWithoutTracking.jsx';
 import PlaceholderWithTracking from './PlaceholderWithTracking.jsx';
+import isIntersectionObserverAvailable from '../utils/intersection-observer';
 
 class LazyLoadComponent extends React.Component {
   constructor(props) {
@@ -47,7 +48,7 @@ class LazyLoadComponent extends React.Component {
     const { className, height, placeholder, scrollPosition, style,
       threshold, width } = this.props;
 
-    if (this.isScrollTracked) {
+    if (this.isScrollTracked || isIntersectionObserverAvailable()) {
       return (
         <PlaceholderWithoutTracking
           className={className}

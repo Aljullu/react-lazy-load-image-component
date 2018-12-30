@@ -1,18 +1,57 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { PropTypes } from 'prop-types';
+import isIntersectionObserverAvailable from '../utils/intersection-observer';
 
 class PlaceholderWithoutTracking extends React.Component {
   constructor(props) {
     super(props);
+
+    const supportsObserver = isIntersectionObserverAvailable();
+
+    this.LAZY_LOAD_OBSERVER = { supportsObserver };
+
+    if (supportsObserver) {
+      const { threshold } = props;
+
+      this.LAZY_LOAD_OBSERVER.observer = new IntersectionObserver(
+        this.checkIntersections, { rootMargin: threshold + 'px' }
+      );
+    }
+  }
+
+  checkIntersections(entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.onVisible();
+      }
+    });
   }
 
   componentDidMount() {
-    this.updateVisibility();
+    if (this.placeholder &&
+        this.LAZY_LOAD_OBSERVER && this.LAZY_LOAD_OBSERVER.observer) {
+      this.placeholder.onVisible = this.props.onVisible;
+      this.LAZY_LOAD_OBSERVER.observer.observe(this.placeholder);
+    }
+
+    if (this.LAZY_LOAD_OBSERVER &&
+        !this.LAZY_LOAD_OBSERVER.supportsObserver) {
+      this.updateVisibility();
+    }
+  }
+
+  componentWillUnMount() {
+    if (this.LAZY_LOAD_OBSERVER) {
+      this.LAZY_LOAD_OBSERVER.observer.unobserve(this.placeholder);
+    }
   }
 
   componentDidUpdate() {
-    this.updateVisibility();
+    if (this.LAZY_LOAD_OBSERVER &&
+        !this.LAZY_LOAD_OBSERVER.supportsObserver) {
+      this.updateVisibility();
+    }
   }
 
   getPlaceholderBoundingBox(scrollPosition = this.props.scrollPosition) {
@@ -77,14 +116,14 @@ class PlaceholderWithoutTracking extends React.Component {
 
 PlaceholderWithoutTracking.propTypes = {
   onVisible: PropTypes.func.isRequired,
-  scrollPosition: PropTypes.shape({
-    x: PropTypes.number.isRequired,
-    y: PropTypes.number.isRequired,
-  }).isRequired,
   className: PropTypes.string,
   height: PropTypes.number,
   placeholder: PropTypes.element,
   threshold: PropTypes.number,
+  scrollPosition: PropTypes.shape({
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+  }),
   width: PropTypes.number,
 };
 
