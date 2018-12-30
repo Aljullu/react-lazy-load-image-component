@@ -5,7 +5,7 @@
 React Lazy Load Image Component
 ===============================
 
-React Component to lazy load images and other components/elements. Includes a HOC to track window scroll position to improve performance.
+React Component to lazy load images and other components/elements. Supports IntersectionObserver and includes a HOC to track window scroll position to improve performance.
 
 "[_An easy-to-use performant solution to lazy load images in React_](https://medium.com/@aljullu/an-easy-to-use-performant-solution-to-lazy-load-images-in-react-e6752071020c)"
 
@@ -26,6 +26,8 @@ React Component to lazy load images and other components/elements. Includes a HO
 * threshold is set to 100px by default and can be modified.
 * `beforeLoad` and `afterLoad` events.
 * `debounce` and `throttle` included by default and configurable.
+* Uses IntersectionObserver for browsers that support it.
+* Server Side Rendering (SSR) compatible.
 
 
 ## Installation
