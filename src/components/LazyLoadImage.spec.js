@@ -12,6 +12,7 @@ configure({ adapter: new Adapter() });
 
 const {
   findRenderedComponentWithType,
+  findRenderedDOMComponentWithClass,
   findRenderedDOMComponentWithTag,
   scryRenderedDOMComponentsWithClass,
   scryRenderedDOMComponentsWithTag,
@@ -81,6 +82,21 @@ describe('LazyLoadImage', function() {
     const loadedWrapper = scryRenderedDOMComponentsWithClass(lazyLoadImage.instance(), 'lazy-load-image-loaded');
 
     expect(loadedWrapper.length).toEqual(1);
+  });
+
+  it('resets the background-image and background-size when img triggers onLoad', function() {
+    const lazyLoadImage = mount(
+      <LazyLoadImage effect="blur" />
+    );
+
+    const img = findRenderedDOMComponentWithTag(lazyLoadImage.instance(), 'img');
+
+    Simulate.load(img);
+
+    const loadedWrapper = findRenderedDOMComponentWithClass(lazyLoadImage.instance(), 'lazy-load-image-loaded');
+
+    expect(loadedWrapper.style.getPropertyValue('background-image')).toEqual('');
+    expect(loadedWrapper.style.getPropertyValue('background-size')).toEqual('');
   });
 
   it('adds the effect class', function() {
