@@ -71,8 +71,8 @@ class LazyLoadImage extends React.Component {
         className={wrapperClassName + ' lazy-load-image-background ' +
           effect + loadedClassName}
         style={{
-          backgroundImage: 'url( ' + placeholderSrc + ')',
-          backgroundSize: '100% 100%',
+          backgroundImage: loaded ? '' : 'url( ' + placeholderSrc + ')',
+          backgroundSize: loaded ? '' : '100% 100%',
           color: 'transparent',
           display: 'inline-block',
           height: height,
