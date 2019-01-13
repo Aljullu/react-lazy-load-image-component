@@ -1,8 +1,15 @@
 import React from 'react';
+import ReactDom from 'react-dom';
 import { PropTypes } from 'prop-types';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
 import isIntersectionObserverAvailable from '../utils/intersection-observer';
+import getScrollElement from '../utils/get-scroll-element';
+
+const getScrollX = () => typeof window === 'undefined' ?
+  0 : (window.scrollX || window.pageXOffset);
+const getScrollY = () => typeof window === 'undefined' ?
+  0 : (window.scrollY || window.pageYOffset);
 
 const trackWindowScroll = (BaseComponent) => {
   class ScrollAwareComponent extends React.Component {
@@ -23,48 +30,76 @@ const trackWindowScroll = (BaseComponent) => {
 
       this.state = {
         scrollPosition: {
-          x: (typeof window === 'undefined' ?
-            0 :
-            (window.scrollX || window.pageXOffset)
-          ),
-          y: (typeof window === 'undefined' ?
-            0 :
-            (window.scrollY || window.pageYOffset)
-          ),
+          x: getScrollX(),
+          y: getScrollY(),
         },
       };
+
+      this.baseComponentRef = React.createRef();
     }
 
     componentDidMount() {
-      if (typeof window == 'undefined' || isIntersectionObserverAvailable()) {
-        return;
-      }
-      window.addEventListener('scroll', this.delayedScroll);
-      window.addEventListener('resize', this.delayedScroll);
+      this.addListeners();
     }
 
     componentWillUnmount() {
+      this.removeListeners();
+    }
+
+    componentDidUpdate() {
+      if (typeof window === 'undefined' || isIntersectionObserverAvailable()) {
+        return;
+      }
+
+      const scrollElement = getScrollElement(
+        ReactDom.findDOMNode(this.baseComponentRef.current)
+      );
+
+      if (scrollElement !== this.scrollElement) {
+        this.removeListeners();
+        this.addListeners();
+      }
+    }
+
+    addListeners() {
+      if (typeof window === 'undefined' || isIntersectionObserverAvailable()) {
+        return;
+      }
+
+      this.scrollElement = getScrollElement(
+        ReactDom.findDOMNode(this.baseComponentRef.current)
+      );
+
+      this.scrollElement.addEventListener('scroll', this.delayedScroll);
+      window.addEventListener('resize', this.delayedScroll);
+
+      if (this.scrollElement !== window) {
+        window.addEventListener('scroll', this.delayedScroll);
+      }
+    }
+
+    removeListeners() {
       if (typeof window == 'undefined' || isIntersectionObserverAvailable()) {
         return;
       }
-      window.removeEventListener('scroll', this.delayedScroll);
+
+      this.scrollElement.removeEventListener('scroll', this.delayedScroll);
       window.removeEventListener('resize', this.delayedScroll);
+
+      if (this.scrollElement !== window) {
+        window.removeEventListener('scroll', this.delayedScroll);
+      }
     }
 
     onChangeScroll() {
       if (isIntersectionObserverAvailable()) {
         return;
       }
+
       this.setState({
         scrollPosition: {
-          x: (typeof window == 'undefined' ?
-            0 :
-            (window.scrollX || window.pageXOffset)
-          ),
-          y: (typeof window === 'undefined' ?
-            0 :
-            (window.scrollY || window.pageYOffset)
-          ),
+          x: getScrollX(),
+          y: getScrollY(),
         },
       });
     }
@@ -76,6 +111,7 @@ const trackWindowScroll = (BaseComponent) => {
 
       return (
         <BaseComponent
+          ref={this.baseComponentRef}
           scrollPosition={scrollPosition}
           {...props} />
       );
