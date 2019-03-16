@@ -28,10 +28,17 @@ class LazyLoadImage extends React.Component {
 
   getImg() {
     const { afterLoad, beforeLoad, delayMethod, delayTime, effect,
-      placeholder, placeholderSrc, scrollPosition, threshold,
+      loadedImageProps, placeholder, placeholderSrc, scrollPosition, threshold,
       visibleByDefault, wrapperClassName, ...imgProps } = this.props;
+    const { loaded } = this.state;
+    const loadedProps = loaded ? loadedImageProps : null;
 
-    return <img onLoad={this.onImageLoad()} {...imgProps} />;
+    return (
+      <img
+        onLoad={this.onImageLoad()}
+        {...imgProps}
+        {...loadedProps} />
+    );
   }
 
   getLazyLoadImage(image) {
@@ -105,6 +112,7 @@ LazyLoadImage.propTypes = {
   delayMethod: PropTypes.string,
   delayTime: PropTypes.number,
   effect: PropTypes.string,
+  loadedImageProps: PropTypes.object,
   placeholderSrc: PropTypes.string,
   threshold: PropTypes.number,
   visibleByDefault: PropTypes.bool,
@@ -117,6 +125,7 @@ LazyLoadImage.defaultProps = {
   delayMethod: 'throttle',
   delayTime: 300,
   effect: '',
+  loadedImageProps: {},
   placeholderSrc: '',
   threshold: 100,
   visibleByDefault: false,

@@ -70,6 +70,7 @@ export default MyImage;
 | delayMethod | `String` | `throttle` | Method from lodash to use to delay the scroll/resize events. It can be `throttle` or `debounce`. |
 | delayTime | `Number` | 300 | Time in ms sent to the delayMethod. |
 | effect | `String` |  | Name of the effect to use. Please, read next section with an explanation on how to use them. |
+| loadedImageProps | `Object` |  | Props passed to the `<img>` element once it's loaded. Useful to pass class names or style attributes that should only be applied once the image is loaded. |
 | placeholder | `ReactClass` | `<span>` | React element to use as a placeholder. |
 | placeholderSrc | `String` | | Image src to display while the image is not visible or loaded. |
 | threshold | `Number` | 100 | Threshold in pixels. So the image starts loading before it appears in the viewport. |
