@@ -70,11 +70,23 @@ const trackWindowScroll = (BaseComponent) => {
         ReactDom.findDOMNode(this.baseComponentRef.current)
       );
 
-      this.scrollElement.addEventListener('scroll', this.delayedScroll);
-      window.addEventListener('resize', this.delayedScroll);
+      this.scrollElement.addEventListener(
+        'scroll',
+        this.delayedScroll,
+        { passive: true }
+      );
+      window.addEventListener(
+        'resize',
+        this.delayedScroll,
+        { passive: true }
+      );
 
       if (this.scrollElement !== window) {
-        window.addEventListener('scroll', this.delayedScroll);
+        window.addEventListener(
+          'scroll',
+          this.delayedScroll,
+          { passive: true }
+        );
       }
     }
 
