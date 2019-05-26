@@ -45,8 +45,8 @@ class LazyLoadComponent extends React.Component {
       return this.props.children;
     }
 
-    const { className, height, placeholder, scrollPosition, style,
-      threshold, width } = this.props;
+    const { className, delayMethod, delayTime, height, placeholder,
+      scrollPosition, style, threshold, width } = this.props;
 
     if (this.isScrollTracked || isIntersectionObserverAvailable()) {
       return (
@@ -65,6 +65,8 @@ class LazyLoadComponent extends React.Component {
     return (
       <PlaceholderWithTracking
         className={className}
+        delayMethod={delayMethod}
+        delayTime={delayTime}
         height={height}
         onVisible={this.onVisible}
         placeholder={placeholder}
