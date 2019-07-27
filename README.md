@@ -73,6 +73,7 @@ export default MyImage;
 | placeholder | `ReactClass` | `<span>` | React element to use as a placeholder. |
 | placeholderSrc | `String` | | Image src to display while the image is not visible or loaded. |
 | threshold | `Number` | 100 | Threshold in pixels. So the image starts loading before it appears in the viewport. |
+| useIntersectionObserver | `Boolean` | true | Whether to use browser's IntersectionObserver when available. |
 | visibleByDefault | `Boolean` | false | Whether the image must be visible from the beginning. |
 | wrapperClassName | `String` |  | In some occasions (for example, when using a placeholderSrc) a wrapper span tag is rendered. This prop allows setting a class to that element. |
 | ... |  |  | Any other image attribute |
@@ -141,6 +142,7 @@ export default Article;
 | delayTime | `Number` | 300 | Time in ms sent to the delayMethod from lodash. |
 | placeholder | `ReactClass` | `<span>` | React element to use as a placeholder. |
 | threshold | `Number` | 100 | Threshold in pixels. So the component starts loading before it appears in the viewport. |
+| useIntersectionObserver | `Boolean` | true | Whether to use browser's IntersectionObserver when available. |
 | visibleByDefault | `Boolean` | false | Whether the component must be visible from the beginning. |
 
 
@@ -198,6 +200,7 @@ Component wrapped with `trackWindowScroll` (in the example, `Gallery`)
 |:---|:---|:---|:---|
 | delayMethod | `String` | `throttle` | Method from lodash to use to delay the scroll/resize events. It can be `throttle` or `debounce`. |
 | delayTime | `Number` | 300 | Time in ms sent to the delayMethod from lodash. |
+| useIntersectionObserver | `Boolean` | true | Whether to use browser's IntersectionObserver when available. |
 
 Notice you can do the same replacing `LazyLoadImage` with `LazyLoadComponent`.
 

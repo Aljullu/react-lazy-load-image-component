@@ -29,7 +29,8 @@ class LazyLoadImage extends React.Component {
   getImg() {
     const { afterLoad, beforeLoad, delayMethod, delayTime, effect,
       placeholder, placeholderSrc, scrollPosition, threshold,
-      visibleByDefault, wrapperClassName, ...imgProps } = this.props;
+      useIntersectionObserver, visibleByDefault, wrapperClassName,
+      ...imgProps } = this.props;
 
     return <img onLoad={this.onImageLoad()} {...imgProps} />;
   }
@@ -37,7 +38,7 @@ class LazyLoadImage extends React.Component {
   getLazyLoadImage(image) {
     const { beforeLoad, className, delayMethod, delayTime,
       height, placeholder, scrollPosition, style, threshold,
-      visibleByDefault, width } = this.props;
+      useIntersectionObserver, visibleByDefault, width } = this.props;
 
     return (
       <LazyLoadComponent
@@ -50,6 +51,7 @@ class LazyLoadImage extends React.Component {
         scrollPosition={scrollPosition}
         style={style}
         threshold={threshold}
+        useIntersectionObserver={useIntersectionObserver}
         visibleByDefault={visibleByDefault}
         width={width}>
         {image}
@@ -107,6 +109,7 @@ LazyLoadImage.propTypes = {
   effect: PropTypes.string,
   placeholderSrc: PropTypes.string,
   threshold: PropTypes.number,
+  useIntersectionObserver: PropTypes.bool,
   visibleByDefault: PropTypes.bool,
   wrapperClassName: PropTypes.string,
 };
@@ -119,6 +122,7 @@ LazyLoadImage.defaultProps = {
   effect: '',
   placeholderSrc: '',
   threshold: 100,
+  useIntersectionObserver: true,
   visibleByDefault: false,
   wrapperClassName: '',
 };
