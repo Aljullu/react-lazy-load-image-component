@@ -29,60 +29,6 @@ describe('LazyLoadComponent', function() {
     window.IntersectionObserver = windowIntersectionObserver;
   });
 
-  it('renders a PlaceholderWithTracking when scrollPosition is undefined', function() {
-    const lazyLoadComponent = mount(
-      <LazyLoadComponent
-        style={{ marginTop: 100000 }}>
-        <p>Lorem Ipsum</p>
-      </LazyLoadComponent>
-    );
-
-    const placeholderWithTracking = scryRenderedComponentsWithType(
-      lazyLoadComponent.instance(), PlaceholderWithTracking);
-
-    expect(placeholderWithTracking.length).toEqual(1);
-  });
-
-  it('renders a PlaceholderWithoutTracking when scrollPosition is undefined but IntersectionObserver is available', function() {
-    isIntersectionObserverAvailable.mockImplementation(() => true);
-    window.IntersectionObserver = jest.fn(function() {
-      this.observe = jest.fn(); // eslint-disable-line babel/no-invalid-this
-    });
-
-    const lazyLoadComponent = mount(
-      <LazyLoadComponent
-        style={{ marginTop: 100000 }}>
-        <p>Lorem Ipsum</p>
-      </LazyLoadComponent>
-    );
-
-    const placeholderWithTracking = scryRenderedComponentsWithType(
-      lazyLoadComponent.instance(), PlaceholderWithTracking);
-    const placeholderWithoutTracking = scryRenderedComponentsWithType(
-      lazyLoadComponent.instance(), PlaceholderWithoutTracking);
-
-    expect(placeholderWithTracking.length).toEqual(0);
-    expect(placeholderWithoutTracking.length).toEqual(1);
-  });
-
-  it('renders a PlaceholderWithoutTracking when scrollPosition is defined', function() {
-    const lazyLoadComponent = mount(
-      <LazyLoadComponent
-        scrollPosition={{ x: 0, y: 0 }}
-        style={{ marginTop: 100000 }}>
-        <p>Lorem Ipsum</p>
-      </LazyLoadComponent>
-    );
-
-    const placeholderWithTracking = scryRenderedComponentsWithType(
-      lazyLoadComponent.instance(), PlaceholderWithTracking);
-    const placeholderWithoutTracking = scryRenderedComponentsWithType(
-      lazyLoadComponent.instance(), PlaceholderWithoutTracking);
-
-    expect(placeholderWithTracking.length).toEqual(0);
-    expect(placeholderWithoutTracking.length).toEqual(1);
-  });
-
   it('renders children when visible', function() {
     const lazyLoadComponent = mount(
       <LazyLoadComponent>
@@ -98,51 +44,149 @@ describe('LazyLoadComponent', function() {
     expect(paragraphs.length).toEqual(1);
   });
 
-  it('triggers beforeLoad when onVisible is triggered', function() {
-    const beforeLoad = jest.fn();
-    const lazyLoadComponent = mount(
-      <LazyLoadComponent
-        beforeLoad={beforeLoad}
-        style={{ marginTop: 100000 }}>
-        <p>Lorem Ipsum</p>
-      </LazyLoadComponent>
-    );
+  describe('placeholders', function() {
+    it('renders a PlaceholderWithTracking when scrollPosition is undefined', function() {
+      const lazyLoadComponent = mount(
+        <LazyLoadComponent
+          style={{ marginTop: 100000 }}
+        >
+          <p>Lorem Ipsum</p>
+        </LazyLoadComponent>
+      );
 
-    lazyLoadComponent.instance().onVisible();
+      const placeholderWithTracking = scryRenderedComponentsWithType(
+        lazyLoadComponent.instance(),
+        PlaceholderWithTracking
+      );
 
-    expect(beforeLoad).toHaveBeenCalledTimes(1);
+      expect(placeholderWithTracking.length).toEqual(1);
+    });
+
+    it('renders a PlaceholderWithTracking when when IntersectionObserver is available but useIntersectionObserver is set to false', function() {
+      isIntersectionObserverAvailable.mockImplementation(() => true);
+      window.IntersectionObserver = jest.fn(function() {
+        this.observe = jest.fn(); // eslint-disable-line babel/no-invalid-this
+      });
+
+      const lazyLoadComponent = mount(
+        <LazyLoadComponent
+          useIntersectionObserver={false}
+          style={{ marginTop: 100000 }}
+        >
+          <p>Lorem Ipsum</p>
+        </LazyLoadComponent>
+      );
+
+      const placeholderWithTracking = scryRenderedComponentsWithType(
+        lazyLoadComponent.instance(),
+        PlaceholderWithTracking
+      );
+      const placeholderWithoutTracking = scryRenderedComponentsWithType(
+        lazyLoadComponent.instance(),
+        PlaceholderWithoutTracking
+      );
+
+      expect(placeholderWithTracking.length).toEqual(1);
+    });
+
+    it('renders a PlaceholderWithoutTracking when scrollPosition is undefined but IntersectionObserver is available', function() {
+      isIntersectionObserverAvailable.mockImplementation(() => true);
+      window.IntersectionObserver = jest.fn(function() {
+        this.observe = jest.fn(); // eslint-disable-line babel/no-invalid-this
+      });
+
+      const lazyLoadComponent = mount(
+        <LazyLoadComponent
+          style={{ marginTop: 100000 }}
+        >
+          <p>Lorem Ipsum</p>
+        </LazyLoadComponent>
+      );
+
+      const placeholderWithTracking = scryRenderedComponentsWithType(
+        lazyLoadComponent.instance(),
+        PlaceholderWithTracking
+      );
+      const placeholderWithoutTracking = scryRenderedComponentsWithType(
+        lazyLoadComponent.instance(),
+        PlaceholderWithoutTracking
+      );
+
+      expect(placeholderWithTracking.length).toEqual(0);
+      expect(placeholderWithoutTracking.length).toEqual(1);
+    });
+
+    it('renders a PlaceholderWithoutTracking when scrollPosition is defined', function() {
+      const lazyLoadComponent = mount(
+        <LazyLoadComponent
+          scrollPosition={{ x: 0, y: 0 }}
+          style={{ marginTop: 100000 }}
+        >
+          <p>Lorem Ipsum</p>
+        </LazyLoadComponent>
+      );
+
+      const placeholderWithTracking = scryRenderedComponentsWithType(
+        lazyLoadComponent.instance(),
+        PlaceholderWithTracking
+      );
+      const placeholderWithoutTracking = scryRenderedComponentsWithType(
+        lazyLoadComponent.instance(),
+        PlaceholderWithoutTracking
+      );
+
+      expect(placeholderWithTracking.length).toEqual(0);
+      expect(placeholderWithoutTracking.length).toEqual(1);
+    });
   });
 
-  it('triggers afterLoad when onVisible is triggered', function() {
-    const afterLoad = jest.fn();
-    const lazyLoadComponent = mount(
-      <LazyLoadComponent
-        afterLoad={afterLoad}
-        style={{ marginTop: 100000 }}>
-        <p>Lorem Ipsum</p>
-      </LazyLoadComponent>
-    );
+  describe('beforeLoad/afterLoad', function() {
+    it('triggers beforeLoad when onVisible is triggered', function() {
+      const beforeLoad = jest.fn();
+      const lazyLoadComponent = mount(
+        <LazyLoadComponent
+          beforeLoad={beforeLoad}
+          style={{ marginTop: 100000 }}>
+          <p>Lorem Ipsum</p>
+        </LazyLoadComponent>
+      );
 
-    lazyLoadComponent.instance().onVisible();
+      lazyLoadComponent.instance().onVisible();
 
-    expect(afterLoad).toHaveBeenCalledTimes(1);
-  });
+      expect(beforeLoad).toHaveBeenCalledTimes(1);
+    });
 
-  it('triggers beforeLoad and afterLoad when visibleByDefault is true', function() {
-    const afterLoad = jest.fn();
-    const beforeLoad = jest.fn();
-    const lazyLoadComponent = mount(
-      <LazyLoadComponent
-        afterLoad={afterLoad}
-        beforeLoad={beforeLoad}
-        style={{ marginTop: 100000 }}>
-        <p>Lorem Ipsum</p>
-      </LazyLoadComponent>
-    );
+    it('triggers afterLoad when onVisible is triggered', function() {
+      const afterLoad = jest.fn();
+      const lazyLoadComponent = mount(
+        <LazyLoadComponent
+          afterLoad={afterLoad}
+          style={{ marginTop: 100000 }}>
+          <p>Lorem Ipsum</p>
+        </LazyLoadComponent>
+      );
 
-    lazyLoadComponent.instance().onVisible();
+      lazyLoadComponent.instance().onVisible();
 
-    expect(afterLoad).toHaveBeenCalledTimes(1);
-    expect(beforeLoad).toHaveBeenCalledTimes(1);
+      expect(afterLoad).toHaveBeenCalledTimes(1);
+    });
+
+    it('triggers beforeLoad and afterLoad when visibleByDefault is true', function() {
+      const afterLoad = jest.fn();
+      const beforeLoad = jest.fn();
+      const lazyLoadComponent = mount(
+        <LazyLoadComponent
+          afterLoad={afterLoad}
+          beforeLoad={beforeLoad}
+          style={{ marginTop: 100000 }}>
+          <p>Lorem Ipsum</p>
+        </LazyLoadComponent>
+      );
+
+      lazyLoadComponent.instance().onVisible();
+
+      expect(afterLoad).toHaveBeenCalledTimes(1);
+      expect(beforeLoad).toHaveBeenCalledTimes(1);
+    });
   });
 });
