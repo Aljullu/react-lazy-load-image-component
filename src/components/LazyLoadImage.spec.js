@@ -99,6 +99,22 @@ describe('LazyLoadImage', function() {
     expect(loadedWrapper.style.getPropertyValue('background-size')).toEqual('');
   });
 
+  it('sets correct props to the loaded image', function() {
+    const lazyLoadImage = mount(
+      <LazyLoadImage className="lorem" loadedImageProps={{ className: 'ipsum' }} />
+    );
+
+    let img = findRenderedDOMComponentWithTag(lazyLoadImage.instance(), 'img');
+
+    expect(img.className).toEqual('lorem');
+
+    Simulate.load(img);
+
+    img = findRenderedDOMComponentWithTag(lazyLoadImage.instance(), 'img');
+
+    expect(img.className).toEqual('ipsum');
+  });
+
   it('adds the effect class', function() {
     const lazyLoadImage = mount(
       <LazyLoadImage effect="blur" />
@@ -141,5 +157,21 @@ describe('LazyLoadImage', function() {
     const span = scryRenderedDOMComponentsWithTag(lazyLoadImage.instance(), 'span');
 
     expect(span.length).toEqual(0);
+  });
+
+  it('renders placeholder with correct style', function() {
+    const lazyLoadImage = mount(
+      <LazyLoadImage
+        placeholderSrc="lorem-ipsum.jpg"
+        placeholderProps={{
+          'aria-hidden': 'true',
+          style: { display: 'block' },
+        }} />
+    );
+
+    const span = findRenderedDOMComponentWithTag(lazyLoadImage.instance(), 'span');
+
+    expect(span.style.getPropertyValue('display')).toEqual('block');
+    expect(span.getAttribute('aria-hidden')).toEqual('true');
   });
 });
