@@ -72,6 +72,7 @@ export default MyImage;
 | effect | `String` |  | Name of the effect to use. Please, read next section with an explanation on how to use them. |
 | loadedImageProps | `Object` |  | Props passed to the `<img>` element once it's loaded. Useful to pass class names or style attributes that should only be applied once the image is loaded. |
 | placeholder | `ReactClass` | `<span>` | React element to use as a placeholder. |
+| placeholderProps | `Object` | | Props assigned to the placeholder <span>, useful to overwrite the style or assign other HTML attributes. |
 | placeholderSrc | `String` | | Image src to display while the image is not visible or loaded. |
 | threshold | `Number` | 100 | Threshold in pixels. So the image starts loading before it appears in the viewport. |
 | visibleByDefault | `Boolean` | false | Whether the image must be visible from the beginning. |

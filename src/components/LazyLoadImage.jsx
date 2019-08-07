@@ -28,8 +28,9 @@ class LazyLoadImage extends React.Component {
 
   getImg() {
     const { afterLoad, beforeLoad, delayMethod, delayTime, effect,
-      loadedImageProps, placeholder, placeholderSrc, scrollPosition, threshold,
-      visibleByDefault, wrapperClassName, ...imgProps } = this.props;
+      loadedImageProps, placeholder, placeholderProps, placeholderSrc,
+      scrollPosition, threshold, visibleByDefault, wrapperClassName,
+      ...imgProps } = this.props;
     const { loaded } = this.state;
     const loadedProps = loaded ? loadedImageProps : null;
 
@@ -65,26 +66,31 @@ class LazyLoadImage extends React.Component {
   }
 
   getWrappedLazyLoadImage(lazyLoadImage) {
-    const { effect, height, placeholderSrc,
+    const { effect, height, placeholderProps, placeholderSrc,
       width, wrapperClassName } = this.props;
     const { loaded } = this.state;
 
     const loadedClassName = loaded ?
       ' lazy-load-image-loaded' :
       '';
+    const props = {
+      ...placeholderProps,
+      style: {
+        backgroundImage: loaded ? '' : 'url( ' + placeholderSrc + ')',
+        backgroundSize: loaded ? '' : '100% 100%',
+        color: 'transparent',
+        display: 'inline-block',
+        height: height,
+        width: width,
+        ...placeholderProps.style,
+      },
+    };
 
     return (
       <span
         className={wrapperClassName + ' lazy-load-image-background ' +
           effect + loadedClassName}
-        style={{
-          backgroundImage: loaded ? '' : 'url( ' + placeholderSrc + ')',
-          backgroundSize: loaded ? '' : '100% 100%',
-          color: 'transparent',
-          display: 'inline-block',
-          height: height,
-          width: width,
-        }}>
+        { ...props }>
         {lazyLoadImage}
       </span>
     );
@@ -113,6 +119,7 @@ LazyLoadImage.propTypes = {
   delayTime: PropTypes.number,
   effect: PropTypes.string,
   loadedImageProps: PropTypes.object,
+  placeholderProps: PropTypes.object,
   placeholderSrc: PropTypes.string,
   threshold: PropTypes.number,
   visibleByDefault: PropTypes.bool,
@@ -126,6 +133,7 @@ LazyLoadImage.defaultProps = {
   delayTime: 300,
   effect: '',
   loadedImageProps: {},
+  placeholderProps: {},
   placeholderSrc: '',
   threshold: 100,
   visibleByDefault: false,

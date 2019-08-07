@@ -158,4 +158,20 @@ describe('LazyLoadImage', function() {
 
     expect(span.length).toEqual(0);
   });
+
+  it('renders placeholder with correct style', function() {
+    const lazyLoadImage = mount(
+      <LazyLoadImage
+        placeholderSrc="lorem-ipsum.jpg"
+        placeholderProps={{
+          'aria-hidden': 'true',
+          style: { display: 'block' },
+        }} />
+    );
+
+    const span = findRenderedDOMComponentWithTag(lazyLoadImage.instance(), 'span');
+
+    expect(span.style.getPropertyValue('display')).toEqual('block');
+    expect(span.getAttribute('aria-hidden')).toEqual('true');
+  });
 });
