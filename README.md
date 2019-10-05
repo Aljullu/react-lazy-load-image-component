@@ -10,7 +10,7 @@ React Component to lazy load images and other components/elements. Supports Inte
 "[_An easy-to-use performant solution to lazy load images in React_](https://blog.albertjuhe.com/2018/03/22/an-easy-to-use-performant-solution-to-lazy-load-images-in-react/)"
 
 [![Build Status](https://travis-ci.org/Aljullu/react-lazy-load-image-component.svg?branch=master)](https://travis-ci.org/Aljullu/react-lazy-load-image-component)
-[![Dependency Status](https://img.shields.io/david/Aljullu/react-lazy-load-image-component/master.svg)](http://david-dm.org/Aljullu/react-lazy-load-image-component)
+[![Dependency Status](https://img.shields.io/david/Aljullu/react-lazy-load-image-component.svg)](http://david-dm.org/Aljullu/react-lazy-load-image-component)
 [![Download counter](https://img.shields.io/npm/dt/react-lazy-load-image-component.svg)](https://www.npmjs.com/package/react-lazy-load-image-component)
 [![License](https://img.shields.io/npm/l/react-lazy-load-image-component.svg)](https://www.npmjs.com/package/react-lazy-load-image-component)
 
