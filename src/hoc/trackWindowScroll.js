@@ -16,7 +16,9 @@ const trackWindowScroll = (BaseComponent) => {
     constructor(props) {
       super(props);
 
-      if (isIntersectionObserverAvailable()) {
+      this.useIntersectionObserver =
+        props.useIntersectionObserver && isIntersectionObserverAvailable();
+      if (this.useIntersectionObserver) {
         return;
       }
 
@@ -47,7 +49,7 @@ const trackWindowScroll = (BaseComponent) => {
     }
 
     componentDidUpdate() {
-      if (typeof window === 'undefined' || isIntersectionObserverAvailable()) {
+      if (typeof window === 'undefined' || this.useIntersectionObserver) {
         return;
       }
 
@@ -62,7 +64,7 @@ const trackWindowScroll = (BaseComponent) => {
     }
 
     addListeners() {
-      if (typeof window === 'undefined' || isIntersectionObserverAvailable()) {
+      if (typeof window === 'undefined' || this.useIntersectionObserver) {
         return;
       }
 
@@ -91,7 +93,7 @@ const trackWindowScroll = (BaseComponent) => {
     }
 
     removeListeners() {
-      if (typeof window == 'undefined' || isIntersectionObserverAvailable()) {
+      if (typeof window == 'undefined' || this.useIntersectionObserver) {
         return;
       }
 
@@ -104,7 +106,7 @@ const trackWindowScroll = (BaseComponent) => {
     }
 
     onChangeScroll() {
-      if (isIntersectionObserverAvailable()) {
+      if (this.useIntersectionObserver) {
         return;
       }
 
@@ -118,7 +120,7 @@ const trackWindowScroll = (BaseComponent) => {
 
     render() {
       const { delayMethod, delayTime, ...props } = this.props;
-      const scrollPosition = isIntersectionObserverAvailable() ?
+      const scrollPosition = this.useIntersectionObserver ?
         null : this.state.scrollPosition;
 
       return (
@@ -133,11 +135,13 @@ const trackWindowScroll = (BaseComponent) => {
   ScrollAwareComponent.propTypes = {
     delayMethod: PropTypes.oneOf(['debounce', 'throttle']),
     delayTime: PropTypes.number,
+    useIntersectionObserver: PropTypes.bool,
   };
 
   ScrollAwareComponent.defaultProps = {
     delayMethod: 'throttle',
     delayTime: 300,
+    useIntersectionObserver: true,
   };
 
   return ScrollAwareComponent;

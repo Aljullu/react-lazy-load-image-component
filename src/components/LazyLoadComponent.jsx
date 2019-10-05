@@ -22,7 +22,7 @@ class LazyLoadComponent extends React.Component {
 
     this.onVisible = this.onVisible.bind(this);
 
-    this.isScrollTracked = (scrollPosition &&
+    this.isScrollTracked = Boolean(scrollPosition &&
       Number.isFinite(scrollPosition.x) && scrollPosition.x >= 0 &&
       Number.isFinite(scrollPosition.y) && scrollPosition.y >= 0);
   }
@@ -45,10 +45,14 @@ class LazyLoadComponent extends React.Component {
       return this.props.children;
     }
 
-    const { className, delayMethod, delayTime, height, placeholder,
-      scrollPosition, style, threshold, width } = this.props;
+    const { className, delayMethod, delayTime, height,
+      placeholder, scrollPosition, style, threshold,
+      useIntersectionObserver, width } = this.props;
 
-    if (this.isScrollTracked || isIntersectionObserverAvailable()) {
+    if (
+      this.isScrollTracked ||
+      (useIntersectionObserver && isIntersectionObserverAvailable())
+    ) {
       return (
         <PlaceholderWithoutTracking
           className={className}
@@ -58,6 +62,7 @@ class LazyLoadComponent extends React.Component {
           scrollPosition={scrollPosition}
           style={style}
           threshold={threshold}
+          useIntersectionObserver={useIntersectionObserver}
           width={width} />
       );
     }
@@ -80,12 +85,14 @@ class LazyLoadComponent extends React.Component {
 LazyLoadComponent.propTypes = {
   afterLoad: PropTypes.func,
   beforeLoad: PropTypes.func,
+  useIntersectionObserver: PropTypes.bool,
   visibleByDefault: PropTypes.bool,
 };
 
 LazyLoadComponent.defaultProps = {
   afterLoad: () => ({}),
   beforeLoad: () => ({}),
+  useIntersectionObserver: true,
   visibleByDefault: false,
 };
 

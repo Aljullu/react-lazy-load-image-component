@@ -190,6 +190,22 @@ describe('PlaceholderWithoutTracking', function() {
     const onVisible = jest.fn();
     const component = renderPlaceholderWithoutTracking({
       onVisible,
+      scrollPosition: null,
+    });
+
+    expect(onVisible).toHaveBeenCalledTimes(0);
+  });
+
+  it('tracks placeholder visibility when IntersectionObserver is available but scrollPosition is set', function() {
+    isIntersectionObserverAvailable.mockImplementation(() => true);
+    window.IntersectionObserver = jest.fn(function() {
+      this.observe = jest.fn(); // eslint-disable-line babel/no-invalid-this
+    });
+    const offset = 100000;
+    const onVisible = jest.fn();
+    const component = renderPlaceholderWithoutTracking({
+      onVisible,
+      style: { marginLeft: offset },
     });
 
     expect(onVisible).toHaveBeenCalledTimes(0);

@@ -7,7 +7,8 @@ class PlaceholderWithoutTracking extends React.Component {
   constructor(props) {
     super(props);
 
-    const supportsObserver = isIntersectionObserverAvailable();
+    const supportsObserver = !props.scrollPosition &&
+      props.useIntersectionObserver && isIntersectionObserverAvailable();
 
     this.LAZY_LOAD_OBSERVER = { supportsObserver };
 
@@ -120,6 +121,7 @@ PlaceholderWithoutTracking.propTypes = {
   height: PropTypes.number,
   placeholder: PropTypes.element,
   threshold: PropTypes.number,
+  useIntersectionObserver: PropTypes.bool,
   scrollPosition: PropTypes.shape({
     x: PropTypes.number.isRequired,
     y: PropTypes.number.isRequired,
@@ -132,6 +134,7 @@ PlaceholderWithoutTracking.defaultProps = {
   height: 0,
   placeholder: null,
   threshold: 100,
+  useIntersectionObserver: true,
   width: 0,
 };
 
