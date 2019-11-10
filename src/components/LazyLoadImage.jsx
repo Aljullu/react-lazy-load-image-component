@@ -73,8 +73,8 @@ class LazyLoadImage extends React.Component {
         className={wrapperClassName + ' lazy-load-image-background ' +
           effect + loadedClassName}
         style={{
-          backgroundImage: loaded ? '' : 'url( ' + placeholderSrc + ')',
-          backgroundSize: loaded ? '' : '100% 100%',
+          backgroundImage: loaded || !placeholderSrc ? '' : `url(${placeholderSrc})`,
+          backgroundSize: loaded || !placeholderSrc ? '' : '100% 100%',
           color: 'transparent',
           display: 'inline-block',
           height: height,
@@ -120,7 +120,7 @@ LazyLoadImage.defaultProps = {
   delayMethod: 'throttle',
   delayTime: 300,
   effect: '',
-  placeholderSrc: '',
+  placeholderSrc: null,
   threshold: 100,
   useIntersectionObserver: true,
   visibleByDefault: false,
