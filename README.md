@@ -28,6 +28,7 @@ React Component to lazy load images and other components/elements. Supports Inte
 * `debounce` and `throttle` included by default and configurable.
 * Uses IntersectionObserver for browsers that support it.
 * Server Side Rendering (SSR) compatible.
+* [TypeScript declarations](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/react-lazy-load-image-component/index.d.ts) hosted on DefinitelyTyped.
 
 
 ## Installation
