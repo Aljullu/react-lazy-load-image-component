@@ -4,127 +4,161 @@ import { PropTypes } from 'prop-types';
 import LazyLoadComponent from './LazyLoadComponent.jsx';
 
 class LazyLoadImage extends React.Component {
-  constructor(props) {
-    super(props);
+	constructor(props) {
+		super(props);
 
-    this.state = {
-      loaded: false,
-    };
-  }
+		this.state = {
+			loaded: false,
+		};
+	}
 
-  onImageLoad() {
-    if (this.state.loaded) {
-      return null;
-    }
+	onImageLoad() {
+		if (this.state.loaded) {
+			return null;
+		}
 
-    return () => {
-      this.props.afterLoad();
+		return () => {
+			this.props.afterLoad();
 
-      this.setState({
-        loaded: true,
-      });
-    };
-  }
+			this.setState({
+				loaded: true,
+			});
+		};
+	}
 
-  getImg() {
-    const { afterLoad, beforeLoad, delayMethod, delayTime, effect,
-      placeholder, placeholderSrc, scrollPosition, threshold,
-      useIntersectionObserver, visibleByDefault, wrapperClassName,
-      ...imgProps } = this.props;
+	getImg() {
+		const {
+			afterLoad,
+			beforeLoad,
+			delayMethod,
+			delayTime,
+			effect,
+			placeholder,
+			placeholderSrc,
+			scrollPosition,
+			threshold,
+			useIntersectionObserver,
+			visibleByDefault,
+			wrapperClassName,
+			...imgProps
+		} = this.props;
 
-    return <img onLoad={this.onImageLoad()} {...imgProps} />;
-  }
+		return <img onLoad={this.onImageLoad()} {...imgProps} />;
+	}
 
-  getLazyLoadImage(image) {
-    const { beforeLoad, className, delayMethod, delayTime,
-      height, placeholder, scrollPosition, style, threshold,
-      useIntersectionObserver, visibleByDefault, width } = this.props;
+	getLazyLoadImage(image) {
+		const {
+			beforeLoad,
+			className,
+			delayMethod,
+			delayTime,
+			height,
+			placeholder,
+			scrollPosition,
+			style,
+			threshold,
+			useIntersectionObserver,
+			visibleByDefault,
+			width,
+		} = this.props;
 
-    return (
-      <LazyLoadComponent
-        beforeLoad={beforeLoad}
-        className={className}
-        delayMethod={delayMethod}
-        delayTime={delayTime}
-        height={height}
-        placeholder={placeholder}
-        scrollPosition={scrollPosition}
-        style={style}
-        threshold={threshold}
-        useIntersectionObserver={useIntersectionObserver}
-        visibleByDefault={visibleByDefault}
-        width={width}>
-        {image}
-      </LazyLoadComponent>
-    );
-  }
+		return (
+			<LazyLoadComponent
+				beforeLoad={beforeLoad}
+				className={className}
+				delayMethod={delayMethod}
+				delayTime={delayTime}
+				height={height}
+				placeholder={placeholder}
+				scrollPosition={scrollPosition}
+				style={style}
+				threshold={threshold}
+				useIntersectionObserver={useIntersectionObserver}
+				visibleByDefault={visibleByDefault}
+				width={width}
+			>
+				{image}
+			</LazyLoadComponent>
+		);
+	}
 
-  getWrappedLazyLoadImage(lazyLoadImage) {
-    const { effect, height, placeholderSrc,
-      width, wrapperClassName } = this.props;
-    const { loaded } = this.state;
+	getWrappedLazyLoadImage(lazyLoadImage) {
+		const {
+			effect,
+			height,
+			placeholderSrc,
+			width,
+			wrapperClassName,
+		} = this.props;
+		const { loaded } = this.state;
 
-    const loadedClassName = loaded ?
-      ' lazy-load-image-loaded' :
-      '';
+		const loadedClassName = loaded ? ' lazy-load-image-loaded' : '';
 
-    return (
-      <span
-        className={wrapperClassName + ' lazy-load-image-background ' +
-          effect + loadedClassName}
-        style={{
-          backgroundImage: loaded || !placeholderSrc ? '' : `url(${placeholderSrc})`,
-          backgroundSize: loaded || !placeholderSrc ? '' : '100% 100%',
-          color: 'transparent',
-          display: 'inline-block',
-          height: height,
-          width: width,
-        }}>
-        {lazyLoadImage}
-      </span>
-    );
-  }
+		return (
+			<span
+				className={
+					wrapperClassName +
+					' lazy-load-image-background ' +
+					effect +
+					loadedClassName
+				}
+				style={{
+					backgroundImage:
+						loaded || !placeholderSrc
+							? ''
+							: `url(${placeholderSrc})`,
+					backgroundSize:
+						loaded || !placeholderSrc ? '' : '100% 100%',
+					color: 'transparent',
+					display: 'inline-block',
+					height: height,
+					width: width,
+				}}
+			>
+				{lazyLoadImage}
+			</span>
+		);
+	}
 
-  render() {
-    const { effect, placeholderSrc, visibleByDefault } = this.props;
-    const { loaded } = this.state;
+	render() {
+		const { effect, placeholderSrc, visibleByDefault } = this.props;
+		const { loaded } = this.state;
 
-    const image = this.getImg();
-    const lazyLoadImage = loaded ?
-      image : this.getLazyLoadImage(image);
+		const image = this.getImg();
+		const lazyLoadImage = loaded ? image : this.getLazyLoadImage(image);
 
-    if ((!effect && !placeholderSrc) || visibleByDefault) {
-      return lazyLoadImage;
-    }
+		if ((!effect && !placeholderSrc) || visibleByDefault) {
+			return lazyLoadImage;
+		}
 
-    return this.getWrappedLazyLoadImage(lazyLoadImage);
-  }
+		return this.getWrappedLazyLoadImage(lazyLoadImage);
+	}
 }
 
 LazyLoadImage.propTypes = {
-  afterLoad: PropTypes.func,
-  beforeLoad: PropTypes.func,
-  delayMethod: PropTypes.string,
-  delayTime: PropTypes.number,
-  effect: PropTypes.string,
-  placeholderSrc: PropTypes.string,
-  threshold: PropTypes.number,
-  useIntersectionObserver: PropTypes.bool,
-  visibleByDefault: PropTypes.bool,
-  wrapperClassName: PropTypes.string,
+	afterLoad: PropTypes.func,
+	beforeLoad: PropTypes.func,
+	delayMethod: PropTypes.string,
+	delayTime: PropTypes.number,
+	effect: PropTypes.string,
+	placeholderSrc: PropTypes.string,
+	threshold: PropTypes.number,
+	useIntersectionObserver: PropTypes.bool,
+	visibleByDefault: PropTypes.bool,
+	wrapperClassName: PropTypes.string,
 };
 
 LazyLoadImage.defaultProps = {
-  afterLoad: () => ({}),
-  beforeLoad: () => ({}),
-  delayMethod: 'throttle',
-  delayTime: 300,
-  effect: '',
-  placeholderSrc: null,
-  threshold: 100,
-  useIntersectionObserver: true,
-  visibleByDefault: false,
-  wrapperClassName: '',
+	afterLoad: () => ({}),
+	beforeLoad: () => ({}),
+	delayMethod: 'throttle',
+	delayTime: 300,
+	effect: '',
+	placeholderSrc: null,
+	threshold: 100,
+	useIntersectionObserver: true,
+	visibleByDefault: false,
+	wrapperClassName: '',
 };
 
 export default LazyLoadImage;

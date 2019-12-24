@@ -1,68 +1,77 @@
 {
-  "name": "react-lazy-load-image-component",
-  "version": "1.4.0-beta.1",
-  "description": " React Component to lazy load images using a HOC to track window scroll position. ",
-  "main": "build/index.js",
-  "peerDependencies": {
-    "react": "^15.x.x || ^16.x.x",
-    "react-dom": "^15.x.x || ^16.x.x"
-  },
-  "dependencies": {
-    "lodash.debounce": "^4.0.8",
-    "lodash.throttle": "^4.1.1"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.26.0",
-    "babel-eslint": "^8.2.2",
-    "babel-jest": "^22.4.1",
-    "babel-loader": "^7.1.4",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.24.1",
-    "css-loader": "^0.28.10",
-    "enzyme": "^3.4.4",
-    "enzyme-adapter-react-16": "^1.2.0",
-    "eslint": "^4.18.2",
-    "eslint-loader": "^2.0.0",
-    "eslint-plugin-babel": "^4.1.2",
-    "eslint-plugin-react": "^7.11.1",
-    "jest": "^23.5.0",
-    "path": "^0.12.7",
-    "react": "^16.2.0",
-    "react-dom": "^16.2.0",
-    "style-loader": "^0.20.3",
-    "webpack": "^4.17.1",
-    "webpack-cli": "^3.1.2"
-  },
-  "scripts": {
-    "test": "jest",
-    "start": "webpack --watch",
-    "build": "webpack"
-  },
-  "jest": {
-    "verbose": true,
-    "testURL": "http://localhost/"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Aljullu/react-lazy-load-image-component.git"
-  },
-  "keywords": [
-    "react",
-    "react-component",
-    "lazyload",
-    "lazyloading",
-    "lazy-loading",
-    "lazyload-images"
-  ],
-  "author": {
-    "name": "Albert Juhé Lluveras",
-    "email": "contact@albertjuhe.com"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Aljullu/react-lazy-load-image-component/issues"
-  },
-  "homepage": "https://github.com/Aljullu/react-lazy-load-image-component#readme"
+	"name": "react-lazy-load-image-component",
+	"version": "1.4.0-beta.1",
+	"description": " React Component to lazy load images using a HOC to track window scroll position. ",
+	"main": "build/index.js",
+	"peerDependencies": {
+		"react": "^15.x.x || ^16.x.x",
+		"react-dom": "^15.x.x || ^16.x.x"
+	},
+	"dependencies": {
+		"lodash.debounce": "^4.0.8",
+		"lodash.throttle": "^4.1.1"
+	},
+	"devDependencies": {
+		"babel-cli": "^6.24.1",
+		"babel-core": "^6.26.0",
+		"babel-eslint": "^8.2.2",
+		"babel-jest": "^22.4.1",
+		"babel-loader": "^7.1.4",
+		"babel-plugin-transform-object-rest-spread": "^6.26.0",
+		"babel-preset-env": "^1.6.1",
+		"babel-preset-react": "^6.24.1",
+		"css-loader": "^0.28.10",
+		"enzyme": "^3.4.4",
+		"enzyme-adapter-react-16": "^1.2.0",
+		"eslint": "^4.18.2",
+		"eslint-loader": "^2.0.0",
+		"eslint-plugin-babel": "^4.1.2",
+		"eslint-plugin-react": "^7.11.1",
+		"husky": "^3.1.0",
+		"jest": "^23.5.0",
+		"path": "^0.12.7",
+		"prettier": "^1.19.1",
+		"react": "^16.2.0",
+		"react-dom": "^16.2.0",
+		"style-loader": "^0.20.3",
+		"webpack": "^4.17.1",
+		"webpack-cli": "^3.1.2"
+	},
+	"scripts": {
+		"test": "jest",
+		"start": "webpack --watch",
+		"build": "webpack",
+		"prettier": "prettier --write \"**/*.{js,jsx,json}\"",
+		"lint": "eslint src --ext=js,jsx"
+	},
+	"jest": {
+		"verbose": true,
+		"testURL": "http://localhost/"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Aljullu/react-lazy-load-image-component.git"
+	},
+	"keywords": [
+		"react",
+		"react-component",
+		"lazyload",
+		"lazyloading",
+		"lazy-loading",
+		"lazyload-images"
+	],
+	"author": {
+		"name": "Albert Juhé Lluveras",
+		"email": "contact@albertjuhe.com"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Aljullu/react-lazy-load-image-component/issues"
+	},
+	"homepage": "https://github.com/Aljullu/react-lazy-load-image-component#readme",
+	"husky": {
+		"hooks": {
+			"pre-commit": "npm run prettier && npm run lint"
+		}
+	}
 }

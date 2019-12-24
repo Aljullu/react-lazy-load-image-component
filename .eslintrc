@@ -92,7 +92,7 @@
     "func-style": 0,
     "id-length": 0,
     "id-match": 1,
-    "indent": [1, 2, { "SwitchCase": 1 }],
+    "indent": [1, "tab", { "SwitchCase": 1 }],
     "jsx-quotes": 1,
     "key-spacing": 1,
     "line-comment-position": 0,
@@ -129,10 +129,16 @@
     "one-var-declaration-per-line": 0,
     "one-var": 0,
     "operator-assignment": 1,
-    "operator-linebreak": [1, "after"],
+    "operator-linebreak": [1, "after",
+      {
+        "overrides": {
+          "?": "before",
+          ":": "before"
+        }
+      }],
     "padded-blocks": [1, "never"],
     "quote-props": [1, "as-needed"],
-    "quotes": [1, 'single'],
+    "quotes": [1, "single", { "avoidEscape": true }],
     "require-jsdoc": 0,
     "semi-spacing": 1,
     "semi": 1,

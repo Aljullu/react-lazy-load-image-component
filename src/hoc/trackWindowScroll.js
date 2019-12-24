@@ -6,145 +6,145 @@ import throttle from 'lodash.throttle';
 import isIntersectionObserverAvailable from '../utils/intersection-observer';
 import getScrollElement from '../utils/get-scroll-element';
 
-const getScrollX = () => typeof window === 'undefined' ?
-  0 : (window.scrollX || window.pageXOffset);
-const getScrollY = () => typeof window === 'undefined' ?
-  0 : (window.scrollY || window.pageYOffset);
+const getScrollX = () =>
+	typeof window === 'undefined' ? 0 : window.scrollX || window.pageXOffset;
+const getScrollY = () =>
+	typeof window === 'undefined' ? 0 : window.scrollY || window.pageYOffset;
 
-const trackWindowScroll = (BaseComponent) => {
-  class ScrollAwareComponent extends React.Component {
-    constructor(props) {
-      super(props);
+const trackWindowScroll = BaseComponent => {
+	class ScrollAwareComponent extends React.Component {
+		constructor(props) {
+			super(props);
 
-      this.useIntersectionObserver =
-        props.useIntersectionObserver && isIntersectionObserverAvailable();
-      if (this.useIntersectionObserver) {
-        return;
-      }
+			this.useIntersectionObserver =
+				props.useIntersectionObserver &&
+				isIntersectionObserverAvailable();
+			if (this.useIntersectionObserver) {
+				return;
+			}
 
-      const onChangeScroll = this.onChangeScroll.bind(this);
+			const onChangeScroll = this.onChangeScroll.bind(this);
 
-      if (props.delayMethod === 'debounce') {
-        this.delayedScroll = debounce(onChangeScroll, props.delayTime);
-      } else if (props.delayMethod === 'throttle') {
-        this.delayedScroll = throttle(onChangeScroll, props.delayTime);
-      }
+			if (props.delayMethod === 'debounce') {
+				this.delayedScroll = debounce(onChangeScroll, props.delayTime);
+			} else if (props.delayMethod === 'throttle') {
+				this.delayedScroll = throttle(onChangeScroll, props.delayTime);
+			}
 
-      this.state = {
-        scrollPosition: {
-          x: getScrollX(),
-          y: getScrollY(),
-        },
-      };
+			this.state = {
+				scrollPosition: {
+					x: getScrollX(),
+					y: getScrollY(),
+				},
+			};
 
-      this.baseComponentRef = React.createRef();
-    }
+			this.baseComponentRef = React.createRef();
+		}
 
-    componentDidMount() {
-      this.addListeners();
-    }
+		componentDidMount() {
+			this.addListeners();
+		}
 
-    componentWillUnmount() {
-      this.removeListeners();
-    }
+		componentWillUnmount() {
+			this.removeListeners();
+		}
 
-    componentDidUpdate() {
-      if (typeof window === 'undefined' || this.useIntersectionObserver) {
-        return;
-      }
+		componentDidUpdate() {
+			if (typeof window === 'undefined' || this.useIntersectionObserver) {
+				return;
+			}
 
-      const scrollElement = getScrollElement(
-        ReactDom.findDOMNode(this.baseComponentRef.current)
-      );
+			const scrollElement = getScrollElement(
+				ReactDom.findDOMNode(this.baseComponentRef.current)
+			);
 
-      if (scrollElement !== this.scrollElement) {
-        this.removeListeners();
-        this.addListeners();
-      }
-    }
+			if (scrollElement !== this.scrollElement) {
+				this.removeListeners();
+				this.addListeners();
+			}
+		}
 
-    addListeners() {
-      if (typeof window === 'undefined' || this.useIntersectionObserver) {
-        return;
-      }
+		addListeners() {
+			if (typeof window === 'undefined' || this.useIntersectionObserver) {
+				return;
+			}
 
-      this.scrollElement = getScrollElement(
-        ReactDom.findDOMNode(this.baseComponentRef.current)
-      );
+			this.scrollElement = getScrollElement(
+				ReactDom.findDOMNode(this.baseComponentRef.current)
+			);
 
-      this.scrollElement.addEventListener(
-        'scroll',
-        this.delayedScroll,
-        { passive: true }
-      );
-      window.addEventListener(
-        'resize',
-        this.delayedScroll,
-        { passive: true }
-      );
+			this.scrollElement.addEventListener('scroll', this.delayedScroll, {
+				passive: true,
+			});
+			window.addEventListener('resize', this.delayedScroll, {
+				passive: true,
+			});
 
-      if (this.scrollElement !== window) {
-        window.addEventListener(
-          'scroll',
-          this.delayedScroll,
-          { passive: true }
-        );
-      }
-    }
+			if (this.scrollElement !== window) {
+				window.addEventListener('scroll', this.delayedScroll, {
+					passive: true,
+				});
+			}
+		}
 
-    removeListeners() {
-      if (typeof window == 'undefined' || this.useIntersectionObserver) {
-        return;
-      }
+		removeListeners() {
+			if (typeof window == 'undefined' || this.useIntersectionObserver) {
+				return;
+			}
 
-      this.scrollElement.removeEventListener('scroll', this.delayedScroll);
-      window.removeEventListener('resize', this.delayedScroll);
+			this.scrollElement.removeEventListener(
+				'scroll',
+				this.delayedScroll
+			);
+			window.removeEventListener('resize', this.delayedScroll);
 
-      if (this.scrollElement !== window) {
-        window.removeEventListener('scroll', this.delayedScroll);
-      }
-    }
+			if (this.scrollElement !== window) {
+				window.removeEventListener('scroll', this.delayedScroll);
+			}
+		}
 
-    onChangeScroll() {
-      if (this.useIntersectionObserver) {
-        return;
-      }
+		onChangeScroll() {
+			if (this.useIntersectionObserver) {
+				return;
+			}
 
-      this.setState({
-        scrollPosition: {
-          x: getScrollX(),
-          y: getScrollY(),
-        },
-      });
-    }
+			this.setState({
+				scrollPosition: {
+					x: getScrollX(),
+					y: getScrollY(),
+				},
+			});
+		}
 
-    render() {
-      const { delayMethod, delayTime, ...props } = this.props;
-      const scrollPosition = this.useIntersectionObserver ?
-        null : this.state.scrollPosition;
+		render() {
+			const { delayMethod, delayTime, ...props } = this.props;
+			const scrollPosition = this.useIntersectionObserver
+				? null
+				: this.state.scrollPosition;
 
-      return (
-        <BaseComponent
-          ref={this.baseComponentRef}
-          scrollPosition={scrollPosition}
-          {...props} />
-      );
-    }
-  }
+			return (
+				<BaseComponent
+					ref={this.baseComponentRef}
+					scrollPosition={scrollPosition}
+					{...props}
+				/>
+			);
+		}
+	}
 
-  ScrollAwareComponent.propTypes = {
-    delayMethod: PropTypes.oneOf(['debounce', 'throttle']),
-    delayTime: PropTypes.number,
-    useIntersectionObserver: PropTypes.bool,
-  };
+	ScrollAwareComponent.propTypes = {
+		delayMethod: PropTypes.oneOf(['debounce', 'throttle']),
+		delayTime: PropTypes.number,
+		useIntersectionObserver: PropTypes.bool,
+	};
 
-  ScrollAwareComponent.defaultProps = {
-    delayMethod: 'throttle',
-    delayTime: 300,
-    useIntersectionObserver: true,
-  };
+	ScrollAwareComponent.defaultProps = {
+		delayMethod: 'throttle',
+		delayTime: 300,
+		useIntersectionObserver: true,
+	};
 
-  return ScrollAwareComponent;
+	return ScrollAwareComponent;
 };
 
 export default trackWindowScroll;
