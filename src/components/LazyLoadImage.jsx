@@ -46,7 +46,7 @@ class LazyLoadImage extends React.Component {
 		return <img onLoad={this.onImageLoad()} {...imgProps} />;
 	}
 
-	getLazyLoadImage(image) {
+	getLazyLoadImage() {
 		const {
 			beforeLoad,
 			className,
@@ -77,7 +77,7 @@ class LazyLoadImage extends React.Component {
 				visibleByDefault={visibleByDefault}
 				width={width}
 			>
-				{image}
+				{this.getImg()}
 			</LazyLoadComponent>
 		);
 	}
@@ -123,8 +123,7 @@ class LazyLoadImage extends React.Component {
 	render() {
 		const { effect, placeholderSrc, visibleByDefault } = this.props;
 
-		const image = this.getImg();
-		const lazyLoadImage = this.getLazyLoadImage(image);
+		const lazyLoadImage = this.getLazyLoadImage();
 
 		if ((!effect && !placeholderSrc) || visibleByDefault) {
 			return lazyLoadImage;
