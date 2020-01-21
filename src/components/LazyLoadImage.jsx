@@ -122,10 +122,9 @@ class LazyLoadImage extends React.Component {
 
 	render() {
 		const { effect, placeholderSrc, visibleByDefault } = this.props;
-		const { loaded } = this.state;
 
 		const image = this.getImg();
-		const lazyLoadImage = loaded ? image : this.getLazyLoadImage(image);
+		const lazyLoadImage = this.getLazyLoadImage(image);
 
 		if ((!effect && !placeholderSrc) || visibleByDefault) {
 			return lazyLoadImage;
