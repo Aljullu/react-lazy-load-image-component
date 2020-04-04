@@ -118,11 +118,24 @@ class PlaceholderWithoutTracking extends React.Component {
 			});
 		}
 
+		const styleProp = {
+			display: 'inline-block',
+			...style,
+		};
+
+		if (typeof width !== 'undefined') {
+			styleProp.width = width;
+		}
+
+		if (typeof height !== 'undefined') {
+			styleProp.height = height;
+		}
+
 		return (
 			<span
 				className={className}
 				ref={el => (this.placeholder = el)}
-				style={{ display: 'inline-block', height, width, ...style }}
+				style={styleProp}
 			>
 				{placeholder}
 			</span>
@@ -133,7 +146,7 @@ class PlaceholderWithoutTracking extends React.Component {
 PlaceholderWithoutTracking.propTypes = {
 	onVisible: PropTypes.func.isRequired,
 	className: PropTypes.string,
-	height: PropTypes.number,
+	height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 	placeholder: PropTypes.element,
 	threshold: PropTypes.number,
 	useIntersectionObserver: PropTypes.bool,
@@ -141,16 +154,14 @@ PlaceholderWithoutTracking.propTypes = {
 		x: PropTypes.number.isRequired,
 		y: PropTypes.number.isRequired,
 	}),
-	width: PropTypes.number,
+	width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 PlaceholderWithoutTracking.defaultProps = {
 	className: '',
-	height: 0,
 	placeholder: null,
 	threshold: 100,
 	useIntersectionObserver: true,
-	width: 0,
 };
 
 export default PlaceholderWithoutTracking;
