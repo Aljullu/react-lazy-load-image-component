@@ -77,6 +77,7 @@ export default MyImage;
 | useIntersectionObserver | `Boolean` | true | Whether to use browser's IntersectionObserver when available. |
 | visibleByDefault | `Boolean` | false | Whether the image must be visible from the beginning. |
 | wrapperClassName | `String` |  | In some occasions (for example, when using a placeholderSrc) a wrapper span tag is rendered. This prop allows setting a class to that element. |
+| wrapperProps | `Object` | null | Props that should be passed to the wrapper span |
 | ... |  |  | Any other image attribute |
 
 
@@ -145,6 +146,7 @@ export default Article;
 | threshold | `Number` | 100 | Threshold in pixels. So the component starts loading before it appears in the viewport. |
 | useIntersectionObserver | `Boolean` | true | Whether to use browser's IntersectionObserver when available. |
 | visibleByDefault | `Boolean` | false | Whether the component must be visible from the beginning. |
+| wrapperProps | `Object` | null | Props that should be passed to the wrapper span |
 
 
 ## Using `trackWindowScroll` HOC to improve performance
@@ -193,6 +195,7 @@ You must set the prop `scrollPosition` to the lazy load components. This way, th
 | placeholder | `ReactClass` | `<span>` | React element to use as a placeholder. |
 | threshold | `Number` | 100 | Threshold in pixels. So the image starts loading before it appears in the viewport. |
 | visibleByDefault | `Boolean` | false | Whether the image must be visible from the beginning. |
+| wrapperProps | `Object` | null | Props that should be passed to the wrapper span |
 | ... |  |  | Any other image attribute |
 
 Component wrapped with `trackWindowScroll` (in the example, `Gallery`)
