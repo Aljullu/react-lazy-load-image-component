@@ -65,6 +65,7 @@ class LazyLoadComponent extends React.Component {
 			threshold,
 			useIntersectionObserver,
 			width,
+			wrapperProps,
 		} = this.props;
 
 		if (
@@ -82,6 +83,7 @@ class LazyLoadComponent extends React.Component {
 					threshold={threshold}
 					useIntersectionObserver={useIntersectionObserver}
 					width={width}
+					wrapperProps={wrapperProps}
 				/>
 			);
 		}
@@ -97,6 +99,7 @@ class LazyLoadComponent extends React.Component {
 				style={style}
 				threshold={threshold}
 				width={width}
+				wrapperProps={wrapperProps}
 			/>
 		);
 	}
