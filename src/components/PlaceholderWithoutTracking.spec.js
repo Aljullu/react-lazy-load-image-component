@@ -197,6 +197,7 @@ describe('PlaceholderWithoutTracking', function() {
 		isIntersectionObserverAvailable.mockImplementation(() => true);
 		window.IntersectionObserver = jest.fn(function() {
 			this.observe = jest.fn(); // eslint-disable-line babel/no-invalid-this
+			this.unobserve = jest.fn(); // eslint-disable-line babel/no-invalid-this
 		});
 		const onVisible = jest.fn();
 		const component = renderPlaceholderWithoutTracking({
@@ -211,6 +212,7 @@ describe('PlaceholderWithoutTracking', function() {
 		isIntersectionObserverAvailable.mockImplementation(() => true);
 		window.IntersectionObserver = jest.fn(function() {
 			this.observe = jest.fn(); // eslint-disable-line babel/no-invalid-this
+			this.unobserve = jest.fn(); // eslint-disable-line babel/no-invalid-this
 		});
 		const offset = 100000;
 		const onVisible = jest.fn();

@@ -66,6 +66,7 @@ describe('LazyLoadComponent', function() {
 			isIntersectionObserverAvailable.mockImplementation(() => true);
 			window.IntersectionObserver = jest.fn(function() {
 				this.observe = jest.fn(); // eslint-disable-line babel/no-invalid-this
+				this.unobserve = jest.fn(); // eslint-disable-line babel/no-invalid-this
 			});
 
 			const lazyLoadComponent = mount(
@@ -93,6 +94,7 @@ describe('LazyLoadComponent', function() {
 			isIntersectionObserverAvailable.mockImplementation(() => true);
 			window.IntersectionObserver = jest.fn(function() {
 				this.observe = jest.fn(); // eslint-disable-line babel/no-invalid-this
+				this.unobserve = jest.fn(); // eslint-disable-line babel/no-invalid-this
 			});
 
 			const lazyLoadComponent = mount(

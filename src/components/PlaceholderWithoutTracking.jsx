@@ -3,64 +3,61 @@ import ReactDOM from 'react-dom';
 import { PropTypes } from 'prop-types';
 import isIntersectionObserverAvailable from '../utils/intersection-observer';
 
+const checkIntersections = entries => {
+	entries.forEach(entry => {
+		if (entry.isIntersecting) {
+			entry.target.onVisible();
+		}
+	});
+};
+
+const LAZY_LOAD_OBSERVERS = {};
+
+const getObserver = threshold => {
+	LAZY_LOAD_OBSERVERS[threshold] =
+		LAZY_LOAD_OBSERVERS[threshold] ||
+		new IntersectionObserver(checkIntersections, {
+			rootMargin: threshold + 'px',
+		});
+
+	return LAZY_LOAD_OBSERVERS[threshold];
+};
+
 class PlaceholderWithoutTracking extends React.Component {
 	constructor(props) {
 		super(props);
 
-		const supportsObserver =
+		this.supportsObserver =
 			!props.scrollPosition &&
 			props.useIntersectionObserver &&
 			isIntersectionObserverAvailable();
 
-		this.LAZY_LOAD_OBSERVER = { supportsObserver };
-
-		if (supportsObserver) {
+		if (this.supportsObserver) {
 			const { threshold } = props;
 
-			this.LAZY_LOAD_OBSERVER.observer = new IntersectionObserver(
-				this.checkIntersections,
-				{ rootMargin: threshold + 'px' }
-			);
+			this.observer = getObserver(threshold);
 		}
-	}
-
-	checkIntersections(entries) {
-		entries.forEach(entry => {
-			if (entry.isIntersecting) {
-				entry.target.onVisible();
-			}
-		});
 	}
 
 	componentDidMount() {
-		if (
-			this.placeholder &&
-			this.LAZY_LOAD_OBSERVER &&
-			this.LAZY_LOAD_OBSERVER.observer
-		) {
+		if (this.placeholder && this.observer) {
 			this.placeholder.onVisible = this.props.onVisible;
-			this.LAZY_LOAD_OBSERVER.observer.observe(this.placeholder);
+			this.observer.observe(this.placeholder);
 		}
 
-		if (
-			this.LAZY_LOAD_OBSERVER &&
-			!this.LAZY_LOAD_OBSERVER.supportsObserver
-		) {
+		if (!this.supportsObserver) {
 			this.updateVisibility();
 		}
 	}
 
 	componentWillUnmount() {
-		if (this.LAZY_LOAD_OBSERVER && this.LAZY_LOAD_OBSERVER.observer) {
-			this.LAZY_LOAD_OBSERVER.observer.unobserve(this.placeholder);
+		if (this.observer) {
+			this.observer.unobserve(this.placeholder);
 		}
 	}
 
 	componentDidUpdate() {
-		if (
-			this.LAZY_LOAD_OBSERVER &&
-			!this.LAZY_LOAD_OBSERVER.supportsObserver
-		) {
+		if (!this.supportsObserver) {
 			this.updateVisibility();
 		}
 	}
