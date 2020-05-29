@@ -61,7 +61,6 @@ class LazyLoadImage extends React.Component {
 			useIntersectionObserver,
 			visibleByDefault,
 			width,
-			wrapperProps,
 		} = this.props;
 
 		return (
@@ -78,7 +77,6 @@ class LazyLoadImage extends React.Component {
 				useIntersectionObserver={useIntersectionObserver}
 				visibleByDefault={visibleByDefault}
 				width={width}
-				wrapperProps={wrapperProps}
 			>
 				{this.getImg()}
 			</LazyLoadComponent>
@@ -126,11 +124,18 @@ class LazyLoadImage extends React.Component {
 	}
 
 	render() {
-		const { effect, placeholderSrc, visibleByDefault } = this.props;
+		const {
+			effect,
+			placeholderSrc,
+			visibleByDefault,
+			wrapperClassName,
+			wrapperProps,
+		} = this.props;
 
 		const lazyLoadImage = this.getLazyLoadImage();
+		const needsWrapper = (effect || placeholderSrc) && !visibleByDefault;
 
-		if ((!effect && !placeholderSrc) || visibleByDefault) {
+		if (!needsWrapper && !wrapperClassName && !wrapperProps) {
 			return lazyLoadImage;
 		}
 

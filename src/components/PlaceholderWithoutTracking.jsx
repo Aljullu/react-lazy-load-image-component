@@ -110,14 +110,7 @@ class PlaceholderWithoutTracking extends React.Component {
 	}
 
 	render() {
-		const {
-			className,
-			height,
-			placeholder,
-			style,
-			width,
-			wrapperProps,
-		} = this.props;
+		const { className, height, placeholder, style, width } = this.props;
 
 		if (placeholder && typeof placeholder.type !== 'function') {
 			return React.cloneElement(placeholder, {
@@ -143,7 +136,6 @@ class PlaceholderWithoutTracking extends React.Component {
 				className={className}
 				ref={el => (this.placeholder = el)}
 				style={styleProp}
-				{...wrapperProps}
 			>
 				{placeholder}
 			</span>
@@ -163,7 +155,6 @@ PlaceholderWithoutTracking.propTypes = {
 		y: PropTypes.number.isRequired,
 	}),
 	width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-	wrapperProps: PropTypes.object,
 };
 
 PlaceholderWithoutTracking.defaultProps = {
