@@ -252,6 +252,18 @@ export default trackWindowScroll(Gallery);
 
 ## Common errors
 
+### All images are being loaded at once
+
+This package loads images when they are visible in the viewport. Before an image is loaded, it occupies 0x0 pixels, so if you have a gallery of images, that means all images will be in the visible part of the page until the first ones load and start pushing down the other ones.
+
+To fix this issue, make sure you either set a `height` and `width` props or a `placeholder` to your images.
+
+### Effects are not working
+
+You need to import the effect CSS as shown in the [Using effects](#using-effects) code example.
+
+Also, notice browsers might behave differently while images are loading. Some times, while an image is not completely loaded yet, the browser will show a white background behind it, making the effect not to be visible. This is an issue with browsers and not something that can be fixed in this package.
+
 ### Warning: setState(...): Can only update a mounted or mounting component.
 
 That warning might appear if there are two components using `trackWindowScroll` at the same time. Notice it's not possible to have a LazyLoadImage/LazyLoadComponent inside another LazyLoadComponent for now. Also, make sure you are passing down `scrollPosition` to all components wrapped inside `trackWindowScroll`.
