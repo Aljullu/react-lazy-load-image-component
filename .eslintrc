@@ -24,7 +24,7 @@
     "curly": [1, "multi-line"],
     "dot-location": [1, "property"],
     "dot-notation": 1,
-    "eqeqeq": [1, "smart"],
+    "eqeqeq": 1,
     "guard-for-in": 1,
     "no-alert": 1,
     "no-caller": 2,

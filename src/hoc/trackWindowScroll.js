@@ -88,7 +88,7 @@ const trackWindowScroll = BaseComponent => {
 		}
 
 		removeListeners() {
-			if (typeof window == 'undefined' || this.useIntersectionObserver) {
+			if (typeof window === 'undefined' || this.useIntersectionObserver) {
 				return;
 			}
 
