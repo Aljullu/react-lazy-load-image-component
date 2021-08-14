@@ -1,5 +1,5 @@
-const webpack = require('webpack');
 const path = require('path');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
 	mode: 'production',
@@ -12,26 +12,26 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				enforce: 'pre',
-				test: /\.jsx?$/,
-				loaders: ['eslint-loader'],
-				include: path.resolve(__dirname, 'src'),
-				exclude: /(node_modules|bower_components|build)/,
-			},
-			{
 				test: /\.jsx?$/,
 				include: path.resolve(__dirname, 'src'),
 				exclude: /(node_modules|bower_components|build)/,
 				use: {
 					loader: 'babel-loader',
 					options: {
-						presets: ['env'],
+						presets: ['@babel/preset-env'],
 					},
 				},
 			},
 			{
 				test: /\.css$/,
-				loaders: ['style-loader', 'css-loader'],
+				use: [
+					{
+						loader: 'style-loader',
+					},
+					{
+						loader: 'css-loader',
+					},
+				],
 				exclude: /node_modules/,
 			},
 		],
@@ -40,4 +40,10 @@ module.exports = {
 		react: 'commonjs react',
 		'react-dom': 'commonjs react-dom',
 	},
+	plugins: [
+		new ESLintPlugin({
+			context: path.resolve(__dirname, 'src'),
+			extensions: ['js', 'jsx', 'ts', 'tsx'],
+		}),
+	],
 };
