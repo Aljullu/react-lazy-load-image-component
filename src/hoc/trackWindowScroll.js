@@ -124,7 +124,7 @@ const trackWindowScroll = BaseComponent => {
 
 			return (
 				<BaseComponent
-					ref={this.baseComponentRef}
+					forwardRef={this.baseComponentRef}
 					scrollPosition={scrollPosition}
 					{...props}
 				/>
