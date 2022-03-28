@@ -4,7 +4,7 @@ import { PropTypes } from 'prop-types';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
 import isIntersectionObserverAvailable from '../utils/intersection-observer';
-import getScrollElement from '../utils/get-scroll-element';
+import getScrollAncestor from '../utils/get-scroll-ancestor';
 
 const getScrollX = () =>
 	typeof window === 'undefined' ? 0 : window.scrollX || window.pageXOffset;
@@ -54,7 +54,7 @@ const trackWindowScroll = BaseComponent => {
 				return;
 			}
 
-			const scrollElement = getScrollElement(
+			const scrollElement = getScrollAncestor(
 				ReactDom.findDOMNode(this.baseComponentRef.current)
 			);
 
@@ -69,7 +69,7 @@ const trackWindowScroll = BaseComponent => {
 				return;
 			}
 
-			this.scrollElement = getScrollElement(
+			this.scrollElement = getScrollAncestor(
 				ReactDom.findDOMNode(this.baseComponentRef.current)
 			);
 

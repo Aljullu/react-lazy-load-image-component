@@ -12,7 +12,7 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.jsx?$/,
+				test: /\.(j|t)sx?$/,
 				include: path.resolve(__dirname, 'src'),
 				exclude: /(node_modules|bower_components|build)/,
 				use: {
@@ -46,4 +46,7 @@ module.exports = {
 			extensions: ['js', 'jsx', 'ts', 'tsx'],
 		}),
 	],
+	resolve: {
+		extensions: ['.ts', '.tsx', '.js', '.jsx'],
+	},
 };
