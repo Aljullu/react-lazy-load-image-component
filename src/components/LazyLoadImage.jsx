@@ -95,6 +95,11 @@ class LazyLoadImage extends React.Component {
 		const { loaded } = this.state;
 
 		const loadedClassName = loaded ? ' lazy-load-image-loaded' : '';
+		const wrapperBackground = loaded || !placeholderSrc ? {} : 
+			{
+				backgroundImage: `url(${placeholderSrc})`,
+				backgroundSize: '100% 100%'
+			}
 
 		return (
 			<span
@@ -105,12 +110,7 @@ class LazyLoadImage extends React.Component {
 					loadedClassName
 				}
 				style={{
-					backgroundImage:
-						loaded || !placeholderSrc
-							? ''
-							: `url(${placeholderSrc})`,
-					backgroundSize:
-						loaded || !placeholderSrc ? '' : '100% 100%',
+					...wrapperBackground,
 					color: 'transparent',
 					display: 'inline-block',
 					height: height,
