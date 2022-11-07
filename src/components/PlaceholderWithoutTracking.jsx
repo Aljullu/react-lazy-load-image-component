@@ -51,7 +51,7 @@ class PlaceholderWithoutTracking extends React.Component {
 	}
 
 	componentWillUnmount() {
-		if (this.observer) {
+		if (this.observer && this.placeholder) {
 			this.observer.unobserve(this.placeholder);
 		}
 	}
