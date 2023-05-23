@@ -17,8 +17,9 @@ class LazyLoadImage extends React.Component {
 			return null;
 		}
 
-		return () => {
+		return e => {
 			this.props.afterLoad();
+			this.props.onLoad(e);
 
 			this.setState({
 				loaded: true,
@@ -44,7 +45,7 @@ class LazyLoadImage extends React.Component {
 			...imgProps
 		} = this.props;
 
-		return <img onLoad={this.onImageLoad()} {...imgProps} />;
+		return <img {...imgProps} onLoad={this.onImageLoad()} />;
 	}
 
 	getLazyLoadImage() {
