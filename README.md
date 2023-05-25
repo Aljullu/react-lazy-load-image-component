@@ -24,7 +24,7 @@ React Component to lazy load images and other components/elements. Supports Inte
 * A custom placeholder component or image can be specified.
 * Built-in on-visible effects (blur, black and white and opacity transitions).
 * threshold is set to 100px by default and can be modified.
-* `beforeLoad` and `afterLoad` events.
+* `beforeLoad` and `onLoad` events.
 * `debounce` and `throttle` included by default and configurable.
 * Uses IntersectionObserver for browsers that support it.
 * Server Side Rendering (SSR) compatible.
@@ -66,7 +66,8 @@ export default MyImage;
 
 | Prop | Type | Default | Description |
 |:---|:---|:---|:---|
-| afterLoad | `Function` |  | Function called after the image has been completely loaded. |
+| onLoad | `Function` |  | Function called when the image has been loaded. This is the same function as the `onLoad` of a `<img>` which contains an event object. |
+| afterLoad | `Function` |  | Alias for the function `onLoad` for backward compatibility. |
 | beforeLoad | `Function` |  | Function called right before the placeholder is replaced with the image element. |
 | delayMethod | `String` | `throttle` | Method from lodash to use to delay the scroll/resize events. It can be `throttle` or `debounce`. |
 | delayTime | `Number` | 300 | Time in ms sent to the delayMethod. |
@@ -188,7 +189,8 @@ You must set the prop `scrollPosition` to the lazy load components. This way, th
 | Prop | Type | Default | Description |
 |:---|:---|:---|:---|
 | scrollPosition | `Object` |  | Object containing `x` and `y` with the curent window scroll position. Required. |
-| afterLoad | `Function` |  | Function called after the image has been rendered. |
+| onLoad | `Function` |  | Function called when the image has been loaded. This is the same function as the `onLoad` of a `<img>` which contains an event object. |
+| afterLoad | `Function` |  | Alias for the function `onLoad` for backward compatibility. |
 | beforeLoad | `Function` |  | Function called right before the image is rendered. |
 | placeholder | `ReactClass` | `<span>` | React element to use as a placeholder. |
 | threshold | `Number` | 100 | Threshold in pixels. So the image starts loading before it appears in the viewport. |
