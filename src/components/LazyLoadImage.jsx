@@ -18,8 +18,10 @@ class LazyLoadImage extends React.Component {
 		}
 
 		return e => {
+			// We keep support for afterLoad for backwards compatibility,
+			// but `onLoad` is the preferred prop.
 			this.props.onLoad(e);
-			this.props.afterLoad(e);
+			this.props.afterLoad();
 
 			this.setState({
 				loaded: true,
