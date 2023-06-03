@@ -67,9 +67,10 @@ describe('LazyLoadImage', function() {
 		expect(img.src).toEqual(props.src);
 	});
 
-	it('updates state and calls afterLoad when img triggers onLoad', function() {
+	it('updates state and calls onLoad and afterLoad when img triggers onLoad', function() {
 		const afterLoad = jest.fn();
-		const lazyLoadImage = mount(<LazyLoadImage afterLoad={afterLoad} />);
+		const onLoad = jest.fn();
+		const lazyLoadImage = mount(<LazyLoadImage onLoad={onLoad} afterLoad={afterLoad} />);
 
 		const img = findRenderedDOMComponentWithTag(
 			lazyLoadImage.instance(),
@@ -80,6 +81,7 @@ describe('LazyLoadImage', function() {
 
 		expect(lazyLoadImage.instance().state.loaded);
 		expect(afterLoad).toHaveBeenCalledTimes(1);
+		expect(onLoad).toHaveBeenCalledTimes(1);
 	});
 
 	it('sets loaded class to wrapper when img triggers onLoad', function() {

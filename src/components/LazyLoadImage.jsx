@@ -17,7 +17,10 @@ class LazyLoadImage extends React.Component {
 			return null;
 		}
 
-		return () => {
+		return e => {
+			// We keep support for afterLoad for backwards compatibility,
+			// but `onLoad` is the preferred prop.
+			this.props.onLoad(e);
 			this.props.afterLoad();
 
 			this.setState({
@@ -44,7 +47,7 @@ class LazyLoadImage extends React.Component {
 			...imgProps
 		} = this.props;
 
-		return <img onLoad={this.onImageLoad()} {...imgProps} />;
+		return <img {...imgProps} onLoad={this.onImageLoad()} />;
 	}
 
 	getLazyLoadImage() {
@@ -146,7 +149,8 @@ class LazyLoadImage extends React.Component {
 }
 
 LazyLoadImage.propTypes = {
-	afterLoad: PropTypes.func,
+	onLoad: PropTypes.func,
+	afterLoad: PropTypes.func, // Deprecated, use onLoad instead
 	beforeLoad: PropTypes.func,
 	delayMethod: PropTypes.string,
 	delayTime: PropTypes.number,
@@ -160,7 +164,8 @@ LazyLoadImage.propTypes = {
 };
 
 LazyLoadImage.defaultProps = {
-	afterLoad: () => ({}),
+	onLoad: () => {},
+	afterLoad: () => ({}), // Deprecated, use onLoad instead
 	beforeLoad: () => ({}),
 	delayMethod: 'throttle',
 	delayTime: 300,
