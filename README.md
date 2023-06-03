@@ -66,8 +66,8 @@ export default MyImage;
 
 | Prop | Type | Default | Description |
 |:---|:---|:---|:---|
-| onLoad | `Function` |  | Function called when the image has been loaded. This is the same function as the `onLoad` of a `<img>` which contains an event object. |
-| afterLoad | `Function` |  | Deprecated, use `onLoad` instead. This props is only for backward compatibility. |
+| onLoad | `Function` |  | Function called when the image has been loaded. This is the same function as the `onLoad` of an `<img>` which contains an event object. |
+| afterLoad | `Function` |  | Deprecated, use `onLoad` instead. This prop is only for backward compatibility. |
 | beforeLoad | `Function` |  | Function called right before the placeholder is replaced with the image element. |
 | delayMethod | `String` | `throttle` | Method from lodash to use to delay the scroll/resize events. It can be `throttle` or `debounce`. |
 | delayTime | `Number` | 300 | Time in ms sent to the delayMethod. |
@@ -189,8 +189,8 @@ You must set the prop `scrollPosition` to the lazy load components. This way, th
 | Prop | Type | Default | Description |
 |:---|:---|:---|:---|
 | scrollPosition | `Object` |  | Object containing `x` and `y` with the curent window scroll position. Required. |
-| onLoad | `Function` |  | Function called when the image has been loaded. This is the same function as the `onLoad` of a `<img>` which contains an event object. |
-| afterLoad | `Function` |  | Deprecated, use `onLoad` instead. This props is only for backward compatibility. |
+| onLoad | `Function` |  | Function called when the image has been loaded. This is the same function as the `onLoad` of an `<img>` which contains an event object. |
+| afterLoad | `Function` |  | Deprecated, use `onLoad` instead. This prop is only for backward compatibility. |
 | beforeLoad | `Function` |  | Function called right before the image is rendered. |
 | placeholder | `ReactClass` | `<span>` | React element to use as a placeholder. |
 | threshold | `Number` | 100 | Threshold in pixels. So the image starts loading before it appears in the viewport. |
