@@ -97,6 +97,10 @@ const MyImage = ({ image }) => (
   <LazyLoadImage
     alt={image.alt}
     effect="blur"
+    wrapperProps={{
+        // If you need to, you can tweak the effect transition using the wrapper style.
+        style: {transitionDelay: "1s"},
+    }}
     src={image.src} />
 );
 ```
@@ -115,6 +119,7 @@ The current available effects are:
 
 ![Screenshot of the opacity effect](https://user-images.githubusercontent.com/3616980/37790755-b48a704a-2e07-11e8-91c3-fcd43a91e7b1.gif)
 
+All the effects have a transition duration of 0.3 seconds by default, without transition delay and the default transition timing function. All those values can be modified overriding the wrapper style as shown in the code example above.
 
 ## `LazyLoadComponent` usage
 
