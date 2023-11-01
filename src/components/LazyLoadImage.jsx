@@ -116,7 +116,6 @@ class LazyLoadImage extends React.Component {
 				}
 				style={{
 					...wrapperBackground,
-					color: 'transparent',
 					display: 'inline-block',
 					height: height,
 					width: width,
