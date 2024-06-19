@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { PropTypes } from 'prop-types';
 import isIntersectionObserverAvailable from '../utils/intersection-observer';
 
@@ -64,7 +63,7 @@ class PlaceholderWithoutTracking extends React.Component {
 
 	getPlaceholderBoundingBox(scrollPosition = this.props.scrollPosition) {
 		const boundingRect = this.placeholder.getBoundingClientRect();
-		const style = ReactDOM.findDOMNode(this.placeholder).style;
+		const style = this.placeholder.style;
 		const margin = {
 			left: parseInt(style.getPropertyValue('margin-left'), 10) || 0,
 			top: parseInt(style.getPropertyValue('margin-top'), 10) || 0,

@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDom from 'react-dom';
 import { PropTypes } from 'prop-types';
 import debounce from 'lodash.debounce';
 import throttle from 'lodash.throttle';
@@ -55,7 +54,7 @@ const trackWindowScroll = BaseComponent => {
 			}
 
 			const scrollElement = getScrollAncestor(
-				ReactDom.findDOMNode(this.baseComponentRef.current)
+				this.baseComponentRef.current
 			);
 
 			if (scrollElement !== this.scrollElement) {
@@ -70,7 +69,7 @@ const trackWindowScroll = BaseComponent => {
 			}
 
 			this.scrollElement = getScrollAncestor(
-				ReactDom.findDOMNode(this.baseComponentRef.current)
+				this.baseComponentRef.current
 			);
 
 			this.scrollElement.addEventListener('scroll', this.delayedScroll, {
