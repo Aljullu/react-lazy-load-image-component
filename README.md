@@ -7,13 +7,16 @@ React Lazy Load Image Component
 
 React Component to lazy load images and other components/elements. Supports IntersectionObserver and includes a HOC to track window scroll position to improve performance.
 
-"[_An easy-to-use performant solution to lazy load images in React_](https://medium.com/@albertjuhe/an-easy-to-use-performant-solution-to-lazy-load-images-in-react-e6752071020c)"
+* "[_An easy-to-use performant solution to lazy load images in React_](https://medium.com/@albertjuhe/an-easy-to-use-performant-solution-to-lazy-load-images-in-react-e6752071020c)"
+* [Live demo](https://www.albertjuhe.com/react-lazy-load-image-component/) ([code](https://github.com/Aljullu/react-lazy-load-image-component-demo))
+
+#### ✨ **New:** ✨ move faster with [premium support and ready-to-use examples and components](https://lazypixels.com). 🚀
+
+<br>
 
 [![Build Status](https://travis-ci.org/Aljullu/react-lazy-load-image-component.svg?branch=master)](https://travis-ci.org/Aljullu/react-lazy-load-image-component)
 [![Download counter](https://img.shields.io/npm/dt/react-lazy-load-image-component.svg)](https://www.npmjs.com/package/react-lazy-load-image-component)
 [![License](https://img.shields.io/npm/l/react-lazy-load-image-component.svg)](https://www.npmjs.com/package/react-lazy-load-image-component)
-
-## [Live demo](https://www.albertjuhe.com/react-lazy-load-image-component/) ([code](https://github.com/Aljullu/react-lazy-load-image-component-demo))
 
 ## Features
 
@@ -29,7 +32,6 @@ React Component to lazy load images and other components/elements. Supports Inte
 * Server Side Rendering (SSR) compatible.
 * [TypeScript declarations](https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/react-lazy-load-image-component/index.d.ts) hosted on DefinitelyTyped.
 
-
 ## Installation
 
 ```bash
@@ -39,7 +41,6 @@ $ yarn add react-lazy-load-image-component
 # NPM
 $ npm i --save react-lazy-load-image-component
 ```
-
 
 ## `LazyLoadImage` usage
 
