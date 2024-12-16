@@ -4,7 +4,7 @@
 	"description": "React Component to lazy load images using a HOC to track window scroll position.",
 	"main": "build/index.js",
 	"peerDependencies": {
-		"react": "^15.x.x || ^16.x.x || ^17.x.x || ^18.x.x"
+		"react": "^15.x.x || ^16.x.x || ^17.x.x || ^18.x.x || ^19.x.x"
 	},
 	"dependencies": {
 		"lodash.debounce": "^4.0.8",
