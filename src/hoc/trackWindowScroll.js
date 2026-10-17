@@ -46,6 +46,9 @@ const trackWindowScroll = BaseComponent => {
 
 		componentWillUnmount() {
 			this.removeListeners();
+			if (this.delayedScroll) {
+				this.delayedScroll.cancel();
+			}
 		}
 
 		componentDidUpdate() {
